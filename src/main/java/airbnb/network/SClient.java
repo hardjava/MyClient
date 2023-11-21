@@ -1,29 +1,18 @@
 package airbnb.network;
 
-import airbnb.controller.Handler;
 import airbnb.view.StartView;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class SClient {
     private final String ip;
     private final int port;
-
     private Socket socket;
-
     private ObjectOutputStream objectOutputStream;
-
     private ObjectInputStream objectInputStream;
-
-    private Handler handler;
-    private BufferedReader bufferReader;
-
-    Scanner sc = new Scanner(System.in);
 
     public SClient(String ip, int port) {
         this.ip = ip;
@@ -40,14 +29,12 @@ public class SClient {
             System.out.println("client run");
             objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
             objectInputStream = new ObjectInputStream(socket.getInputStream());
-            handler = new Handler(objectOutputStream, objectInputStream);
-            Protocol protocol = new Protocol();
+            MyObjectIOStream myObjectIOStream = new MyObjectIOStream(objectOutputStream, objectInputStream);
             while (true) {
-                new StartView().run(handler, protocol);
+                new StartView().showView();
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
+
+        } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
