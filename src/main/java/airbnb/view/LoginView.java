@@ -1,6 +1,6 @@
 package airbnb.view;
 
-import airbnb.controller.LoginHandler;
+import airbnb.controller.LoginController;
 import airbnb.network.Protocol;
 import airbnb.persistence.dto.UserDTO;
 
@@ -17,8 +17,8 @@ public class LoginView {
         System.out.print("\t\tPassword : ");
         String password = sc.next();
 
-        LoginHandler loginHandler = new LoginHandler();
-        Protocol protocol = loginHandler.loginRequest(id, password);
+        LoginController loginController = new LoginController();
+        Protocol protocol = loginController.loginRequest(id, password);
 
         switch (protocol.getProtocolCode()) {
             case Protocol.CODE_LOGIN_ACCEPT:

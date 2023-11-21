@@ -1,12 +1,13 @@
 package airbnb.view;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Scanner;
 
 public class StartView {
     Scanner sc = new Scanner(System.in);
 
-    public void showView() throws IOException, ClassNotFoundException {
+    public void showView() throws IOException, ClassNotFoundException, ParseException {
         for (; ; ) {
             int enter = getCommand();
             switch (enter) {

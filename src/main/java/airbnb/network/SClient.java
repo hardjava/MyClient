@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.text.ParseException;
 
 public class SClient {
     private final String ip;
@@ -35,6 +36,8 @@ public class SClient {
             }
 
         } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (ParseException e) {
             throw new RuntimeException(e);
         }
     }
