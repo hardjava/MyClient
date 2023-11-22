@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.text.ParseException;
+import java.util.Scanner;
 
 public class SClient {
     private final String ip;
@@ -30,10 +31,9 @@ public class SClient {
             System.out.println("client run");
             objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
             objectInputStream = new ObjectInputStream(socket.getInputStream());
-            MyObjectIOStream myObjectIOStream = new MyObjectIOStream(objectOutputStream, objectInputStream);
-            while (true) {
-                new StartView().showView();
-            }
+            Scanner sc = new Scanner(System.in);
+            MyIOStream myObjectIOStream = new MyIOStream(objectOutputStream, objectInputStream, sc);
+            new StartView().showView();
 
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);

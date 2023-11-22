@@ -6,8 +6,6 @@ import airbnb.network.RoleType;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class SignView {
@@ -41,10 +39,10 @@ public class SignView {
         Protocol protocol = signController.signRequest(newName, newPhoneNumber, newID, newPwd, newBirthDay, RoleType.valueOf(roleType));
 
         switch (protocol.getProtocolCode()) {
-            case Protocol.CODE_SIGN_UP_SUCCESS:
+            case Protocol.CODE_SUCCESS:
                 System.out.println("성공 ! ");
                 break;
-            case Protocol.CODE_SIGN_UP_FAIL:
+            case Protocol.CODE_ERROR:
                 System.out.println(protocol.getObject());
                 break;
         }

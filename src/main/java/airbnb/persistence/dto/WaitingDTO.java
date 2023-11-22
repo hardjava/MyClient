@@ -1,20 +1,13 @@
 package airbnb.persistence.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Setter
 @Builder
 @ToString
+@AllArgsConstructor
 
 public class WaitingDTO {
     private int waitingId, houseId;
-
-    public WaitingDTO(int waitingId, int houseId) {
-        this.waitingId = waitingId;
-        this.houseId = houseId;
-    }
 }

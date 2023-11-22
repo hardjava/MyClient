@@ -10,6 +10,11 @@ public class StartView {
     public void showView() throws IOException, ClassNotFoundException, ParseException {
         for (; ; ) {
             int enter = getCommand();
+
+            if (enter == 3) {
+                break;
+            }
+
             switch (enter) {
                 case 1:
                     LoginView loginView = new LoginView(); // 응답 받으면 로그인 뷰 실행
@@ -29,9 +34,10 @@ public class StartView {
     }
 
     private int getCommand() {
-        System.out.println("1. Login"); // 로그인
-        System.out.println("2. Sign in"); // 회원 가입
-        System.out.println("3. Terminate"); // 종료
+        System.out.println("\t\t<Initial Menu>");
+        System.out.println("\t\t1. Login"); // 로그인
+        System.out.println("\t\t2. Sign in"); // 회원 가입
+        System.out.println("\t\t3. Terminate"); // 종료
         System.out.print("enter : ");
 
         return sc.nextInt();

@@ -1,10 +1,10 @@
 package airbnb.persistence.dto;
 
-import airbnb.network.Status;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import airbnb.network.Status;
 
 import java.time.LocalDateTime;
 
