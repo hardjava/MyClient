@@ -40,7 +40,7 @@ public class SignView {
 
         switch (protocol.getProtocolCode()) {
             case Protocol.CODE_SUCCESS:
-                System.out.println("성공 ! ");
+                System.out.println("Sueccess To Sign up ! ");
                 break;
             case Protocol.CODE_ERROR:
                 System.out.println(protocol.getObject());

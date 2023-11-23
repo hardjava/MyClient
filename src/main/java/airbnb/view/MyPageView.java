@@ -33,8 +33,7 @@ public class MyPageView {
                     List<CompletedStayDTO> list = (List<CompletedStayDTO>) protocol.getObject();
                     int i = 0;
                     for (CompletedStayDTO completedStayDTO : list) {
-                        System.out.printf("%d. %-30s %-12s %-12s\n", ++i, completedStayDTO.getHouseName(), completedStayDTO.getCheckIn(), completedStayDTO.getCheckOut());
-//                        System.out.println(completedStayDTO.getHouseName());
+                        System.out.printf("%d. %-30s %-12s %-12s\n", ++i, completedStayDTO.getHouseName(), completedStayDTO.getCheckIn(), completedStayDTO.getCheckOut() + "  " + completedStayDTO.getCost());
                     }
                 }
                 // 작업해야함
