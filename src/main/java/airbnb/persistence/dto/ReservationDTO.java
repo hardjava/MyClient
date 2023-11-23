@@ -3,6 +3,7 @@ package airbnb.persistence.dto;
 import lombok.*;
 import airbnb.network.Status;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Setter
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 
-public class ReservationDTO {
+public class ReservationDTO implements Serializable {
     private int reservationId, guestNum, houseId, cost;
     private Status reservationStatus;
     private LocalDateTime reservationDate, checkIn, checkOut;
