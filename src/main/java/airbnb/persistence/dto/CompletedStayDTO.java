@@ -16,4 +16,14 @@ public class CompletedStayDTO implements Serializable {
     private String houseName, checkIn, checkOut;
     private Status reservationStatus;
     private int cost;
+    private boolean hasReview;
+
+    public CompletedStayDTO(int reservationId, String houseName, String checkIn, String checkOut, Status reservationStatus, int cost) {
+        this.reservationId = reservationId;
+        this.houseName = houseName;
+        this.checkIn = checkIn;
+        this.checkOut = checkOut;
+        this.reservationStatus = reservationStatus;
+        this.cost = cost;
+    }
 }

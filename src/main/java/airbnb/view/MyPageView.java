@@ -2,6 +2,7 @@ package airbnb.view;
 
 import airbnb.controller.ModifyUserInfoController;
 import airbnb.controller.SearchGuestReservationController;
+import airbnb.controller.SendReviewController;
 import airbnb.controller.StayedHouseController;
 import airbnb.network.MyIOStream;
 import airbnb.network.Protocol;
@@ -33,7 +34,27 @@ public class MyPageView {
                     List<CompletedStayDTO> list = (List<CompletedStayDTO>) protocol.getObject();
                     int i = 0;
                     for (CompletedStayDTO completedStayDTO : list) {
-                        System.out.printf("%d. %-30s %-12s %-12s\n", ++i, completedStayDTO.getHouseName(), completedStayDTO.getCheckIn(), completedStayDTO.getCheckOut() + "  " + completedStayDTO.getCost());
+                        System.out.printf("%d. %-30s %-12s %-12s\n", ++i, completedStayDTO.getHouseName(), completedStayDTO.getCheckIn(), completedStayDTO.getCheckOut() + "  " + completedStayDTO.getCost() + " " + (completedStayDTO.isHasReview() ? "O" : "X"));
+                    }
+
+                    System.out.print("\n1. Write a review, 2. Exit : ");
+                    MyIOStream.sc.nextLine(); // 버퍼 비워
+                    String str = MyIOStream.sc.nextLine();
+                    if (!str.equals("2")) {
+                        String[] arr = str.split(",");
+                        SendReviewController sendReviewController = new SendReviewController();
+                        if (Integer.parseInt(arr[1]) > 0 && Integer.parseInt(arr[1]) <= i) {
+                            protocol = sendReviewController.sendReviewRequest(list.get(Integer.parseInt(arr[1]) - 1).getReservationId(), Integer.parseInt(arr[2]), arr[3]);
+
+                            if (protocol.getProtocolCode() == Protocol.CODE_ERROR) {
+                                System.out.println(protocol.getObject());
+                            } else if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
+                                System.out.println("Success To Write Review");
+                            }
+
+                        } else {
+                            System.out.println("Error..");
+                        }
                     }
                 }
                 // 작업해야함
