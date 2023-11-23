@@ -7,8 +7,8 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@Builder
 @ToString
+@Builder
 
 public class AmenitiesDTO {
     private int amenitiesId, houseId, typeId, count;

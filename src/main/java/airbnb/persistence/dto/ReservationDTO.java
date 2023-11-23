@@ -4,7 +4,7 @@ import lombok.*;
 import airbnb.network.Status;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.sql.Date;
 
 @Setter
 @Getter
@@ -13,22 +13,13 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 
 public class ReservationDTO implements Serializable {
-    private int reservationId, guestNum, houseId, cost;
+    private int reservationId;
     private Status reservationStatus;
-    private LocalDateTime reservationDate, checkIn, checkOut;
-    private String userId, userPwd;
+    private int guestNum;
+    private Date reservationDate, checkIn, checkOut;
+    private int houseId, userId;
+    private int cost;
 
-    public ReservationDTO(int guestNum, int houseId, int cost, Status reservationStatus, LocalDateTime reservationDate, LocalDateTime checkIn, LocalDateTime checkOut, String userId, String userPwd) {
-        this.guestNum = guestNum;
-        this.houseId = houseId;
-        this.reservationStatus = reservationStatus;
-        this.reservationDate = reservationDate;
-        this.checkIn = checkIn;
-        this.checkOut = checkOut;
-        this.userId = userId;
-        this.userPwd = userPwd;
-        this.cost = cost;
-    }
 
     public ReservationDTO(int reservationId, Status reservationStatus) {
         this.reservationId = reservationId;

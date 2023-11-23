@@ -122,6 +122,7 @@ public class Protocol implements Serializable {
 
     public static final int TYPE_MONTHLY_RESERVATION_STATUS_FOR_ACCOMMODATION = 21; // 숙소별 월별 예약 현황
     public static final int CODE_SEND_CALENDAR_WITH_RESERVATION_DETAILS = 1;        // 해당 월 예약 정보가 담긴 달력 출력(서버 → 클라이언트)
+    public static final int CODE_REQUEST_CALENDAR_WITH_RESERVATION_DETAILS = 2;     // 해달월 예약 정보가 담긴 달력 요청(클라이언트 -> 서버)
 
     public static final int TYPE_MONTHLY_TOTAL_REVENUE_FOR_ACCOMMODATION = 22;      // 숙소별 월별 총매출
     public static final int CODE_SEND_TOTAL_SALES_FOR_MONTH = 1;                    // 해당 월 총 매출 전달(서버 → 클라이언트)
