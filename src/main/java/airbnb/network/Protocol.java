@@ -35,6 +35,8 @@ public class Protocol implements Serializable {
     public static final int TYPE_SEARCH_RESERVATION = 3;        // 예약 현황 조회
     public static final int CODE_MY_RESERVATION_REQUEST = 1;    // 예약 현황 요청----
     public static final int CODE_SEND_RESERVATION = 2;          // 예약현황정보전달(서버→클라이언트)
+    public static final int CODE_REQUEST_RESERVATION_CANCELLATION = 3; //예약 취소요청----
+
 
     public static final int TYPE_WRITTEN_REVIEW = 4;            // 작성한 리뷰
     public static final int CODE_WRITTEN_REVIEW_REQUEST = 1;    // 작성한 리뷰 요청----

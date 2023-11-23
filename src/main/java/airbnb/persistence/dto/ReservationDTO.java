@@ -28,4 +28,9 @@ public class ReservationDTO {
         this.userPwd = userPwd;
         this.cost = cost;
     }
+
+    public ReservationDTO(int reservationId, Status reservationStatus) {
+        this.reservationId = reservationId;
+        this.reservationStatus = reservationStatus;
+    }
 }

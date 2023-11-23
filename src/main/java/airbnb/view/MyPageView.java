@@ -7,7 +7,6 @@ import airbnb.controller.StayedHouseController;
 import airbnb.network.MyIOStream;
 import airbnb.network.Protocol;
 import airbnb.persistence.dto.CompletedStayDTO;
-import airbnb.persistence.dto.ReservationStayDTO;
 import airbnb.persistence.dto.UserDTO;
 
 import java.io.IOException;
@@ -36,24 +35,25 @@ public class MyPageView {
                     for (CompletedStayDTO completedStayDTO : list) {
                         System.out.printf("%d. %-30s %-12s %-12s\n", ++i, completedStayDTO.getHouseName(), completedStayDTO.getCheckIn(), completedStayDTO.getCheckOut() + "  " + completedStayDTO.getCost() + " " + (completedStayDTO.isHasReview() ? "O" : "X"));
                     }
+                    if (i != 0) {
+                        System.out.print("\n1. Write a review (1,(houseId),(star),(review text)), 2. Exit : ");
+                        MyIOStream.sc.nextLine(); // 버퍼 비워
+                        String str = MyIOStream.sc.nextLine();
+                        if (!str.equals("2")) {
+                            String[] arr = str.split(",");
+                            SendReviewController sendReviewController = new SendReviewController();
+                            if (Integer.parseInt(arr[1]) > 0 && Integer.parseInt(arr[1]) <= i) {
+                                protocol = sendReviewController.sendReviewRequest(list.get(Integer.parseInt(arr[1]) - 1).getReservationId(), Integer.parseInt(arr[2]), arr[3]);
 
-                    System.out.print("\n1. Write a review, 2. Exit : ");
-                    MyIOStream.sc.nextLine(); // 버퍼 비워
-                    String str = MyIOStream.sc.nextLine();
-                    if (!str.equals("2")) {
-                        String[] arr = str.split(",");
-                        SendReviewController sendReviewController = new SendReviewController();
-                        if (Integer.parseInt(arr[1]) > 0 && Integer.parseInt(arr[1]) <= i) {
-                            protocol = sendReviewController.sendReviewRequest(list.get(Integer.parseInt(arr[1]) - 1).getReservationId(), Integer.parseInt(arr[2]), arr[3]);
+                                if (protocol.getProtocolCode() == Protocol.CODE_ERROR) {
+                                    System.out.println(protocol.getObject());
+                                } else if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
+                                    System.out.println("Success To Write Review");
+                                }
 
-                            if (protocol.getProtocolCode() == Protocol.CODE_ERROR) {
-                                System.out.println(protocol.getObject());
-                            } else if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
-                                System.out.println("Success To Write Review");
+                            } else {
+                                System.out.println("Error..");
                             }
-
-                        } else {
-                            System.out.println("Error..");
                         }
                     }
                 }
@@ -62,13 +62,37 @@ public class MyPageView {
 
             case 2:
                 SearchGuestReservationController searchGuestReservationController = new SearchGuestReservationController();
-                protocol = searchGuestReservationController.reservationStayRequest();
+                protocol = searchGuestReservationController.reservationStayRequest(userDTO);
                 if (protocol.getProtocolCode() == Protocol.CODE_ERROR) {
                     System.out.println(protocol.getObject());
-                } else {
-                    List<ReservationStayDTO> list = (List<ReservationStayDTO>) protocol.getObject();
-                    for (ReservationStayDTO reservationStayDTO : list) {
-                        System.out.println(reservationStayDTO);
+                } else if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
+                    List<CompletedStayDTO> list = (List<CompletedStayDTO>) protocol.getObject();
+                    int i = 0;
+                    System.out.println("[Accommodation Reservation]");
+                    for (CompletedStayDTO completedStayDTO : list) {
+                        System.out.printf("%d. %-30s %-12s %-12s\n", ++i, completedStayDTO.getHouseName(), completedStayDTO.getCheckIn(), completedStayDTO.getCheckOut() + "  " + completedStayDTO.getCost() + "  " + completedStayDTO.getReservationStatus().name());
+                    }
+                    if (i != 0) {
+                        System.out.print("\nWould you like to cancel your reservation? (1) Yes!, (2) No : ");
+                        int enter = MyIOStream.sc.nextInt();
+                        if (enter == 1) {
+                            System.out.print("Please press the number of the accommodation you wish to cancel (exit : -1) : ");
+                            enter = MyIOStream.sc.nextInt();
+                            if (enter != -1) {
+                                if (enter > 0 && enter <= i) {
+                                    protocol = searchGuestReservationController.cancelReservationRequest(list.get(enter - 1).getReservationId(), list.get(enter - 1).getReservationStatus());
+
+                                    if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
+                                        System.out.println("Success!!");
+                                    } else if (protocol.getProtocolCode() == Protocol.CODE_ERROR) {
+                                        System.out.println(protocol.getObject());
+                                    }
+
+                                } else {
+                                    System.out.println("Error..");
+                                }
+                            }
+                        }
                     }
                 }
 
