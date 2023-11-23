@@ -10,7 +10,7 @@ import java.io.IOException;
 public class LoginView {
 
     public void showView() throws IOException, ClassNotFoundException {
-        System.out.println("\n\t\t<Login>");
+        System.out.println("\t\t<Login>");
         System.out.print("\t\tID : ");
         String id = MyIOStream.sc.next();
         System.out.print("\t\tPassword : ");

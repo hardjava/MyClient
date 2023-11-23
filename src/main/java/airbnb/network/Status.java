@@ -7,5 +7,5 @@ import lombok.ToString;
 @ToString
 
 public enum Status {
-    WAIT, APPROVED
+    WAIT, APPROVED, NOT_APPROVED, BEFORE_STAY, STAY, AFTER_STAY;
 }

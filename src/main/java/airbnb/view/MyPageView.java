@@ -5,9 +5,12 @@ import airbnb.controller.SearchGuestReservationController;
 import airbnb.controller.StayedHouseController;
 import airbnb.network.MyIOStream;
 import airbnb.network.Protocol;
+import airbnb.persistence.dto.CompletedStayDTO;
+import airbnb.persistence.dto.ReservationStayDTO;
 import airbnb.persistence.dto.UserDTO;
 
 import java.io.IOException;
+import java.util.List;
 
 public class MyPageView {
     UserDTO userDTO;
@@ -22,11 +25,17 @@ public class MyPageView {
         switch (menu) {
             case 1:
                 StayedHouseController stayedHouseController = new StayedHouseController();
-                protocol = stayedHouseController.completedStayRequest();
+                protocol = stayedHouseController.completedStayRequest(userDTO);
                 if (protocol.getProtocolCode() == Protocol.CODE_ERROR) {
                     System.out.println(protocol.getObject());
-                }else {
-
+                } else {
+                    System.out.println("[Completed Stayed List]");
+                    List<CompletedStayDTO> list = (List<CompletedStayDTO>) protocol.getObject();
+                    int i = 0;
+                    for (CompletedStayDTO completedStayDTO : list) {
+                        System.out.printf("%d. %-30s %-12s %-12s\n", ++i, completedStayDTO.getHouseName(), completedStayDTO.getCheckIn(), completedStayDTO.getCheckOut());
+//                        System.out.println(completedStayDTO.getHouseName());
+                    }
                 }
                 // 작업해야함
                 break;
@@ -34,6 +43,15 @@ public class MyPageView {
             case 2:
                 SearchGuestReservationController searchGuestReservationController = new SearchGuestReservationController();
                 protocol = searchGuestReservationController.reservationStayRequest();
+                if (protocol.getProtocolCode() == Protocol.CODE_ERROR) {
+                    System.out.println(protocol.getObject());
+                } else {
+                    List<ReservationStayDTO> list = (List<ReservationStayDTO>) protocol.getObject();
+                    for (ReservationStayDTO reservationStayDTO : list) {
+                        System.out.println(reservationStayDTO);
+                    }
+                }
+
                 break;
 
             case 3:
@@ -91,7 +109,8 @@ public class MyPageView {
         System.out.println("\t\t(1) : View Completed Stays");
         System.out.println("\t\t(2) : View accommodation reservations");
         System.out.println("\t\t(3) : Edit Personal Information");
-        System.out.println("\t\t(4) : Back");
+        System.out.print("\t\t(4) : Back");
+        System.out.print("\nPlease enter the number : ");
         return MyIOStream.sc.nextInt();
     }
 

@@ -113,10 +113,10 @@ public class Protocol implements Serializable {
     public static final int CODE_REQUEST_ACCOMMODATION_REGISTRATION_LIST = 1;       // 등록 신청된 숙소 목록 요청(클라이언트 → 서버)----
     public static final int CODE_SEND_ACCOMMODATION_REGISTRATION_LIST = 2;          // 등록 신청된 숙소 목록 전달(서버 → 클라이언트)
     public static final int CODE_SEND_APPROVAL_OR_REJECT_INFORMATION = 3;           // 승인 / 거절 정보 전달(클라이언트 → 서버)----
-    //    public static final int CODE_SEND_APPROVAL_OR_REJECT_INFORMATION_SUCCESS = 4;   // 승인 / 거절 성공 전달(서버 → 클라이언트)
+//    public static final int CODE_SEND_APPROVAL_OR_REJECT_INFORMATION_SUCCESS = 4;   // 승인 / 거절 성공 전달(서버 → 클라이언트)
 //    public static final int CODE_SEND_APPROVAL_OR_REJECT_INFORMATION_FAIL = 5;      // 승인 / 거절 실패 전달(서버 → 클라이언트)
-    public static final int CODE_REQUEST_REJECTED_ACCOMMODATION_LIST = 4;           // 거절된 숙소 목록 요청(클라이언트 → 서버)----
-    public static final int CODE_SEND_REJECTED_ACCOMMODATION_LIST = 5;              // 거절된 숙소 목록 전달(클라이언트 → 서버)----
+//    public static final int CODE_REQUEST_REJECTED_ACCOMMODATION_LIST = 4;           // 거절된 숙소 목록 요청(클라이언트 → 서버)----
+//    public static final int CODE_SEND_REJECTED_ACCOMMODATION_LIST = 5;              // 거절된 숙소 목록 전달(클라이언트 → 서버)----
 
     public static final int TYPE_MONTHLY_RESERVATION_STATUS_FOR_ACCOMMODATION = 21; // 숙소별 월별 예약 현황
     public static final int CODE_SEND_CALENDAR_WITH_RESERVATION_DETAILS = 1;        // 해당 월 예약 정보가 담긴 달력 출력(서버 → 클라이언트)
