@@ -1,9 +1,6 @@
 package airbnb.persistence.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -11,19 +8,21 @@ import java.io.Serializable;
 @Getter
 @ToString
 @Builder
+@AllArgsConstructor
 
 public class FeePolicyDTO implements Serializable {
     private int feeId, houseId, weekday, weekend;
 
-    public FeePolicyDTO(int feeId, int houseId, int weekday, int weekend) {
-        this.feeId = feeId;
-        this.houseId = houseId;
-        this.weekday = weekday;
-        this.weekend = weekend;
-    }
 
     public FeePolicyDTO(int weekday, int weekend) {
         this.weekday = weekday;
         this.weekend = weekend;
+    }
+
+    public FeePolicyDTO(FeePolicyDTO feePolicyDTO) {
+        this.feeId = feePolicyDTO.getFeeId();
+        this.houseId = feePolicyDTO.getHouseId();
+        this.weekday = feePolicyDTO.getWeekday();
+        this.weekend = feePolicyDTO.getWeekend();
     }
 }
