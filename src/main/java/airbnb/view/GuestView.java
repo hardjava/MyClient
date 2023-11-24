@@ -148,7 +148,8 @@ public class GuestView {
                                 }
                             }
                             System.out.format("戌式式式式式式式式式式式式式式式式式式式式式式扛式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
-
+                            System.out.println("[Reservation available dates]");
+                            CalendarViewer.selectMonth(reservationDTOList);
                         } else {
                             System.out.println("Invalid Input..");
                         }
