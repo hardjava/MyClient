@@ -5,6 +5,7 @@ import airbnb.controller.SetCostPolicyConroller;
 import airbnb.network.MyIOStream;
 import airbnb.network.Protocol;
 import airbnb.persistence.dto.AmenitiesDTO;
+import airbnb.persistence.dto.FeePolicyDTO;
 import airbnb.persistence.dto.HouseDTO;
 import airbnb.persistence.dto.UserDTO;
 
@@ -119,17 +120,46 @@ public class HostView {
         SetCostPolicyConroller setCostPolicyConroller = new SetCostPolicyConroller();
         Protocol protocol = setCostPolicyConroller.sendHouseListRequest(userDTO);
 
-        if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
-            List<HouseDTO> list = (List<HouseDTO>) protocol.getObject();
-            int i = 0;
-            for (HouseDTO houseDTO : list) {
-                System.out.println(++i + ". " + houseDTO.toString());
-            }
-
-        } else if (protocol.getProtocolCode() == Protocol.CODE_ERROR) {
-            System.out.println(protocol.getObject());
+        List<HouseDTO> list = (List<HouseDTO>) protocol.getObject();
+        int i = 0;
+        for (HouseDTO houseDTO : list) {
+            System.out.println(++i + ". " + houseDTO.toString());
         }
 
+        System.out.print("\t\tEnter The Number You Want to Set Cost, (Back to -1) : ");
+        int enter = MyIOStream.sc.nextInt();
+
+        if (enter == -1) {
+            System.out.println("Back..");
+        } else if (enter > 0 && enter <= i) {
+            System.out.print("\t\tEnter Weekday Cost : ");
+            int weekdayCost = MyIOStream.sc.nextInt();
+            System.out.print("\t\tEnter Weekend Cost : ");
+            int weekendCost = MyIOStream.sc.nextInt();
+
+            System.out.print("\t\tWould you like to register? (Enter 1 to register, back to -1) : ");
+            int input = MyIOStream.sc.nextInt();
+
+            if (input == -1) {
+                System.out.println("Back..");
+            } else if (input == 1) {
+                if (weekdayCost >= 0 && weekendCost >= 0) {
+                    FeePolicyDTO feePolicyDTO = new FeePolicyDTO(list.get(enter - 1).getHouseId(), weekdayCost, weekendCost);
+                    protocol = setCostPolicyConroller.costSettingRequest(feePolicyDTO);
+                    if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
+                        System.out.println("Success!");
+                    } else if (protocol.getProtocolCode() == Protocol.CODE_ERROR) {
+                        System.out.println(protocol.getObject());
+                    }
+                } else {
+                    System.out.println("Wrong Input..");
+                }
+            } else {
+                System.out.println("Wrong Input..");
+            }
+        } else {
+            System.out.println("Wrong Input..");
+        }
     }
 
     private int getCommand() {

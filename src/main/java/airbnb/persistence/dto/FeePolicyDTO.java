@@ -19,10 +19,9 @@ public class FeePolicyDTO implements Serializable {
         this.weekend = weekend;
     }
 
-    public FeePolicyDTO(FeePolicyDTO feePolicyDTO) {
-        this.feeId = feePolicyDTO.getFeeId();
-        this.houseId = feePolicyDTO.getHouseId();
-        this.weekday = feePolicyDTO.getWeekday();
-        this.weekend = feePolicyDTO.getWeekend();
+    public FeePolicyDTO(int houseId, int weekday, int weekend) {
+        this.houseId = houseId;
+        this.weekday = weekday;
+        this.weekend = weekend;
     }
 }
