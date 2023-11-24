@@ -13,5 +13,5 @@ public class MoreHouseInfoDTO implements Serializable {
     private List<AmenitiesDTO> amenitiesDTOList;
     private FeePolicyDTO feePolicyDTO;
     private List<ReservationDTO> reservationDTOList;
-    private List<ReviewDTO> reviewDTOList;
+    private List<UserReviewDTO> reviewDTOList;
 }

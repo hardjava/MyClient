@@ -7,11 +7,14 @@ import airbnb.network.Protocol;
 import airbnb.persistence.dto.*;
 
 import java.io.IOException;
-import java.util.Calendar;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GuestView {
-    private UserDTO userDTO;
+    UserDTO userDTO;
+    int firstColWidth = 20; // 羅 廓簞 翮曖 ァ
+    int secondColWidth = 50; // 舒 廓簞 翮曖 ァ
+    String leftAlignFormat = "| %-" + firstColWidth + "s | %-" + secondColWidth + "s |%n";
 
     public GuestView(UserDTO userDTO) {
         this.userDTO = userDTO;
@@ -34,14 +37,22 @@ public class GuestView {
                     if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
 
                         List<HouseDTO> list = (List<HouseDTO>) protocol.getObject();
-                        System.out.println("\t\t[House list]");
-                        System.out.printf("%-40s%-40s\n", "<House_Name>", "<House_Address>");
-                        int i = 0;
-                        for (HouseDTO houseDTO : list) {
-                            System.out.printf("%d. %s\n", ++i, houseDTO.toString());
-                        }
+                        System.out.format("忙式式式式式式式式式式式式式式式式式式式式式式成式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖%n");
+                        System.out.format("弛      House list      弛                                                    弛%n");
+                        System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
+                        System.out.format("弛 %-20s 弛 %-50s 弛%n", "[House Name]", "[House Address]");
 
-                        System.out.print("Select Accommodation (exit -1) : ");
+                        int i = 0;
+                        int labelWidth = 20;
+                        int textWidth = 50;
+
+                        for (HouseDTO houseDTO : list) {
+                            String houseLabel = String.format("%d. %s", ++i, houseDTO.getHouseName());
+                            printFormatted(houseLabel, houseDTO.getHouseAddress(), labelWidth, textWidth);
+                        }
+                        System.out.format("戌式式式式式式式式式式式式式式式式式式式式式式扛式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
+
+                        System.out.print("Select More Info (exit -1) : ");
                         int enter = MyIOStream.sc.nextInt();
 
                         if (enter == -1) {
@@ -50,7 +61,7 @@ public class GuestView {
                         }
 
                         if (enter > 0 && enter <= i) {
-                            HouseDTO houseDTO = list.get(i - 1);
+                            HouseDTO houseDTO = list.get(enter - 1);
                             SearchMoreHouseInfoController searchMoreHouseInfoController = new SearchMoreHouseInfoController();
                             protocol = searchMoreHouseInfoController.printMoreInfo(houseDTO);
                             MoreHouseInfoDTO moreHouseInfoDTO = (MoreHouseInfoDTO) protocol.getObject();
@@ -58,37 +69,86 @@ public class GuestView {
                             List<AmenitiesDTO> amenitiesDTOList = moreHouseInfoDTO.getAmenitiesDTOList();
                             FeePolicyDTO feePolicyDTO = moreHouseInfoDTO.getFeePolicyDTO();
                             List<ReservationDTO> reservationDTOList = moreHouseInfoDTO.getReservationDTOList();
-                            List<ReviewDTO> reviewDTOList = moreHouseInfoDTO.getReviewDTOList();
+                            List<UserReviewDTO> userReviewDTOS = moreHouseInfoDTO.getReviewDTOList();
 
-                            System.out.println("[ House Name : " + houseDTO.getHouseName() + " ]");
-                            System.out.println("[ House Address : " + houseDTO.getHouseAddress() + " ]");
-                            System.out.println("[ House Capacity : " + houseDTO.getBedroom() + " ]");
-                            System.out.println("[ Bedroom Count : " + houseDTO.getBedroom() + " ]");
-                            System.out.println("[ Bathroom Count : " + houseDTO.getBathroom() + " ]");
-                            System.out.println("[ House Info : " + houseDTO.getHouseIntroduce() + " ]");
-                            System.out.println("[ Weekday Cost : " + feePolicyDTO.getWeekday() + " ]");
-                            System.out.println("[ Weekend Cost : " + feePolicyDTO.getWeekend() + " ]");
-                            System.out.println("[ Amenities Info]");
-                            System.out.println("\t[Basic Amenities]");
-                            for (AmenitiesDTO amenitiesDTO : amenitiesDTOList) {
-                                if (amenitiesDTO.getTypeId() == 1)
-                                    System.out.println(amenitiesDTO.getAmenities());
-                            }
-                            System.out.println("\t[Safety Amenities]");
-                            for (AmenitiesDTO amenitiesDTO : amenitiesDTOList) {
-                                if (amenitiesDTO.getTypeId() == 2)
-                                    System.out.println(amenitiesDTO.getAmenities());
-                            }
-                            System.out.println("\t[Accessibility Amenities]");
-                            for (AmenitiesDTO amenitiesDTO : amenitiesDTOList) {
-                                if (amenitiesDTO.getTypeId() == 3)
-                                    System.out.println(amenitiesDTO.getAmenities());
+                            System.out.format("忙式式式式式式式式式式式式式式式式式式式式式式成式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖%n");
+                            System.out.format("弛 House Information    弛 Details                                            弛%n");
+                            System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
+                            printFormatted("Name", houseDTO.getHouseName(), firstColWidth, secondColWidth);
+                            printFormatted("Address", houseDTO.getHouseAddress(), firstColWidth, secondColWidth);
+                            printFormatted("Bedrooms", String.valueOf(houseDTO.getBedroom()), firstColWidth, secondColWidth);
+                            printFormatted("Bathrooms", String.valueOf(houseDTO.getBathroom()), firstColWidth, secondColWidth);
+                            printFormatted("Description", houseDTO.getHouseIntroduce(), firstColWidth, secondColWidth);
+
+                            System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
+                            System.out.format("弛 Cost Details         戍式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
+                            System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
+                            printFormatted("Weekday", String.valueOf(feePolicyDTO.getWeekday()), firstColWidth, secondColWidth);
+                            printFormatted("Weekend", String.valueOf(feePolicyDTO.getWeekend()), firstColWidth, secondColWidth);
+
+                            System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
+                            System.out.format("弛 Amenities            弛 Details                                            弛%n");
+                            System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
+
+
+                            String basicAmenities = amenitiesDTOList.stream()
+                                    .filter(amenitiesDTO -> amenitiesDTO.getTypeId() == 1)
+                                    .map(AmenitiesDTO::getAmenities)
+                                    .collect(Collectors.joining(", "));
+
+                            if (!basicAmenities.isEmpty()) {
+                                printFormatted("Basic", basicAmenities, firstColWidth, secondColWidth);
+                            } else {
+                                System.out.format("弛 Basic                弛                                                    弛%n");
                             }
 
-                            System.out.println("[Review]");
-                            for (ReviewDTO reviewDTO : reviewDTOList) {
-                                System.out.println(reviewDTO.toString());
+
+                            System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
+
+
+                            String safetyAmenities = amenitiesDTOList.stream()
+                                    .filter(amenitiesDTO -> amenitiesDTO.getTypeId() == 2)
+                                    .map(AmenitiesDTO::getAmenities)
+                                    .collect(Collectors.joining(", "));
+
+                            if (!safetyAmenities.isEmpty()) {
+                                printFormatted("Safety", safetyAmenities, firstColWidth, secondColWidth);
+                            } else {
+                                System.out.format("弛 Safety               弛                                                    弛%n");
                             }
+
+
+                            System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
+
+
+                            String accessibilityAmenities = amenitiesDTOList.stream()
+                                    .filter(amenitiesDTO -> amenitiesDTO.getTypeId() == 3)
+                                    .map(AmenitiesDTO::getAmenities)
+                                    .collect(Collectors.joining(", "));
+
+                            if (!accessibilityAmenities.isEmpty()) {
+                                printFormatted("Accessibility", accessibilityAmenities, firstColWidth, secondColWidth);
+                            } else {
+                                System.out.format("弛 Accessibility        弛                                                    弛%n");
+                            }
+
+                            System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
+                            System.out.format("弛 Reviews              弛                                                    弛%n");
+                            System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
+                            boolean isFirstReview = true;
+                            for (UserReviewDTO userReviewDTO : userReviewDTOS) {
+                                String[] reviewLines = userReviewDTO.toString().split("\n");
+                                for (String line : reviewLines) {
+                                    if (isFirstReview) {
+                                        printFormatted("Review", line, firstColWidth, secondColWidth);
+                                        isFirstReview = false;
+                                    } else {
+                                        printFormatted("", line, firstColWidth, secondColWidth);
+                                    }
+                                }
+                            }
+                            System.out.format("戌式式式式式式式式式式式式式式式式式式式式式式扛式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
+
                         } else {
                             System.out.println("Invalid Input..");
                         }
@@ -102,56 +162,49 @@ public class GuestView {
                     myPageView.showView();
                     break;
                 default:
-                    System.out.println("Please Select (1) ~ (4)");
+                    System.out.println("忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖");
+                    System.out.println("弛   Please Select (1) ~ (4)    弛");
+                    System.out.println("戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎");
                     break;
             }
         }
     }
 
+    private static void printFormatted(String label, String text, int labelWidth, int textWidth) {
+        // 塭漣婁 臢蝶お蒂 嫡嬴 ん裝縑 蜃啪 轎溘ж朝 詭模萄
+        String[] words = text.split(" ");
+        StringBuilder line = new StringBuilder();
+        System.out.printf("弛 %-" + labelWidth + "s 弛 ", label);
+
+        for (String word : words) {
+            if (line.length() + word.length() > textWidth) {
+                System.out.printf("%-" + textWidth + "s 弛%n弛 %" + labelWidth + "s 弛 ", line.toString(), "");
+                line.setLength(0);
+            }
+            line.append(word).append(" ");
+        }
+
+        System.out.printf("%-" + textWidth + "s 弛%n", line.toString());
+    }
+
     private int getCommand() {
-        System.out.println("\t\t<Guset Page>");
+        System.out.format("忙式式式式式式式式式式式式式式式式式式式式式式成式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖%n");
+        System.out.format("弛    <Guest Page>      弛                                                    弛%n");
+        System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
         printUserInfo();
-        System.out.println("\t\t1. 熨模 匐儀");
-        System.out.println("\t\t2. 熨模 跡煙");
-        System.out.println("\t\t3. 葆檜 む檜雖");
-        System.out.println("\t\t4. 煎斜嬴醒");
+        System.out.format("弛 1. FIND HOUSE        弛                                                    弛%n");
+        System.out.format("弛 2. HOUSE LIST        弛                                                    弛%n");
+        System.out.format("弛 3. MYPAGE            弛                                                    弛%n");
+        System.out.format("弛 4. LOGOUT            弛                                                    弛%n");
+        System.out.format("戌式式式式式式式式式式式式式式式式式式式式式式扛式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
+
         System.out.print("enter : ");
         return MyIOStream.sc.nextInt();
     }
 
     private void printUserInfo() {
-        System.out.println("Name :  " + userDTO.getUserName() + "\nRole :  " + userDTO.getRole());
-    }
-
-    private void calender() {
-        // ⑷營 殖溘 檣蝶欐蝶 陛螳褥
-        Calendar calendar = Calendar.getInstance();
-        // ⑷營 殖曖 羅 陳 撲薑
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
-
-        int month = calendar.get(Calendar.MONTH);
-        int firstDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        int daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-
-        // 殖溘 蹂橾 轎溘
-        System.out.println("Sun Mon Tue Wed Thu Fri Sat");
-
-        // 羅 廓簞 陳瞼陛 衛濛腆 陽梱雖 奢寥戲煎
-        for (int i = 1; i < firstDayOfWeek; i++) {
-            System.out.print("    ");
-        }
-
-        // 陳瞼 轎溘
-        for (int i = 1; i <= daysInMonth; i++) {
-            System.out.printf("%2d  ", i);
-            if ((i + firstDayOfWeek - 1) % 7 == 0 || i == daysInMonth) {
-                System.out.println();
-                // 陳瞼 嬴楚 奢除 蹺陛
-                for (int j = 0; j < 7 && (i - j) > 0; j++) {
-                    System.out.print("    "); // 陳瞼 壽曖 奢除
-                }
-                System.out.println(); // 棻擠 輿煎 檜翕
-            }
-        }
+        System.out.format("弛 Name : %-13s 弛                                                    弛%n", userDTO.getUserName());
+        System.out.format("弛 Role : %-13s 弛                                                    弛%n", userDTO.getRole());
+        System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
     }
 }

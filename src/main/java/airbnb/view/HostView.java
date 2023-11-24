@@ -2,6 +2,7 @@ package airbnb.view;
 
 import airbnb.controller.HouseRegistrationController;
 import airbnb.controller.SetCostPolicyConroller;
+import airbnb.controller.SetDiscountPolicyController;
 import airbnb.network.MyIOStream;
 import airbnb.network.Protocol;
 import airbnb.persistence.dto.AmenitiesDTO;
@@ -37,7 +38,7 @@ public class HostView {
                     setCost();
                     break;
                 case 3:
-                    //  setDiscountPolicy();
+                    setDiscountPolicy();
                     break;
                 case 4:
                     //showReservationStatus();
@@ -162,11 +163,20 @@ public class HostView {
         }
     }
 
+    public void setDiscountPolicy() throws IOException, ClassNotFoundException {
+        SetDiscountPolicyController setDiscountPolicyController = new SetDiscountPolicyController();
+        Protocol protocol = setDiscountPolicyController.houseListRequest(userDTO);
+
+      //  List<HouseDTO> list
+
+
+    }
+
     private int getCommand() {
         System.out.println("\t\t<Host Page>");
         System.out.println("\t\t1. Accommodation Registration");
         System.out.println("\t\t2. Set Cost");
-        System.out.println("\t\t3. Accommodation reservation status");
+        System.out.println("\t\t3. Set Discount Policy");
         System.out.println("\t\t4. Approve/Decline reservation");
         System.out.println("\t\t5. Review Management");
         System.out.println("\t\t0. Log Out");
