@@ -126,7 +126,7 @@ public class CalendarViewer {
         for (int i = 1; i <= lastDay; i++) {
             if (!arrayList.isEmpty()) {
                 if ((i == arrayList.get(count))) {
-                    System.out.print("O\t");
+                    System.out.print("●\t");
                     if (count == arrayList.size() - 1) {
 
                     } else {

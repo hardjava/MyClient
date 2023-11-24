@@ -5,10 +5,7 @@ import airbnb.controller.SetCostPolicyConroller;
 import airbnb.controller.SetDiscountPolicyController;
 import airbnb.network.MyIOStream;
 import airbnb.network.Protocol;
-import airbnb.persistence.dto.AmenitiesDTO;
-import airbnb.persistence.dto.FeePolicyDTO;
-import airbnb.persistence.dto.HouseDTO;
-import airbnb.persistence.dto.UserDTO;
+import airbnb.persistence.dto.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -166,10 +163,50 @@ public class HostView {
     public void setDiscountPolicy() throws IOException, ClassNotFoundException {
         SetDiscountPolicyController setDiscountPolicyController = new SetDiscountPolicyController();
         Protocol protocol = setDiscountPolicyController.houseListRequest(userDTO);
+        List<HouseAndDiscountDTO> list = (List<HouseAndDiscountDTO>) protocol.getObject();
+        if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
+            System.out.println("[List]");
+            System.out.printf("%-20s%-10s%-15s%-15s\n", "[House Name]", "[Day]", "[Quantitative Discount]", "[Flat rate discount]");
+            int i = 0;
+            for (HouseAndDiscountDTO houseAndDiscountDTO : list) {
+                System.out.println(++i + ". " + houseAndDiscountDTO.toString());
+            }
 
-      //  List<HouseDTO> list
+            System.out.print("Select Number : ");
+            int number = MyIOStream.sc.nextInt();
+
+            if (number > 0 && number <= i) {
+                System.out.print("Enter Discount Day : ");
+                int discountDay = MyIOStream.sc.nextInt();
+                System.out.print("(1) Quantitative Discount (2) Flat rate discount : ");
+                int select = MyIOStream.sc.nextInt();
+                if (select == 1) {
+                    System.out.print("Amount : ");
+                    int amount = MyIOStream.sc.nextInt();
+                    protocol = setDiscountPolicyController.setDiscountPolicyRequest(discountDay, amount, 0, list.get(number - 1).getHouseDTO().getHouseId());
+
+                    if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
+                        System.out.println("Success!");
+                    }
+
+                } else if (select == 2) {
+                    System.out.print("Rate : ");
+                    int rate = MyIOStream.sc.nextInt();
+                    protocol = setDiscountPolicyController.setDiscountPolicyRequest(discountDay, 0, rate, list.get(number - 1).getHouseDTO().getHouseId());
+
+                    if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
+                        System.out.println("Success!");
+                    }
+
+                } else {
+                    System.out.println("Wrong Input..");
+                }
+            } else {
+                System.out.println("Wrong Input..");
+            }
 
 
+        }
     }
 
     private int getCommand() {

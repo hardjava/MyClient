@@ -14,160 +14,284 @@ import java.util.List;
 
 public class MyPageView {
     UserDTO userDTO;
+    int firstColWidth = 30; // Ã¹ ¹øÂ° ¿­ÀÇ Æø
+    int secondColWidth = 50; // µÎ ¹øÂ° ¿­ÀÇ Æø
+    String leftAlignFormat = "¦¢ %-" + firstColWidth + "s ¦¢ %-" + secondColWidth + "s ¦¢%n";
 
     public MyPageView(UserDTO userDTO) {
         this.userDTO = userDTO;
     }
 
     public void showView() throws IOException, ClassNotFoundException {
-        Protocol protocol;
-        int menu = selectMenu();
-        switch (menu) {
-            case 1:
-                StayedHouseController stayedHouseController = new StayedHouseController();
-                protocol = stayedHouseController.completedStayRequest(userDTO);
-                if (protocol.getProtocolCode() == Protocol.CODE_ERROR) {
-                    System.out.println(protocol.getObject());
-                } else {
-                    System.out.println("[Completed Stayed List]");
-                    List<CompletedStayDTO> list = (List<CompletedStayDTO>) protocol.getObject();
-                    int i = 0;
-                    for (CompletedStayDTO completedStayDTO : list) {
-                        System.out.printf("%d. %-30s %-12s %-12s\n", ++i, completedStayDTO.getHouseName(), completedStayDTO.getCheckIn(), completedStayDTO.getCheckOut() + "  " + completedStayDTO.getCost() + " " + (completedStayDTO.isHasReview() ? "O" : "X"));
-                    }
-                    if (i != 0) {
-                        System.out.print("\n1. Write a review (1,(houseId),(star),(review text)), 2. Exit : ");
-                        MyIOStream.sc.nextLine(); // ë²„í¼ ë¹„ì›Œ
-                        String str = MyIOStream.sc.nextLine();
-                        if (!str.equals("2")) {
-                            String[] arr = str.split(",");
-                            SendReviewController sendReviewController = new SendReviewController();
-                            if (Integer.parseInt(arr[1]) > 0 && Integer.parseInt(arr[1]) <= i) {
-                                protocol = sendReviewController.sendReviewRequest(list.get(Integer.parseInt(arr[1]) - 1).getReservationId(), Integer.parseInt(arr[2]), arr[3]);
-
-                                if (protocol.getProtocolCode() == Protocol.CODE_ERROR) {
-                                    System.out.println(protocol.getObject());
-                                } else if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
-                                    System.out.println("Success To Write Review");
-                                }
-
-                            } else {
-                                System.out.println("Error..");
-                            }
-                        }
-                    }
-                }
-                // ìž‘ì—…í•´ì•¼í•¨
+        for (; ; ) {
+            int command = getCommand();
+            if (command == 4) {
                 break;
+            }
 
-            case 2:
-                SearchGuestReservationController searchGuestReservationController = new SearchGuestReservationController();
-                protocol = searchGuestReservationController.reservationStayRequest(userDTO);
-                if (protocol.getProtocolCode() == Protocol.CODE_ERROR) {
-                    System.out.println(protocol.getObject());
-                } else if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
-                    List<CompletedStayDTO> list = (List<CompletedStayDTO>) protocol.getObject();
-                    int i = 0;
-                    System.out.println("[Accommodation Reservation]");
-                    for (CompletedStayDTO completedStayDTO : list) {
-                        System.out.printf("%d. %-30s %-12s %-12s\n", ++i, completedStayDTO.getHouseName(), completedStayDTO.getCheckIn(), completedStayDTO.getCheckOut() + "  " + completedStayDTO.getCost() + "  " + completedStayDTO.getReservationStatus().name());
-                    }
-                    if (i != 0) {
-                        System.out.print("\nWould you like to cancel your reservation? (1) Yes!, (2) No : ");
-                        int enter = MyIOStream.sc.nextInt();
-                        if (enter == 1) {
-                            System.out.print("Please press the number of the accommodation you wish to cancel (exit : -1) : ");
-                            enter = MyIOStream.sc.nextInt();
-                            if (enter != -1) {
-                                if (enter > 0 && enter <= i) {
-                                    protocol = searchGuestReservationController.cancelReservationRequest(list.get(enter - 1).getReservationId(), list.get(enter - 1).getReservationStatus());
-
-                                    if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
-                                        System.out.println("Success!!");
-                                    } else if (protocol.getProtocolCode() == Protocol.CODE_ERROR) {
-                                        System.out.println(protocol.getObject());
-                                    }
-
-                                } else {
-                                    System.out.println("Error..");
-                                }
-                            }
-                        }
-                    }
-                }
-
-                break;
-
-            case 3:
-                int enter = printInfo();
-                ModifyUserInfoController modifyUserInfoController = new ModifyUserInfoController();
-                switch (enter) {
-                    case 1:
-                        System.out.print("Enter the new name : ");
-                        String newName = MyIOStream.sc.next();
-                        protocol = modifyUserInfoController.modifyNameRequest(userDTO.getUserId(), newName);
-                        if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
-                            System.out.println("Success!");
-                            userDTO.setUserName(newName);
-                        } else {
-                            System.out.println(protocol.getObject());
-                        }
-                        break;
-                    case 2:
-                        System.out.print("Enter the new phoneNumber : ");
-                        String newPhoneNumber = MyIOStream.sc.next();
-                        protocol = modifyUserInfoController.modifyPhoneNumberRequest(userDTO.getUserId(), newPhoneNumber);
-                        if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
-                            System.out.println("Success!");
-                            userDTO.setUserPhone(newPhoneNumber);
-                        } else {
-                            System.out.println(protocol.getObject());
-                        }
-                        break;
-                    case 3:
-                        System.out.print("Enter the new Birthday : ");
-                        String newBirthday = MyIOStream.sc.next();
-                        protocol = modifyUserInfoController.modifyBirthDayRequest(userDTO.getUserId(), newBirthday);
-                        if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
-                            System.out.println("Success!");
-                            userDTO.setUserBirthday(newBirthday);
-                        } else {
-                            System.out.println(protocol.getObject());
-                        }
-                        break;
-                    case 4:
-                        System.out.println("Exit Change Info...");
-                        break;
-                    default:
-                        System.out.println("Unknown input");
-                        break;
-                }
-                break;
-            default:
-                System.out.println("The wrong approach");
+            switch (command) {
+                case 1:
+                    // ¿¹: ¼÷¹Ú ¿Ï·á ¸ñ·Ï Á¶È¸
+                    showCompletedStays();
+                    break;
+                case 2:
+                    // ¿¹: ¿¹¾à Á¶È¸
+                    showReservations();
+                    break;
+                case 3:
+                    // ¿¹: »ç¿ëÀÚ Á¤º¸ ¼öÁ¤
+                    modifyUserInfo();
+                    break;
+                default:
+                    System.out.println("Invalid Command");
+                    break;
+            }
         }
     }
 
-    private int selectMenu() {
-        System.out.println("\t\t<MyPage Menu>");
-        System.out.println("\t\t(1) : View Completed Stays");
-        System.out.println("\t\t(2) : View accommodation reservations");
-        System.out.println("\t\t(3) : Edit Personal Information");
-        System.out.print("\t\t(4) : Back");
-        System.out.print("\nPlease enter the number : ");
+    private void showCompletedStays() throws IOException, ClassNotFoundException {
+        int firstColWidth1 = 20; // Ã¹ ¹øÂ° ¿­ÀÇ Æø
+        int secondColWidth1 = 50; // µÎ ¹øÂ° ¿­ÀÇ Æø
+        String leftAlignFormat1 = "¦¢ %-" + firstColWidth1 + "s ¦¢ %-" + secondColWidth1 + "s ¦¢%n";
+        StayedHouseController stayedHouseController = new StayedHouseController();
+        Protocol protocol = stayedHouseController.completedStayRequest(userDTO);
+        if (protocol.getProtocolCode() == Protocol.CODE_ERROR) {
+            System.out.println(protocol.getObject());
+        } else {
+            List<CompletedStayDTO> list = (List<CompletedStayDTO>) protocol.getObject();
+            System.out.format("¦£¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¤%n");
+            System.out.format("¦¢                               Completed Stays                             ¦¢%n");
+            System.out.format("¦§¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦©%n");
+
+            if (list.isEmpty()) {
+                System.out.format("¦¢ No completed stays found                                                  ¦¢%n");
+            } else {
+                for (int i = 0; i < list.size(); i++) {
+                    CompletedStayDTO completedStayDTO = list.get(i);
+                    String reviewStatus = completedStayDTO.isHasReview() ? "Reviewed" : "Not Reviewed";
+                    System.out.format(leftAlignFormat1, (i + 1) + ". " + completedStayDTO.getHouseName(), "Check-in: " + completedStayDTO.getCheckIn());
+                    System.out.format(leftAlignFormat1, "", "Check-out: " + completedStayDTO.getCheckOut());
+                    System.out.format(leftAlignFormat1, "", "Cost: " + completedStayDTO.getCost());
+                    System.out.format(leftAlignFormat1, "", reviewStatus);
+                }
+            }
+            System.out.format("¦¦¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¥%n");
+            handleReviewOption(list);
+        }
+    }
+
+    private void handleReviewOption(List<CompletedStayDTO> list) {
+        if (!list.isEmpty()) {
+            System.out.print("Write a review?\n(1) Yes, (2) No: ");
+            int choice = MyIOStream.sc.nextInt();
+            MyIOStream.sc.nextLine(); // Clear buffer
+            if (choice == 1) {
+                System.out.print("Enter House ID, Star Rating, Review Text (Format: houseId,star,review): ");
+                String input = MyIOStream.sc.nextLine();
+                String[] arr = input.split(",");
+                try {
+                    int houseId = Integer.parseInt(arr[0]);
+                    int star = Integer.parseInt(arr[1]);
+                    String reviewText = arr[2];
+                    if (houseId > 0 && houseId <= list.size()) {
+                        SendReviewController sendReviewController = new SendReviewController();
+                        Protocol protocol = sendReviewController.sendReviewRequest(list.get(houseId - 1).getReservationId(), star, reviewText);
+                        if (protocol.getProtocolCode() == Protocol.CODE_ERROR) {
+                            System.out.println(protocol.getObject());
+                        } else if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
+                            System.out.println("Success To Write Review");
+                        }
+                    } else {
+                        System.out.println("Error: Invalid House ID");
+                    }
+                } catch (NumberFormatException | ArrayIndexOutOfBoundsException | IOException |
+                         ClassNotFoundException e) {
+                    System.out.println("Error: Invalid Input Format");
+                }
+            }
+        }
+    }
+
+
+    private void showReservations() throws IOException, ClassNotFoundException {
+        int firstColWidth1 = 20; // Ã¹ ¹øÂ° ¿­ÀÇ Æø
+        int secondColWidth1 = 50; // µÎ ¹øÂ° ¿­ÀÇ Æø
+        String leftAlignFormat1 = "¦¢ %-" + firstColWidth1 + "s ¦¢ %-" + secondColWidth1 + "s ¦¢%n";
+        SearchGuestReservationController searchGuestReservationController = new SearchGuestReservationController();
+        Protocol protocol = searchGuestReservationController.reservationStayRequest(userDTO);
+        if (protocol.getProtocolCode() == Protocol.CODE_ERROR) {
+            System.out.println(protocol.getObject());
+        } else if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
+            List<CompletedStayDTO> list = (List<CompletedStayDTO>) protocol.getObject();
+            System.out.format("¦£¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¤%n");
+            System.out.format("¦¢                         Accommodation Reservation                         ¦¢%n");
+            System.out.format("¦§¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦©%n");
+
+            if (list.isEmpty()) {
+                System.out.format("¦¢ No reservations found                                                      ¦¢%n");
+            } else {
+                for (int i = 0; i < list.size(); i++) {
+                    CompletedStayDTO completedStayDTO = list.get(i);
+                    System.out.format(leftAlignFormat1, (i + 1) + ". " + completedStayDTO.getHouseName(), "Check-in: " + completedStayDTO.getCheckIn());
+                    System.out.format(leftAlignFormat1, "", "Check-out: " + completedStayDTO.getCheckOut());
+                    System.out.format(leftAlignFormat1, "", "Cost: " + completedStayDTO.getCost());
+                    System.out.format(leftAlignFormat1, "", "Status: " + completedStayDTO.getReservationStatus().name());
+                }
+            }
+
+            System.out.format("¦¦¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¥%n");
+            handleReservationCancellation(list, searchGuestReservationController);
+        }
+    }
+
+    private void handleReservationCancellation(List<CompletedStayDTO> list, SearchGuestReservationController controller) throws IOException, ClassNotFoundException {
+        if (!list.isEmpty()) {
+            System.out.print("Cancel a reservation? (1) Yes, (2) No: ");
+            int choice = MyIOStream.sc.nextInt();
+            if (choice == 1) {
+                System.out.print("Enter the number of the accommodation to cancel (exit: -1): ");
+                int enter = MyIOStream.sc.nextInt();
+                if (enter != -1 && enter > 0 && enter <= list.size()) {
+                    Protocol protocol = controller.cancelReservationRequest(list.get(enter - 1).getReservationId(), list.get(enter - 1).getReservationStatus());
+                    if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
+                        System.out.println("Reservation successfully cancelled.");
+                    } else if (protocol.getProtocolCode() == Protocol.CODE_ERROR) {
+                        System.out.println(protocol.getObject());
+                    }
+                } else if (enter != -1) {
+                    System.out.println("Error: Invalid selection.");
+                }
+            }
+        }
+    }
+
+
+    private void modifyUserInfo() throws IOException, ClassNotFoundException {
+        ModifyUserInfoController modifyUserInfoController = new ModifyUserInfoController();
+        int enter = displayUserInfoOptions();
+
+        switch (enter) {
+            case 1:
+                modifyUserName(modifyUserInfoController);
+                break;
+            case 2:
+                modifyUserPhoneNumber(modifyUserInfoController);
+                break;
+            case 3:
+                modifyUserBirthday(modifyUserInfoController);
+                break;
+            case 4:
+                System.out.println("Exiting User Info Modification...");
+                break;
+            default:
+                System.out.println("Unknown input");
+                break;
+        }
+    }
+
+    private int displayUserInfoOptions() {
+        int labelWidth = 20; // ¶óº§ÀÇ Æø
+        int textWidth = 50; // ÅØ½ºÆ®ÀÇ Æø
+        String format = "| %-" + labelWidth + "s | %-" + textWidth + "s |%n";
+
+        System.out.format("¦£¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¤%n");
+        System.out.format("¦¢                           Current User Information                        ¦¢%n");
+        System.out.format("¦§¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¨¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦©%n");
+        printFormatted("Name", userDTO.getUserName(), labelWidth, textWidth);
+        printFormatted("Phone Number", userDTO.getUserPhone(), labelWidth, textWidth);
+        printFormatted("Birthday", userDTO.getUserBirthday(), labelWidth, textWidth);
+        printFormatted("Role", String.valueOf(userDTO.getRole()), labelWidth, textWidth);
+        printFormatted("ID", userDTO.getLoginId(), labelWidth, textWidth);
+        printFormatted("Password", userDTO.getLoginPwd(), labelWidth, textWidth);
+        System.out.format("¦§¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦«¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦©%n");
+        System.out.format("¦¢                            Modify User Information                        ¦¢%n");
+        System.out.format("¦§¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦«¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦©%n");
+        System.out.format("¦¢ 1. Modify Name                                                            ¦¢%n");
+        System.out.format("¦¢ 2. Modify Phone Number                                                    ¦¢%n");
+        System.out.format("¦¢ 3. Modify Birthday                                                        ¦¢%n");
+        System.out.format("¦¢ 4. Exit                                                                   ¦¢%n");
+        System.out.format("¦¦¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦ª¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¥%n");
+        System.out.print("Choose an option: ");
         return MyIOStream.sc.nextInt();
     }
 
-    private int printInfo() {
-        System.out.println("\t\t<Change User Info>");
-        System.out.println("\t\tName : " + userDTO.getUserName());
-        System.out.println("\t\tPhoneNumber : " + userDTO.getUserPhone());
-        System.out.println("\t\tBirthDay : " + userDTO.getUserBirthday());
-        System.out.println("\t\tRole : " + userDTO.getRole());
-        System.out.println("\t\tId : " + userDTO.getLoginId());
-        System.out.println("\t\tPassword : " + userDTO.getLoginPwd());
-        System.out.println("\nPlease enter the number you want to change");
-        System.out.print("(1) Name, (2) PhoneNumber, (3) BirthDay, (4) Exit : ");
+
+    private void modifyUserName(ModifyUserInfoController controller) throws IOException, ClassNotFoundException {
+        System.out.print("Enter the new name: ");
+        String newName = MyIOStream.sc.next();
+        Protocol protocol = controller.modifyNameRequest(userDTO.getUserId(), newName);
+        if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
+            System.out.println("Name successfully updated.");
+            userDTO.setUserName(newName);
+        } else {
+            System.out.println(protocol.getObject());
+        }
+    }
+
+    private void modifyUserPhoneNumber(ModifyUserInfoController controller) throws IOException, ClassNotFoundException {
+        System.out.print("Enter the new phone number: ");
+        String newPhoneNumber = MyIOStream.sc.next();
+        Protocol protocol = controller.modifyPhoneNumberRequest(userDTO.getUserId(), newPhoneNumber);
+        if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
+            System.out.println("Phone number successfully updated.");
+            userDTO.setUserPhone(newPhoneNumber);
+        } else {
+            System.out.println(protocol.getObject());
+        }
+    }
+
+    private void modifyUserBirthday(ModifyUserInfoController controller) throws IOException, ClassNotFoundException {
+        System.out.print("Enter the new birthday (YYYY-MM-DD): ");
+        String newBirthday = MyIOStream.sc.next();
+        Protocol protocol = controller.modifyBirthDayRequest(userDTO.getUserId(), newBirthday);
+        if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
+            System.out.println("Birthday successfully updated.");
+            userDTO.setUserBirthday(newBirthday);
+        } else {
+            System.out.println(protocol.getObject());
+        }
+    }
+
+
+    private int getCommand() {
+        // ¸í·É ÀÔ·ÂÀ» À§ÇÑ ¸Þ¼Òµå
+        System.out.format("¦£¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¤%n");
+        System.out.format("¦¢                                  <My Page>                                ¦¢%n");
+        printUserInfo();
+        System.out.format("¦¢ 1. View Completed Stays                                                   ¦¢%n");
+        System.out.format("¦¢ 2. View Reservations                                                      ¦¢%n");
+        System.out.format("¦¢ 3. Modify User Info                                                       ¦¢%n");
+        System.out.format("¦¢ 4. Back                                                                   ¦¢%n");
+        System.out.format("¦¦¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¥%n");
+        System.out.print("Enter Command: ");
         return MyIOStream.sc.nextInt();
+    }
+
+    private void printUserInfo() {
+        int labelWidth = 20; // ¶óº§ÀÇ Æø
+        int textWidth = 50; // ÅØ½ºÆ®ÀÇ Æø
+        String format = "| %-" + labelWidth + "s | %-" + textWidth + "s |%n";
+
+        System.out.format("¦§¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¨¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦©%n");
+        printFormatted("Name", userDTO.getUserName(), labelWidth, textWidth);
+        printFormatted("Role", String.valueOf(userDTO.getRole()), labelWidth, textWidth);
+        System.out.format("¦§¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦ª¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦©%n");
+    }
+
+    private static void printFormatted(String label, String text, int labelWidth, int textWidth) {
+        // ¶óº§°ú ÅØ½ºÆ®¸¦ ¹Þ¾Æ Æ÷¸Ë¿¡ ¸Â°Ô Ãâ·ÂÇÏ´Â ¸Þ¼Òµå
+        String[] words = text.split(" ");
+        StringBuilder line = new StringBuilder();
+        System.out.printf("¦¢ %-" + labelWidth + "s ¦¢ ", label);
+
+        for (String word : words) {
+            if (line.length() + word.length() > textWidth) {
+                System.out.printf("%-" + textWidth + "s ¦¢%n¦¢ %" + labelWidth + "s ¦¢ ", line.toString(), "");
+                line.setLength(0);
+            }
+            line.append(word).append(" ");
+        }
+
+        System.out.printf("%-" + textWidth + "s ¦¢%n", line.toString());
     }
 }
