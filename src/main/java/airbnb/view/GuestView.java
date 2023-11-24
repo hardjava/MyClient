@@ -11,7 +11,7 @@ import java.util.Calendar;
 import java.util.List;
 
 public class GuestView {
-    UserDTO userDTO;
+    private UserDTO userDTO;
 
     public GuestView(UserDTO userDTO) {
         this.userDTO = userDTO;
@@ -35,7 +35,7 @@ public class GuestView {
 
                         List<HouseDTO> list = (List<HouseDTO>) protocol.getObject();
                         System.out.println("\t\t[House list]");
-                        System.out.printf("%-40s%-43s\n", "<House_Name>", "<House_Address>");
+                        System.out.printf("%-40s%-40s\n", "<House_Name>", "<House_Address>");
                         int i = 0;
                         for (HouseDTO houseDTO : list) {
                             System.out.printf("%d. %s\n", ++i, houseDTO.toString());
@@ -60,15 +60,15 @@ public class GuestView {
                             List<ReservationDTO> reservationDTOList = moreHouseInfoDTO.getReservationDTOList();
                             List<ReviewDTO> reviewDTOList = moreHouseInfoDTO.getReviewDTOList();
 
-                            System.out.println("[House Name : " + houseDTO.getHouseName() + " ]");
-                            System.out.println("[House Address : " + houseDTO.getHouseAddress() + " ]");
-                            System.out.println("[House Capacity : " + houseDTO.getCapacity() + " ]");
-                            System.out.println("[Bedroom Count : " + houseDTO.getBedroom() + " ]");
-                            System.out.println("[Bathroom Count : " + houseDTO.getBathroom() + " ]");
-                            System.out.println("[House Info : " + houseDTO.getHouseIntroduce() + " ]");
-                            System.out.println("[Weekday Cost : " + feePolicyDTO.getWeekday() + " ]");
-                            System.out.println("[Weekend Cost : " + feePolicyDTO.getWeekend() + " ]");
-                            System.out.println("[Amenities Info]");
+                            System.out.println("[ House Name : " + houseDTO.getHouseName() + " ]");
+                            System.out.println("[ House Address : " + houseDTO.getHouseAddress() + " ]");
+                            System.out.println("[ House Capacity : " + houseDTO.getBedroom() + " ]");
+                            System.out.println("[ Bedroom Count : " + houseDTO.getBedroom() + " ]");
+                            System.out.println("[ Bathroom Count : " + houseDTO.getBathroom() + " ]");
+                            System.out.println("[ House Info : " + houseDTO.getHouseIntroduce() + " ]");
+                            System.out.println("[ Weekday Cost : " + feePolicyDTO.getWeekday() + " ]");
+                            System.out.println("[ Weekend Cost : " + feePolicyDTO.getWeekend() + " ]");
+                            System.out.println("[ Amenities Info]");
                             System.out.println("\t[Basic Amenities]");
                             for (AmenitiesDTO amenitiesDTO : amenitiesDTOList) {
                                 if (amenitiesDTO.getTypeId() == 1)

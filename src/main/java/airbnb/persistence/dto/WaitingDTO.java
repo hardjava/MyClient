@@ -10,4 +10,8 @@ import lombok.*;
 
 public class WaitingDTO {
     private int waitingId, houseId;
+
+    public WaitingDTO(int houseId) {
+        this.houseId = houseId;
+    }
 }

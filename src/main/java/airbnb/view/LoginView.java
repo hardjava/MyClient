@@ -29,7 +29,7 @@ public class LoginView {
                         guestView.showView();
                         break;
                     case HOST:
-                        HostView hostView = new HostView();
+                        HostView hostView = new HostView(userDTO);
                         hostView.showView();
                         break;
                     case ADMIN:

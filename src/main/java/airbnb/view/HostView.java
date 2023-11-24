@@ -1,59 +1,155 @@
 package airbnb.view;
 
+import airbnb.controller.HouseRegistrationController;
+import airbnb.controller.SetCostPolicyConroller;
+import airbnb.network.MyIOStream;
+import airbnb.network.Protocol;
+import airbnb.persistence.dto.AmenitiesDTO;
+import airbnb.persistence.dto.HouseDTO;
+import airbnb.persistence.dto.UserDTO;
+
 import java.io.IOException;
-import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HostView {
+    private UserDTO userDTO;
 
-    private Scanner sc = new Scanner(System.in);
+    public HostView(UserDTO userDTO) {
+        this.userDTO = userDTO;
+    }
 
-    public void showView() throws IOException {
-        while (true) {
-            System.out.println("\n===== 호스트 관리 메뉴 =====");
-            System.out.println("1. 숙박 등록");
-            System.out.println("2. 요금 정책 설정");
-            System.out.println("3. 할인 정책 설정");
-            System.out.println("4. 숙박 예약 현황");
-            System.out.println("5. 예약 승인 / 거절");
-            System.out.println("6. 리뷰 관리");
-            System.out.println("0. 로그아웃");
-            System.out.print("메뉴를 선택하세요: ");
+    public void showView() throws IOException, ClassNotFoundException {
+        for (; ; ) {
+            int command = getCommand();
 
-            int choice = sc.nextInt();
-            switch (choice) {
+            if (command == 0) {
+                System.out.println("Log out..");
+                break;
+            }
+
+            switch (command) {
                 case 1:
                     registerAccommodation();
                     break;
                 case 2:
-                    setPricingPolicy();
+                    setCost();
                     break;
                 case 3:
-                    setDiscountPolicy();
+                    //  setDiscountPolicy();
                     break;
                 case 4:
-                    showReservationStatus();
+                    //showReservationStatus();
                     break;
                 case 5:
-                    manageReservations();
+                    //manageReservations();
                     break;
                 case 6:
-                    manageReviews();
+                    //manageReviews();
                     break;
-                case 0:
-                    break; // 로그아웃 및 뷰 종료
                 default:
                     System.out.println("잘못된 입력입니다. 다시 시도하세요.");
             }
         }
     }
 
-    // HostView 클래스 내의 다른 메서드들
+    // 추가적인 메서드로 숙박 등록을 위한 registerAccommodation() 메서드
+    private void registerAccommodation() throws IOException, ClassNotFoundException {
+        System.out.println("\t\t<Register Accommodation>");
+        System.out.print("\t\tHouse Name : ");
+        MyIOStream.sc.nextLine(); // 버퍼 비우기
+        String houseName = MyIOStream.sc.nextLine();
+        System.out.print("\t\tHouse Address : ");
+        String houseAddress = MyIOStream.sc.nextLine();
+        System.out.print("\t\tAccommodation Type (1. Private room.  2. Entire space) : ");
+        int roomType = MyIOStream.sc.nextInt();
 
+        System.out.print("\t\tBathroom Count : ");
+        int bathroomCount = MyIOStream.sc.nextInt();
+
+        System.out.print("\t\tBedroom Count : ");
+        int bedroomCount = MyIOStream.sc.nextInt();
+
+        System.out.print("\t\tAccommodation Info : ");
+        MyIOStream.sc.nextLine(); // 버퍼 비우기
+        String info = MyIOStream.sc.nextLine();
+
+        System.out.println("\t\t[Amenities Register]");
+        List<AmenitiesDTO> amenitiesDTOList = new ArrayList<>();
+        System.out.print("\t\tBasic Amenities : (If not, enter -1) : ");
+        String basicAmenities = MyIOStream.sc.nextLine();
+        if (!basicAmenities.equals("-1")) {
+            AmenitiesDTO basic = new AmenitiesDTO(basicAmenities, 1);
+            amenitiesDTOList.add(basic);
+        }
+
+        System.out.print("\t\tSafety Amenities : (If not, enter -1) : ");
+        String safetyAmenities = MyIOStream.sc.nextLine();
+        if (!safetyAmenities.equals("-1")) {
+            AmenitiesDTO safety = new AmenitiesDTO(safetyAmenities, 2);
+            amenitiesDTOList.add(safety);
+        }
+
+        System.out.print("\t\tAccessibility Amenities : (If not, enter -1) : ");
+        String accessibilityAmeities = MyIOStream.sc.nextLine();
+        if (!accessibilityAmeities.equals("-1")) {
+            AmenitiesDTO accessibility = new AmenitiesDTO(accessibilityAmeities, 3);
+            amenitiesDTOList.add(accessibility);
+        }
+
+        System.out.print("\t\tWould you like to register? (Enter 1 to register) : ");
+        String enter = MyIOStream.sc.next();
+        if (enter.equals("1")) {
+            HouseDTO houseDTO = new HouseDTO(houseName, houseAddress, info, bedroomCount, bathroomCount);
+            HouseRegistrationController houseRegistrationController = new HouseRegistrationController();
+            Protocol protocol = houseRegistrationController.houseRegisterRequest(houseDTO, amenitiesDTOList);
+
+            if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
+                System.out.println("Successful!");
+            } else if (protocol.getProtocolCode() == Protocol.CODE_ERROR) {
+                System.out.println(protocol.getObject());
+            }
+        } else {
+            System.out.println("Fail to Register..");
+        }
+    }
+
+    private void setCost() throws IOException, ClassNotFoundException {
+        System.out.println("\t\t[Approved List]");
+        SetCostPolicyConroller setCostPolicyConroller = new SetCostPolicyConroller();
+        Protocol protocol = setCostPolicyConroller.sendHouseListRequest(userDTO);
+
+        if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
+            List<HouseDTO> list = (List<HouseDTO>) protocol.getObject();
+            int i = 0;
+            for (HouseDTO houseDTO : list) {
+                System.out.println(++i + ". " + houseDTO.toString());
+            }
+
+        } else if (protocol.getProtocolCode() == Protocol.CODE_ERROR) {
+            System.out.println(protocol.getObject());
+        }
+
+    }
+
+    private int getCommand() {
+        System.out.println("\t\t<Host Page>");
+        System.out.println("\t\t1. Accommodation Registration");
+        System.out.println("\t\t2. Set Cost");
+        System.out.println("\t\t3. Accommodation reservation status");
+        System.out.println("\t\t4. Approve/Decline reservation");
+        System.out.println("\t\t5. Review Management");
+        System.out.println("\t\t0. Log Out");
+        System.out.print("enter : ");
+
+        return MyIOStream.sc.nextInt();
+    }
+/*
     private void setPricingPolicy() {
-        System.out.println("##### 주말 / 평일 요금 설정 #####");
-        System.out.print("주말 요금(원) : ");
+        System.out.println("##### Set Weekday/Weekend Rates #####");
+        System.out.print("Weekday Rates($) : ");
         int weekendRate = sc.nextInt();
-        System.out.print("평일 요금(원) : ");
+        System.out.print("Weekend Rates($) : ");
         int weekdayRate = sc.nextInt();
         // 요금 정책 설정 로직
     }
@@ -155,25 +251,5 @@ public class HostView {
         // 리뷰 관리 로직
     }
 
-    // 추가적인 메서드로 숙박 등록을 위한 registerAccommodation() 메서드
-    private void registerAccommodation() {
-        System.out.println("1. 숙박 등록");
-        System.out.print("숙소 이름 작성 : ");
-        String name = sc.next();
-        System.out.print("숙소 소개 작성(500자 이내) : ");
-        String description = sc.next();
-        System.out.println("객실 타입 선택");
-        System.out.println("1. 개인실\n2. 집 전체");
-        int roomType = sc.nextInt();
-        System.out.print("수용 정보 작성(최대 인원 설정) : ");
-        int capacity = sc.nextInt();
-        System.out.println("----편의시설 선택----\n" +
-                "1.무선 인터넷 2.주방 3.세탁기 4.건조기 5.에어컨난방\n" +
-                "6.업무전용 공간 7.TV 8.헤어드라이어 9.다리미 10.수영장\n" +
-                "11.온수 욕조 12.무료 주차 공간 13.아기 침대 14.킹사이즈 침대 15.헬스장\n" +
-                "16.바비큐 그릴 17.아침식사 18.실내 벽난로 19.흡연 가능 20.화재경보기\n" +
-                "21.일산화탄소 경보기");
-        // 편의시설 선택 로직
-        // 숙박 등록 로직
-    }
+ */
 }

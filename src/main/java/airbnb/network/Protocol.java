@@ -81,6 +81,7 @@ public class Protocol implements Serializable {
     public static final int CODE_REQUEST_DIVISION_COST_POLICY_HOUSE_LIST = 1;   // 요금 정책이 설정된 시설과 아직 설정안된 시설 구분하여 요청----
     public static final int CODE_SEND_DIVISION_COST_POLICY = 2;                 // 요금 정책이 설정된 시설과 아직 설정안된 시설 구분 리스트 전달
     public static final int CODE_SEND_WEEKEND_WEEKDAYS_COST_POLICY = 3;         // 주말 / 평일 요금 정보 전달(클라이언트 → 서버)----
+    public static final int CODE_REQUEST_APPROVED_NOT_SET_FEE_POLICY_HOUSE_LIST = 4; // 승인됐지만 요금 설정이 안된 숙박 목록 요청(클라이언트 → 서버)
 //    public static final int CODE_WEEKEND_WEEKDAYS_COST_POLICY_MODIFY_SUCCESS = 4; // 정책설정성공
 //    public static final int CODE_WEEKEND_WEEKDAYS_COST_POLICY_MODIFY_FAIL = 5;     // 정책설정실패
 
