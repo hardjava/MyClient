@@ -10,11 +10,14 @@ import java.io.IOException;
 public class LoginView {
 
     public void showView() throws IOException, ClassNotFoundException {
-        System.out.println("\t\t<Login>");
-        System.out.print("\t\tID : ");
+        System.out.format("¶£¶°¶°¶°                                                                     ¶°¶°¶°¶§%n");
+        System.out.format("¶¢                                 <Login>                                   ¶¢%n");
+        System.out.format("                                                                             %n");
+        System.out.print("\t\t\t\tID       : ");
         String id = MyIOStream.sc.next();
-        System.out.print("\t\tPassword : ");
+        System.out.print("\t\t\t\tPassword : ");
         String password = MyIOStream.sc.next();
+        System.out.format("¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•%n");
 
         LoginController loginController = new LoginController();
         Protocol protocol = loginController.loginRequest(id, password);
@@ -22,7 +25,7 @@ public class LoginView {
         switch (protocol.getProtocolCode()) {
             case Protocol.CODE_SUCCESS:
                 UserDTO userDTO = (UserDTO) protocol.getObject();
-                // Role ÌÉÄÏûÖÏóê ÎßûÎäî View ÎùÑÏõåÏ£ºÍ∏∞
+                // Role ≈∏¿‘ø° ∏¬¥¬ View ∂Áøˆ¡÷±‚
                 switch (userDTO.getRole()) {
                     case GUEST:
                         GuestView guestView = new GuestView(userDTO);
@@ -39,8 +42,9 @@ public class LoginView {
                 }
                 break;
             case Protocol.CODE_ERROR:
-                //Error ÌÉÄÏûÖÏùº Í≤ΩÏö∞ ÏòàÏô∏Ï≤òÎ¶¨
-                System.out.println(protocol.getObject());
+                //Error ≈∏¿‘¿œ ∞ÊøÏ øπø‹√≥∏Æ
+                System.out.format("  Error: %s%n", protocol.getObject());
+                System.out.format("¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•%n");
                 break;
         }
     }

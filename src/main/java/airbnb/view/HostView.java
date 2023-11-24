@@ -183,21 +183,25 @@ public class HostView {
                 if (select == 1) {
                     System.out.print("Amount : ");
                     int amount = MyIOStream.sc.nextInt();
-                    protocol = setDiscountPolicyController.setDiscountPolicyRequest(discountDay, amount, 0, list.get(number - 1).getHouseDTO().getHouseId());
-
-                    if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
-                        System.out.println("Success!");
+                    if (amount < 0) {
+                        System.out.println("Wrong Input..");
+                    } else {
+                        protocol = setDiscountPolicyController.setDiscountPolicyRequest(discountDay, amount, 0, list.get(number - 1).getDiscountPolicyDTO().getHouseId());
+                        if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
+                            System.out.println("Success!");
+                        }
                     }
-
                 } else if (select == 2) {
                     System.out.print("Rate : ");
                     int rate = MyIOStream.sc.nextInt();
-                    protocol = setDiscountPolicyController.setDiscountPolicyRequest(discountDay, 0, rate, list.get(number - 1).getHouseDTO().getHouseId());
-
-                    if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
-                        System.out.println("Success!");
+                    if (rate < 0) {
+                        System.out.println("Wrong Input..");
+                    } else {
+                        protocol = setDiscountPolicyController.setDiscountPolicyRequest(discountDay, 0, rate, list.get(number - 1).getDiscountPolicyDTO().getHouseId());
+                        if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
+                            System.out.println("Success!");
+                        }
                     }
-
                 } else {
                     System.out.println("Wrong Input..");
                 }

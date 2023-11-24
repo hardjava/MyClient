@@ -1,11 +1,11 @@
 package airbnb.view;
 
+import airbnb.network.MyIOStream;
+
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.Scanner;
 
 public class StartView {
-    Scanner sc = new Scanner(System.in);
 
     public void showView() throws IOException, ClassNotFoundException, ParseException {
         for (; ; ) {
@@ -34,12 +34,15 @@ public class StartView {
     }
 
     private int getCommand() {
-        System.out.println("\t\t<Initial Menu>");
-        System.out.println("\t\t1. Login"); // 로그인
-        System.out.println("\t\t2. Sign in"); // 회원 가입
-        System.out.println("\t\t3. Terminate"); // 종료
-        System.out.print("enter : ");
+        System.out.format("┌───────────────────────────────────────────────────────────────────────────┐%n");
+        System.out.format("│                               <Initial Menu>                              │%n");
+        System.out.format("├───────────────────────────────────────────────────────────────────────────┤%n");
+        System.out.format("│                              [ 1. Login     ]                             │%n");
+        System.out.format("│                              [ 2. Sign in   ]                             │%n");
+        System.out.format("│                              [ 3. Terminate ]                             │%n");
+        System.out.format("└───────────────────────────────────────────────────────────────────────────┘%n");
+        System.out.print("Enter Command: ");
 
-        return sc.nextInt();
+        return MyIOStream.sc.nextInt();
     }
 }
