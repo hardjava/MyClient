@@ -10,6 +10,13 @@ import java.io.IOException;
 public class LoginView {
 
     public void showView() throws IOException, ClassNotFoundException {
+
+        System.out.print("                      _      ____   _____ _____ _   _ \n");
+        System.out.print("                     | |    / __ \\ / ____|_   _| \\ | |\n");
+        System.out.print("                     | |   | |  | | | |_ | | | | . ` |\n");
+        System.out.print("                     | |___| |__| | |__| |_| |_| |\\  |\n");
+        System.out.print("                     |______\\____/ \\_____|_____|_| \\_|\n");
+
         System.out.format("忙式式式                                                                     式式式忖%n");
         System.out.format("弛                                 <Login>                                   弛%n");
         System.out.format("                                                                             %n");

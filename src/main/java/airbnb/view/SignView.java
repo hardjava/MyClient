@@ -13,7 +13,10 @@ public class SignView {
     Scanner sc = new Scanner(System.in);
 
     public void showView() throws IOException, ClassNotFoundException, ParseException {
-        System.out.print("1. Host 2. Guest : ");
+        System.out.format("忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖%n");
+        System.out.format("弛                              <Sign Up>                                    弛%n");
+        System.out.format("                                                                             %n");
+        System.out.print("\t\t\t\t1. Host 2. Guest : ");
         int roleNum = sc.nextInt();
         String roleType;
         if (roleNum == 1)
@@ -21,30 +24,34 @@ public class SignView {
         else
             roleType = "GUEST";
 
-        System.out.print("Enter New ID : ");
+        System.out.print("\t\t\t\tEnter New ID : ");
         String newID = sc.next();
-        System.out.print("Enter New Passwd : ");
+        System.out.print("\t\t\t\tEnter New Passwd : ");
         String newPwd = sc.next();
-        System.out.print("Enter Name : ");
+        System.out.print("\t\t\t\tEnter Name : ");
         String newName = sc.next();
-        System.out.print("Enter Birthday (YYYYMMDD) : ");
+        System.out.print("\t\t\t\tEnter Birthday (YYYYMMDD) : ");
         String newBirthDay = sc.next();
-        System.out.print("Enter User PhoneNumber : ");
+        System.out.print("\t\t\t\tEnter User PhoneNumber : ");
         String newPhoneNumber = sc.next();
-
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-//        LocalDate localDate = LocalDate.parse(newBirthDay, formatter);
 
         SignController signController = new SignController();
         Protocol protocol = signController.signRequest(newName, newPhoneNumber, newID, newPwd, newBirthDay, RoleType.valueOf(roleType));
 
+        System.out.format("戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
+
         switch (protocol.getProtocolCode()) {
             case Protocol.CODE_SUCCESS:
-                System.out.println("Sueccess To Sign up ! ");
+                System.out.println("忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖");
+                System.out.println("弛     Sueccess To Sign up!     弛");
+                System.out.println("戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎");
                 break;
             case Protocol.CODE_ERROR:
-                System.out.println(protocol.getObject());
+                System.out.println("忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖");
+                System.out.format("          Error: %s              \n", protocol.getObject());
+                System.out.println("戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎");
                 break;
         }
+//        System.out.format("戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
     }
 }
