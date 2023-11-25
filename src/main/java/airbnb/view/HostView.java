@@ -1,5 +1,6 @@
 package airbnb.view;
 
+import airbnb.controller.AmenitiesRequestController;
 import airbnb.controller.HouseRegistrationController;
 import airbnb.controller.SetCostPolicyConroller;
 import airbnb.controller.SetDiscountPolicyController;
@@ -38,17 +39,56 @@ public class HostView {
                     setDiscountPolicy();
                     break;
                 case 4:
-                    //showReservationStatus();
+                    showReservationStatus();
                     break;
                 case 5:
-                    //manageReservations();
+                    manageReservations();
                     break;
                 case 6:
-                    //manageReviews();
+                    manageReviews();
                     break;
                 default:
                     System.out.println("잘못된 입력입니다. 다시 시도하세요.");
             }
+        }
+    }
+
+    private void manageReviews() {
+        System.out.println("1. 최근 리뷰 확인");
+        System.out.println("2. 리뷰 답글 작성");
+        System.out.println("3. 뒤로가기");
+
+        int choice = MyIOStream.sc.nextInt();
+        switch (choice) {
+            case 1:
+                // 최근 리뷰 확인
+            case 2:
+                // 리뷰 답글 작성
+            case 3:
+                break; // 뒤로가기
+            default:
+                System.out.println("잘못된 입력입니다. 다시 시도하세요.");
+        }
+        // 리뷰 관리 로직
+    }
+
+    private void manageReservations() {
+        // 예약 승인 대기 리스트
+
+    }
+
+    private void showReservationStatus() { // 숙박 예약 현황 보기
+        // 등록된 숙소 조회
+        int i = 0;
+        //
+        System.out.print("Please enter the number of the accommodation you want to search : ");
+        int enter = MyIOStream.sc.nextInt();
+
+        if (enter > 0 && enter <= i) {
+            // 숙소의 ReservationDTO 받아오기
+
+        } else {
+            System.out.println("Wrong Input..");
         }
     }
 
@@ -75,33 +115,74 @@ public class HostView {
 
         System.out.println("\t\t[Amenities Register]");
         List<AmenitiesDTO> amenitiesDTOList = new ArrayList<>();
-        System.out.print("\t\tBasic Amenities : (If not, enter -1) : ");
-        String basicAmenities = MyIOStream.sc.nextLine();
-        if (!basicAmenities.equals("-1")) {
-            AmenitiesDTO basic = new AmenitiesDTO(basicAmenities, 1);
-            amenitiesDTOList.add(basic);
-        }
+        AmenitiesRequestController amenitiesRequestController = new AmenitiesRequestController();
+        System.out.println("\t\tBasic Amenities : (If not, enter -1) : ");
+        Protocol protocol = amenitiesRequestController.basicAmenitiesListRequest();
 
-        System.out.print("\t\tSafety Amenities : (If not, enter -1) : ");
-        String safetyAmenities = MyIOStream.sc.nextLine();
-        if (!safetyAmenities.equals("-1")) {
-            AmenitiesDTO safety = new AmenitiesDTO(safetyAmenities, 2);
-            amenitiesDTOList.add(safety);
+        if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
+            int basicNum = 0;
+            List<AmenitiesDTO> list = (List<AmenitiesDTO>) protocol.getObject();
+            for (AmenitiesDTO amenitiesDTO : list) {
+                System.out.println("\t" + ++basicNum + ". " + amenitiesDTO.getAmenities());
+            }
+            System.out.print("Enter (separated by commas) : ");
+            String basicAmenities = MyIOStream.sc.nextLine();
+            if (!basicAmenities.equals("-1")) {
+                String[] basicArr = basicAmenities.split(",");
+                for (String s : basicArr) {
+                    int n = Integer.parseInt(s);
+                    if (n > 0 && n <= list.size()) {
+                        amenitiesDTOList.add(list.get(n - 1));
+                    }
+                }
+            }
         }
-
-        System.out.print("\t\tAccessibility Amenities : (If not, enter -1) : ");
-        String accessibilityAmeities = MyIOStream.sc.nextLine();
-        if (!accessibilityAmeities.equals("-1")) {
-            AmenitiesDTO accessibility = new AmenitiesDTO(accessibilityAmeities, 3);
-            amenitiesDTOList.add(accessibility);
+        System.out.println("\t\tSafety Amenities : (If not, enter -1) : ");
+        protocol = amenitiesRequestController.safetyAmenitiesListRequest();
+        if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
+            List<AmenitiesDTO> list = (List<AmenitiesDTO>) protocol.getObject();
+            int safetyNum = 0;
+            for (AmenitiesDTO amenitiesDTO : list) {
+                System.out.println("\t" + ++safetyNum + ". " + amenitiesDTO.getAmenities());
+            }
+            System.out.print("Enter (separated by commas) : ");
+            String safetyAmenities = MyIOStream.sc.nextLine();
+            if (!safetyAmenities.equals("-1")) {
+                String[] safetyArr = safetyAmenities.split(",");
+                for (String s : safetyArr) {
+                    int n = Integer.parseInt(s);
+                    if (n > 0 && n <= list.size()) {
+                        amenitiesDTOList.add(list.get(n - 1));
+                    }
+                }
+            }
         }
-
+        System.out.println("\t\tAccessibility Amenities : (If not, enter -1) : ");
+        protocol = amenitiesRequestController.accessAmenitiesListRequest();
+        if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
+            List<AmenitiesDTO> list = (List<AmenitiesDTO>) protocol.getObject();
+            int accessNum = 0;
+            for (AmenitiesDTO amenitiesDTO : list) {
+                System.out.println("\t" + ++accessNum + ". " + amenitiesDTO.getAmenities());
+            }
+            System.out.print("Enter (separated by commas) : ");
+            String accessibilityAmenities = MyIOStream.sc.nextLine();
+            if (!accessibilityAmenities.equals("-1")) {
+                String[] accessArr = accessibilityAmenities.split(",");
+                for (String s : accessArr) {
+                    int n = Integer.parseInt(s);
+                    if (n > 0 && n <= list.size()) {
+                        amenitiesDTOList.add(list.get(n - 1));
+                    }
+                }
+            }
+        }
         System.out.print("\t\tWould you like to register? (Enter 1 to register) : ");
         String enter = MyIOStream.sc.next();
         if (enter.equals("1")) {
-            HouseDTO houseDTO = new HouseDTO(houseName, houseAddress, info, bedroomCount, bathroomCount);
+            HouseDTO houseDTO = new HouseDTO(userDTO.getUserId(), houseName, houseAddress, info, bedroomCount, bathroomCount);
             HouseRegistrationController houseRegistrationController = new HouseRegistrationController();
-            Protocol protocol = houseRegistrationController.houseRegisterRequest(houseDTO, amenitiesDTOList);
+            protocol = houseRegistrationController.houseRegisterRequest(houseDTO, amenitiesDTOList);
 
             if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
                 System.out.println("Successful!");
@@ -225,112 +306,4 @@ public class HostView {
 
         return MyIOStream.sc.nextInt();
     }
-/*
-    private void setPricingPolicy() {
-        System.out.println("##### Set Weekday/Weekend Rates #####");
-        System.out.print("Weekday Rates($) : ");
-        int weekendRate = sc.nextInt();
-        System.out.print("Weekend Rates($) : ");
-        int weekdayRate = sc.nextInt();
-        // 요금 정책 설정 로직
-    }
-
-    private void setDiscountPolicy() {
-        System.out.println("1. 연박 할인 적용 기간 설정");
-        System.out.println("2. 정량 / 정률 할인 설정");
-        System.out.println("3. 뒤로가기");
-        int choice = sc.nextInt();
-        switch (choice) {
-            case 1:
-                System.out.println("[추가 1박당 할인 설정]\n" +
-                        "1. 정액 할인\n" +
-                        "2. 정률 할인");
-
-                int choiceInside = sc.nextInt();
-                switch (choiceInside) {
-                    case 1:
-                        System.out.println("1박 당 할인 금액 설정(원) : "); // 정액 할인 시
-                    case 2:
-                        System.out.println("1박 당 할인 백분율 설정(%) : "); // 정률 할인 시
-                }
-
-            case 2:
-                System.out.println("[평일, 주말 할인 설정]\n" +
-                        "1. 정량 할인\n" +
-                        "2. 정률 할인");
-
-                int choiceInside2 = sc.nextInt();
-                switch (choiceInside2) {
-                    case 1:
-                        System.out.println("평일 할인 금액 설정(원) : "); // 정액 할인 시
-                        System.out.println("주말 할인 금액 설정(원) : ");
-                    case 2:
-                        System.out.println("평일 할인 백분율 설정(%) : ");// 정률 할인 시
-                        System.out.println("주말 할인 백분율 설정(%) : ");
-                }
-            case 3:
-                break; // 뒤로가기
-            default:
-                System.out.println("잘못된 입력입니다. 다시 시도하세요.");
-        }
-    }
-    // 연박 할인 적용 기간 및 할인율 설정 로직
-    // 정량 / 정률 할인 설정 로직
-
-
-    private void showReservationStatus() {
-        System.out.println("4. 숙박 예약 현황");
-        // 숙박 예약 현황 클릭시 달력 출력 되어야함. 년도와 월을 입력받는 것과 기호로 예약 유뮤 표시하는건 차후 진행하고 달력 출력은 대충 짜봄
-        //calender() 실행 예시
-        //Sun Mon Tue Wed Thu Fri Sat
-        //             1   2   3   4
-        //
-        // 5   6   7   8   9  10  11
-        //
-        //12  13  14  15  16  17  18
-        //
-        //19  20  21  22  23  24  25
-        //
-        //26  27  28  29  30
-    }
-
-    private void manageReservations() {
-        System.out.println("1. 예약 승인 대기 리스트 확인");
-        System.out.println("2. 예약 거절 기록 확인");
-        System.out.println("3. 뒤로가기");
-
-        int choice = sc.nextInt();
-        switch (choice) {
-            case 1:
-                // 예약 승인 대기 리스트 확인
-            case 2:
-                // 예약 거절 기록 확인
-            case 3:
-                break; // 뒤로가기
-            default:
-                System.out.println("잘못된 입력입니다. 다시 시도하세요.");
-        }
-        // 예약 승인 및 거절 처리 로직
-    }
-
-    private void manageReviews() {
-        System.out.println("1. 최근 리뷰 확인");
-        System.out.println("2. 리뷰 답글 작성");
-        System.out.println("3. 뒤로가기");
-
-        int choice = sc.nextInt();
-        switch (choice) {
-            case 1:
-                // 최근 리뷰 확인
-            case 2:
-                // 리뷰 답글 작성
-            case 3:
-                break; // 뒤로가기
-            default:
-                System.out.println("잘못된 입력입니다. 다시 시도하세요.");
-        }
-        // 리뷰 관리 로직
-    }
-
- */
 }

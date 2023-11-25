@@ -11,7 +11,7 @@ public class Protocol implements Serializable {
     public static final int TYPE_UNDEFINED = 0;
     public static final int CODE_UNDEFINED = 0;
     public static final int CODE_SUCCESS = 100;
-    public static final int CODE_ERROR= -100;
+    public static final int CODE_ERROR = -100;
     //=============================
     public static final int TYPE_SIGN_UP = 0;                   // 회원가입
     public static final int CODE_SEND_SIGN_UP_INFO = 1;         // 회원가입 정보 전달(클라이언트 → 서버)----
@@ -70,6 +70,12 @@ public class Protocol implements Serializable {
 
     public static final int TYPE_HOUSE_REGISTRATION = 10;           // 숙박 등록
     public static final int CODE_SEND_REGISTRATION_HOUSE_INFO = 1;  // 숙박 등록 정보 전달(클라이언트 → 서버)----
+    public static final int CODE_REQUEST_BASIC_FACILITIES_LIST = 2;//기본 편의 시설 리스트 요청
+    public static final int CODE_REQUEST_SAFETY_FACILITIES_LIST = 3;//안전 편의 시설 리스트 요청
+    public static final int CODE_REQUEST_ACCESSIBILITY_FACILITIES_LIST = 4;//접근성 편의 시설 리스트 요청
+    public static final int CODE_SEND_BASIC_FACILITIES_LIST = 5;//기본 편의 시설 리스트 전송
+    public static final int CODE_SEND_SAFETY_FACILITIES_LIST = 6;//안전 편의 시설 리스트 전송
+    public static final int CODE_SEND_ACCESSIBILITY_FACILITIES_LIST = 7;//접근성 편의 시설 리스트 전송
 //    public static final int CODE_REGISTRATION_SUCCESS = 2;          // 등록 성공 전달(서버 → 클라이언트)
 //    public static final int CODE_REGISTRATION_FAIL = 3;             // 등록 실패 전달(서버 → 클라이언트)
 
@@ -117,6 +123,7 @@ public class Protocol implements Serializable {
     public static final int CODE_REQUEST_ACCOMMODATION_REGISTRATION_LIST = 1;       // 등록 신청된 숙소 목록 요청(클라이언트 → 서버)----
     public static final int CODE_SEND_ACCOMMODATION_REGISTRATION_LIST = 2;          // 등록 신청된 숙소 목록 전달(서버 → 클라이언트)
     public static final int CODE_SEND_APPROVAL_OR_REJECT_INFORMATION = 3;           // 승인 / 거절 정보 전달(클라이언트 → 서버)----
+
 //    public static final int CODE_SEND_APPROVAL_OR_REJECT_INFORMATION_SUCCESS = 4;   // 승인 / 거절 성공 전달(서버 → 클라이언트)
 //    public static final int CODE_SEND_APPROVAL_OR_REJECT_INFORMATION_FAIL = 5;      // 승인 / 거절 실패 전달(서버 → 클라이언트)
 //    public static final int CODE_REQUEST_REJECTED_ACCOMMODATION_LIST = 4;           // 거절된 숙소 목록 요청(클라이언트 → 서버)----
@@ -133,8 +140,6 @@ public class Protocol implements Serializable {
     public static final int TYPE_FILTER = 23;                                       //필터
     public static final int CODE_SEND_SELECT_FILTER = 1;                            // 필터 옵션을 정해서 전달(클라이언트 -> 서버)
     public static final int CODE_SEND_FILTERED_HOUSE_LIST = 2;                      // 필터가 적용된 숙소 목록 전달(서버 ->클라이언트)
-
-
 
 
     //오류 코드
