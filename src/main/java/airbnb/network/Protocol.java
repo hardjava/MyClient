@@ -82,6 +82,8 @@ public class Protocol implements Serializable {
     public static final int TYPE_VIEW_MY_HOUSE = 11;                // 등록된 숙박 업소 보기
     public static final int CODE_REQUEST_MY_HOUSE_LIST = 1;         // 숙박 목록 요청(클라이언트→서버)----
     public static final int CODE_SEND_MY_HOUSE_LIST = 2;            // 숙박 목록 정보 전달(서버 → 클라이언트)
+    public static final int CODE_REQUEST_RESERVATION_LIST = 3;      // 예약 리스트 요청
+    public static final int CODE_SEND_RESERVATION_LIST = 4;        //예약 리스트 전
 
     public static final int TYPE_SET_COST_POLICY = 12;                          // 등록된 숙박 업소 요금 정책 설정
     public static final int CODE_REQUEST_DIVISION_COST_POLICY_HOUSE_LIST = 1;   // 요금 정책이 설정된 시설과 아직 설정안된 시설 구분하여 요청----

@@ -1,9 +1,6 @@
 package airbnb.view;
 
-import airbnb.controller.AmenitiesRequestController;
-import airbnb.controller.HouseRegistrationController;
-import airbnb.controller.SetCostPolicyConroller;
-import airbnb.controller.SetDiscountPolicyController;
+import airbnb.controller.*;
 import airbnb.network.MyIOStream;
 import airbnb.network.Protocol;
 import airbnb.persistence.dto.*;
@@ -77,18 +74,34 @@ public class HostView {
 
     }
 
-    private void showReservationStatus() { // 숙박 예약 현황 보기
+    private void showReservationStatus() throws IOException, ClassNotFoundException { // 숙박 예약 현황 보기
         // 등록된 숙소 조회
-        int i = 0;
-        //
-        System.out.print("Please enter the number of the accommodation you want to search : ");
-        int enter = MyIOStream.sc.nextInt();
+        SearchHostReservationController searchHostReservationController = new SearchHostReservationController();
+        Protocol protocol = searchHostReservationController.houseListRequest(userDTO);
+        List<HouseDTO> list = (List<HouseDTO>) protocol.getObject();
+        System.out.println("\t\t[Approved List]");
+        if (list != null) {
+            int i = 0;
 
-        if (enter > 0 && enter <= i) {
-            // 숙소의 ReservationDTO 받아오기
+            for (HouseDTO houseDTO : list) {
+                System.out.println("\t\t" + ++i + ". " + houseDTO.getHouseName());
+            }
 
+            System.out.print("Please enter the number of the accommodation you want to search : ");
+            int enter = MyIOStream.sc.nextInt();
+
+            if (enter > 0 && enter <= i) {
+                protocol = searchHostReservationController.reservationListRequest(list.get(enter - 1));
+                List<ReservationDTO> reservationDTOList = (List<ReservationDTO>) protocol.getObject();
+                System.out.println("[Reservation Status]");
+                if (reservationDTOList != null) {
+                    run.print(reservationDTOList);
+                }
+            } else {
+                System.out.println("Wrong Input..");
+            }
         } else {
-            System.out.println("Wrong Input..");
+            System.out.println("No List..");
         }
     }
 
@@ -183,7 +196,6 @@ public class HostView {
             HouseDTO houseDTO = new HouseDTO(userDTO.getUserId(), houseName, houseAddress, info, bedroomCount, bathroomCount);
             HouseRegistrationController houseRegistrationController = new HouseRegistrationController();
             protocol = houseRegistrationController.houseRegisterRequest(houseDTO, amenitiesDTOList);
-
             if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
                 System.out.println("Successful!");
             } else if (protocol.getProtocolCode() == Protocol.CODE_ERROR) {
@@ -299,8 +311,7 @@ public class HostView {
         System.out.println("\t\t1. Accommodation Registration");
         System.out.println("\t\t2. Set Cost");
         System.out.println("\t\t3. Set Discount Policy");
-        System.out.println("\t\t4. Approve/Decline reservation");
-        System.out.println("\t\t5. Review Management");
+        System.out.println("\t\t4. Check reservation status");
         System.out.println("\t\t0. Log Out");
         System.out.print("enter : ");
 
