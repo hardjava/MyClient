@@ -1,18 +1,17 @@
 package airbnb.view;
 
 import airbnb.persistence.dto.ReservationDTO;
-import airbnb.view.CalendarViewer;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class run {
-    public static void print(List<ReservationDTO> list){
+    public static void print(List<ReservationDTO> list) {
 
         List<Date> dateList = new ArrayList<>();
 
         for (int i = 0; i < list.size(); i++) {
-            dateList = makeList(list.get(i).getCheckIn(),list.get(i).getCheckOut(),dateList);
+            dateList = makeList(list.get(i).getCheckIn(), list.get(i).getCheckOut(), dateList);
         }
 
 
@@ -27,11 +26,10 @@ public class run {
         List<Integer> monthList = new ArrayList<>(monthSet); // 월 정보를 담은 HashSet을 ArrayList로 변환
 
         for (int i = 0; i < monthList.size(); i++) {
-            selectMonth(monthList.get(i),list);
+            selectMonth(monthList.get(i), list);
             System.out.println();
         }
     }
-
 
 
     public static void selectMonth(int val, List<ReservationDTO> reservationDTOList) {
@@ -143,7 +141,7 @@ public class run {
         int lastDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH); // 해당 월의 마지막 날짜
 
         // 달력 출력
-        System.out.println("             "+monthValue);
+        System.out.println("             " + monthValue);
         System.out.println("SUN\tMON\tTUE\tWED\tTHU\tFRI\tSAT");
         for (int i = 1; i < firstDay; i++) {
             System.out.print("\t");

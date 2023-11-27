@@ -83,7 +83,7 @@ public class Protocol implements Serializable {
     public static final int CODE_REQUEST_MY_HOUSE_LIST = 1;         // 숙박 목록 요청(클라이언트→서버)----
     public static final int CODE_SEND_MY_HOUSE_LIST = 2;            // 숙박 목록 정보 전달(서버 → 클라이언트)
     public static final int CODE_REQUEST_RESERVATION_LIST = 3;      // 예약 리스트 요청
-    public static final int CODE_SEND_RESERVATION_LIST = 4;        //예약 리스트 전
+    public static final int CODE_SEND_RESERVATION_LIST = 4;        //  예약 리스트 전달
 
     public static final int TYPE_SET_COST_POLICY = 12;                          // 등록된 숙박 업소 요금 정책 설정
     public static final int CODE_REQUEST_DIVISION_COST_POLICY_HOUSE_LIST = 1;   // 요금 정책이 설정된 시설과 아직 설정안된 시설 구분하여 요청----
@@ -114,6 +114,8 @@ public class Protocol implements Serializable {
     public static final int CODE_SEND_WAITING_FOR_RESERVATION_APPROVAL = 2;     // 예약 승인 대기 리스트 전달(서버 → 클라이언트)
     public static final int CODE_REQUEST_RESERVATION_REFUSE_LIST = 3;           // 예약 거절 리스트 요청(클라이언트→서버)----
     public static final int CODE_SEND_RESERVATION_REFUSE_LIST = 4;              // 예약 거절 리스트 전달(서버 → 클라이언트)
+    public static final int CODE_REQUEST_APPROVE_OR_REFUSE_RESERVATION = 5;     // 예약 승인 및 거절 요청(호스트 -> 서버)
+
 
     public static final int TYPE_REVIEW_MANAGEMENT = 19;                        // 리뷰 관리
     public static final int CODE_REQUEST_MOST_RECENT_REVIEW_LIST = 1;           // 최근순 리뷰 리스트 요청(클라이언트→서버)----
@@ -124,7 +126,9 @@ public class Protocol implements Serializable {
     public static final int TYPE_VIEW_ACCOMMODATION_REGISTRATION_LIST = 20;         // 숙소 등록 신청 목록보기
     public static final int CODE_REQUEST_ACCOMMODATION_REGISTRATION_LIST = 1;       // 등록 신청된 숙소 목록 요청(클라이언트 → 서버)----
     public static final int CODE_SEND_ACCOMMODATION_REGISTRATION_LIST = 2;          // 등록 신청된 숙소 목록 전달(서버 → 클라이언트)
-    public static final int CODE_SEND_APPROVAL_OR_REJECT_INFORMATION = 3;           // 승인 / 거절 정보 전달(클라이언트 → 서버)----
+    public static final int CODE_SEND_REJECT_INFORMATION = 3;           // 승인 / 거절 정보 전달(클라이언트 → 서버)----
+    public static final int CODE_SEND_APPROVAL_FORMATION = 4;           // 승인 / 거절 정보 전달(클라이언트 → 서버)----
+    public static final int CODE_REQUEST_MORE_INFO = 5;
 
 //    public static final int CODE_SEND_APPROVAL_OR_REJECT_INFORMATION_SUCCESS = 4;   // 승인 / 거절 성공 전달(서버 → 클라이언트)
 //    public static final int CODE_SEND_APPROVAL_OR_REJECT_INFORMATION_FAIL = 5;      // 승인 / 거절 실패 전달(서버 → 클라이언트)
@@ -132,16 +136,17 @@ public class Protocol implements Serializable {
 //    public static final int CODE_SEND_REJECTED_ACCOMMODATION_LIST = 5;              // 거절된 숙소 목록 전달(클라이언트 → 서버)----
 
     public static final int TYPE_MONTHLY_RESERVATION_STATUS_FOR_ACCOMMODATION = 21; // 숙소별 월별 예약 현황
-    public static final int CODE_SEND_CALENDAR_WITH_RESERVATION_DETAILS = 1;        // 해당 월 예약 정보가 담긴 달력 출력(서버 → 클라이언트)
-    public static final int CODE_REQUEST_CALENDAR_WITH_RESERVATION_DETAILS = 2;     // 해달월 예약 정보가 담긴 달력 요청(클라이언트 -> 서버)
-
-    public static final int TYPE_MONTHLY_TOTAL_REVENUE_FOR_ACCOMMODATION = 22;      // 숙소별 월별 총매출
-    public static final int CODE_SEND_TOTAL_SALES_FOR_MONTH = 1;                    // 해당 월 총 매출 전달(서버 → 클라이언트)
+    public static final int CODE_REQUEST_ACCOMMODATION_LIST = 1;    // 등록된 숙소 요청
+    public static final int CODE_REQUEST_CALCULATE = 2;     // 달력 출력 및 총 매출 출력
 
     //=============================================
     public static final int TYPE_FILTER = 23;                                       //필터
     public static final int CODE_SEND_SELECT_FILTER = 1;                            // 필터 옵션을 정해서 전달(클라이언트 -> 서버)
     public static final int CODE_SEND_FILTERED_HOUSE_LIST = 2;                      // 필터가 적용된 숙소 목록 전달(서버 ->클라이언트)
+
+    public static final int TYPE_CHECK_ACCOMMODATION_APPROVED=24;            //숙소 승인여부 확인
+    public static final int CODE_REQUEST_ACCOMMODATION_STATUS=1;            //숙소 처리 상태 리스트 요청
+    public static final int CODE_SEND_ACCOMMODATION_STATUS=2;               //숙소 처리 상태 리스트 전달
 
 
     //오류 코드

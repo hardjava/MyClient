@@ -13,10 +13,10 @@ import java.io.IOException;
 import java.util.List;
 
 public class MyPageView {
-    UserDTO userDTO;
-    int firstColWidth = 30; // 첫 번째 열의 폭
-    int secondColWidth = 50; // 두 번째 열의 폭
-    String leftAlignFormat = "│ %-" + firstColWidth + "s │ %-" + secondColWidth + "s │%n";
+    private final UserDTO userDTO;
+    private final int firstColWidth = 30; // 첫 번째 열의 폭
+    private final int secondColWidth = 50; // 두 번째 열의 폭
+    private final String leftAlignFormat = "│ %-" + firstColWidth + "s │ %-" + secondColWidth + "s │%n";
 
     public MyPageView(UserDTO userDTO) {
         this.userDTO = userDTO;

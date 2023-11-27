@@ -1,112 +1,254 @@
 package airbnb.view;
 
+import airbnb.controller.AccommodationSituationController;
+import airbnb.controller.RequestHouseRegistrationController;
+import airbnb.network.MyIOStream;
+import airbnb.network.Protocol;
+import airbnb.persistence.dto.*;
+
 import java.io.IOException;
-import java.util.Scanner;
+import java.util.List;
 
 public class AdminView {
+    private final UserDTO userDTO;
+    private final int firstColWidth = 30; // First column width
+    private final int secondColWidth = 60; // Second column width
+    private final String leftAlignFormat = "| %-" + firstColWidth + "s | %-" + secondColWidth + "s |%n";
 
-    private Scanner sc = new Scanner(System.in);
-    int firstColWidth = 30; // First column width
-    int secondColWidth = 60; // Second column width
-    String leftAlignFormat = "| %-" + firstColWidth + "s | %-" + secondColWidth + "s |%n";
+    public AdminView(UserDTO userDTO) {
+        this.userDTO = userDTO;
+    }
 
-    public void showView() throws IOException {
-        while (true) {
-            System.out.format("â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”%n");
-            System.out.format("â”‚   <Admin Page>         â”‚                                                    â”‚%n");
-            System.out.format("â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤%n");
-            System.out.format("â”‚ 1. Manage Requests     â”‚                                                    â”‚%n");
-            System.out.format("â”‚ 2. Reservation Status  â”‚                                                    â”‚%n");
-            System.out.format("â”‚ 3. Monthly Revenue     â”‚                                                    â”‚%n");
-            System.out.format("â”‚ 0. Logout              â”‚                                                    â”‚%n");
-            System.out.format("â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜%n");
+    public void showView() throws IOException, ClassNotFoundException {
+        for (; ; ) {
+            System.out.format("¦£¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¨¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¤%n");
+            System.out.format("¦¢   <Admin Page>         ¦¢                                                    ¦¢%n");
+            System.out.format("¦§¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦«¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦©%n");
+            System.out.format("¦¢ 1. Approval/Reject Host's Accommodation registration                        ¦¢%n");
+            System.out.format("¦¢ 2. Check current accommodation situation                                    ¦¢%n");
+            System.out.format("¦¢ 0. Logout              ¦¢                                                    ¦¢%n");
+            System.out.format("¦¦¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦ª¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¥%n");
 
             System.out.print("Enter command: ");
 
-            int choice = sc.nextInt();
+            int choice = MyIOStream.sc.nextInt();
+
+            if (choice == 0) {
+                System.out.println("Log out..");
+                break;
+            }
+
             switch (choice) {
                 case 1:
                     manageAccommodationRequests();
                     break;
                 case 2:
-                    viewMonthlyReservationStatus();
+                    checkAccommodationSituation();
                     break;
-                case 3:
-                    viewMonthlyRevenue();
-                    break;
-                case 0:
-                    return; // ë¡œê·¸ì•„ì›ƒ ë° ë·° ì¢…ë£Œ
                 default:
                     System.out.println("Invalid input. Please try again.");
             }
         }
     }
 
-    private void manageAccommodationRequests() {
-        System.out.format("â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”%n");
-        System.out.format("â”‚ 1. Pending Accommodations      â”‚                                                              â”‚%n");
-        System.out.format("â”‚ 2. Rejected Accommodations     â”‚                                                              â”‚%n");
-        System.out.format("â”‚ 3. Go Back                     â”‚                                                              â”‚%n");
-        System.out.format("â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜%n");
-        System.out.print("Enter command: ");
+    private void checkAccommodationSituation() throws IOException, ClassNotFoundException {
+        //¼÷¼Ò ¸®½ºÆ® Ãâ·Â
+        AccommodationSituationController accommodationSituationController = new AccommodationSituationController();
+        Protocol protocol = accommodationSituationController.listRequest();
+        List<HouseDTO> houseDTOList = (List<HouseDTO>) protocol.getObject();
+        System.out.println("[List]");
+        int i = 0;
+        if (houseDTOList != null) {
+            for (HouseDTO houseDTO : houseDTOList) {
+                System.out.println(++i + ". " + houseDTO.toString());
+            }
+        }
+        System.out.print("(1) Check monthly reservation status for each accommodation (2) Check total monthly sales for each accommodation (3) Back : ");
+        int command = MyIOStream.sc.nextInt();
 
-        int choice = sc.nextInt();
-        switch (choice) {
-            case 1:
-                // ë¯¸ìŠ¹ì¸ ìˆ™ë°• ì‹œì„¤ ëª©ë¡
-                System.out.format("â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”%n");
-                System.out.format("â”‚ Unapproved Accommodation List  â”‚                                                              â”‚%n");
-                System.out.format("â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤%n");
-                printFormatted("Line", "", firstColWidth, secondColWidth);
-                // ìœ„ printFormattedë¥¼ ì´ìš©í•´ì„œ Lineì— DTOì—ì„œ ê°€ì ¸ì˜¨ê±¸ ë„£ê³  ë‘ë²ˆì§¸ë¶€í„°ëŠ” í†µì¼
-                System.out.format("â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜%n");
-                System.out.println("Please select the unapproved accommodation : ");
+        if (command == 3) {
+            System.out.println("Back..");
+        } else if (command == 1) {
+            System.out.print("Select Accommodation number : ");
+            int select = MyIOStream.sc.nextInt();
 
-                System.out.println("â”Œâ”€â”€                          â”€â”€â”");
-                System.out.println("â”‚ (1) Approval  (2) Rejection  â”‚");
-                System.out.println("â””â”€â”€                          â”€â”€â”˜");
-                System.out.println("          Selection : ");
+            if (select > 0 && select <= i) {
+                protocol = accommodationSituationController.monthlyReservationRequest(houseDTOList.get(select - 1).getHouseId());
+                List<ReservationDTO> reservationDTOList = (List<ReservationDTO>) protocol.getObject();
+                System.out.println("[Reservation List]");
+                if (reservationDTOList != null) {
+                    for (ReservationDTO reservationDTO : reservationDTOList) {
+                        System.out.println(reservationDTO.toString());
+                    }
+                }
+            } else {
+                System.out.println("Wrong Input..");
+            }
 
-                // ë¦¬ìŠ¤íŠ¸ì—… ìˆ™ë°• ì‹œì„¤ ì¤‘ ì„ íƒí•˜ë©´ "ìŠ¹ì¸" "ê±°ì ˆ" ì¤‘ ì„ íƒí•˜ê³  ë©”ì‹œì§€ ì¶œë ¥
-                System.out.println("Accommodation request from ~~ has been approved.");
-                System.out.println("Accommodation request from ~~ has been rejected.");
-                break;
-            case 2:
-                // ê±°ì ˆëœ ìˆ™ë°• ì‹œì„¤ ëª©ë¡
-                System.out.format("â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”%n");
-                System.out.format("â”‚  Rejected Accommodation List   â”‚                                                              â”‚%n");
-                System.out.format("â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤%n");
-                printFormatted("Line", "", firstColWidth, secondColWidth);
-                // ìœ„ printFormattedë¥¼ ì´ìš©í•´ì„œ Lineì— DTOì—ì„œ ê°€ì ¸ì˜¨ê±¸ ë„£ê³  ë‘ë²ˆì§¸ë¶€í„°ëŠ” í†µì¼
-                System.out.format("â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜%n");
-                System.out.println("Press Any Key : ");
 
-            case 0:
-                return; // ë’¤ë¡œê°€ê¸°
-            default:
-                System.out.println("Invalid input. Please try again.");}
+        } else if (command == 2) {
+            int select = MyIOStream.sc.nextInt();
+        } else {
+            System.out.println("Wrong Input..");
+        }
+
+
+    }
+
+    private void manageAccommodationRequests() throws IOException, ClassNotFoundException {
+        // È£½ºÆ®ÀÇ ¼÷¼Ò µî·Ï ½ÅÃ»ÇÑ ¸®½ºÆ® º¸¿©ÁÖ±â
+        RequestHouseRegistrationController requestHouseRegistrationController = new RequestHouseRegistrationController();
+        Protocol protocol = requestHouseRegistrationController.listRequest();
+        List<HouseAndHostDTO> list = (List<HouseAndHostDTO>) protocol.getObject();
+        System.out.println("[List]");
+        System.out.printf("  %-50s%-80s%-10s%-20s\n", "[House Name]", "[HouseAddress]", "[Host Name]", "[Host ID]");
+        int i = 0;
+        if (list != null) {
+            for (HouseAndHostDTO houseAndHostDTO : list) {
+                System.out.println(++i + ". " + houseAndHostDTO.toString());
+            }
+        }
+
+        System.out.print("\nSee More Detail Number (Back (-1)) : ");
+        int enter = MyIOStream.sc.nextInt();
+
+        if (enter == -1) {
+            System.out.println("Back..");
+        } else if (enter > 0 && enter <= i) {
+            // ¼÷¼ÒÀÇ »ó¼¼ Á¤º¸ ¶ç¿ì±â
+            protocol = requestHouseRegistrationController.detailInfoRequest(list.get(enter - 1).getHouseId());
+
+            List<AmenitiesDTO> amenitiesDTOList = (List<AmenitiesDTO>) protocol.getObject();
+            System.out.println("[Host Name] : " + list.get(enter - 1).getHostName());
+            System.out.println("[Host Id] : " + list.get(enter - 1).getLoginId());
+            System.out.println("[House Name] : " + list.get(enter - 1).getHouseName());
+            System.out.println("[House Address] : " + list.get(enter - 1).getHouseAddress());
+            System.out.println("[Bedroom Count] : " + list.get(enter - 1).getBedroom());
+            System.out.println("[Bathroom Count] : " + list.get(enter - 1).getBathroom());
+            System.out.println("[Capacity] : " + list.get(enter - 1).getBedroom());
+            System.out.println("[House Type] : " + list.get(enter - 1).getHouseType().toString());
+            System.out.println("[House Info] : " + list.get(enter - 1).getHouseIntroduce());
+            System.out.println("[Basic Amenities]");
+            if (list != null) {
+                for (AmenitiesDTO amenitiesDTO : amenitiesDTOList) {
+                    if (amenitiesDTO.getTypeId() == 1) {
+                        System.out.println(amenitiesDTO.getAmenities());
+                    }
+                }
+            }
+
+            System.out.println("[Safety Amenities]");
+            if (list != null) {
+                for (AmenitiesDTO amenitiesDTO : amenitiesDTOList) {
+                    if (amenitiesDTO.getTypeId() == 2) {
+                        System.out.println(amenitiesDTO.getAmenities());
+                    }
+                }
+            }
+
+            System.out.println("[Accessibility Amenities]");
+            if (list != null) {
+                for (AmenitiesDTO amenitiesDTO : amenitiesDTOList) {
+                    if (amenitiesDTO.getTypeId() == 3) {
+                        System.out.println(amenitiesDTO.getAmenities());
+                    }
+                }
+            }
+
+            System.out.print("(1) Approval (2) Reject (3) Back : ");
+            int command = MyIOStream.sc.nextInt();
+
+            if (command == 3) {
+                System.out.println("Back..");
+            } else if (command == 1) {
+                // ½ÂÀÎ
+                protocol = requestHouseRegistrationController.approvalRequest(list.get(enter - 1).getHouseId());
+
+                if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
+                    System.out.println("Success to Approval");
+                }
+
+            } else if (command == 2) {
+                protocol = requestHouseRegistrationController.rejectRequest(list.get(enter - 1).getHouseId());
+
+                if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
+                    System.out.println("Success to Reject");
+                }
+                // °ÅÀı
+            } else {
+                System.out.println("Wrong Input..");
+            }
+        } else {
+            System.out.println("Wrong Input..");
+        }
+
+
+//        System.out.format("¦£¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¨¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¤%n");
+//        System.out.format("¦¢ 1. Pending Accommodations      ¦¢                                                              ¦¢%n");
+//        System.out.format("¦¢ 2. Rejected Accommodations     ¦¢                                                              ¦¢%n");
+//        System.out.format("¦¢ 3. Go Back                     ¦¢                                                              ¦¢%n");
+//        System.out.format("¦¦¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦ª¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¥%n");
+//        System.out.print("Enter command: ");
+
+//        int choice = sc.nextInt();
+//        switch (choice) {
+//            case 1:
+//                 ¹Ì½ÂÀÎ ¼÷¹Ú ½Ã¼³ ¸ñ·Ï
+//                System.out.format("¦£¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¨¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¤%n");
+//                System.out.format("¦¢ Unapproved Accommodation List  ¦¢                                                              ¦¢%n");
+//                System.out.format("¦§¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦«¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦©%n");
+//                printFormatted("Line", "", firstColWidth, secondColWidth);
+//                 À§ printFormatted¸¦ ÀÌ¿ëÇØ¼­ Line¿¡ DTO¿¡¼­ °¡Á®¿Â°É ³Ö°í µÎ¹øÂ°ºÎÅÍ´Â ÅëÀÏ
+//                System.out.format("¦¦¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦ª¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¥%n");
+//                System.out.println("Please select the unapproved accommodation : ");
+//
+//                System.out.println("¦£¦¡¦¡                          ¦¡¦¡¦¤");
+//                System.out.println("¦¢ (1) Approval  (2) Rejection  ¦¢");
+//                System.out.println("¦¦¦¡¦¡                          ¦¡¦¡¦¥");
+//                System.out.println("          Selection : ");
+//
+//                 ¸®½ºÆ®¾÷ ¼÷¹Ú ½Ã¼³ Áß ¼±ÅÃÇÏ¸é "½ÂÀÎ" "°ÅÀı" Áß ¼±ÅÃÇÏ°í ¸Ş½ÃÁö Ãâ·Â
+//                System.out.println("Accommodation request from ~~ has been approved.");
+//                System.out.println("Accommodation request from ~~ has been rejected.");
+//                break;
+//            case 2:
+//                 °ÅÀıµÈ ¼÷¹Ú ½Ã¼³ ¸ñ·Ï
+//                System.out.format("¦£¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¨¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¤%n");
+//                System.out.format("¦¢  Rejected Accommodation List   ¦¢                                                              ¦¢%n");
+//                System.out.format("¦§¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦«¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦©%n");
+//                printFormatted("Line", "", firstColWidth, secondColWidth);
+//                 À§ printFormatted¸¦ ÀÌ¿ëÇØ¼­ Line¿¡ DTO¿¡¼­ °¡Á®¿Â°É ³Ö°í µÎ¹øÂ°ºÎÅÍ´Â ÅëÀÏ
+//                System.out.format("¦¦¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦ª¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¥%n");
+//                System.out.println("Press Any Key : ");
+//
+//            case 0:
+//                return; // µÚ·Î°¡±â
+//            default:
+//                System.out.println("Invalid input. Please try again.");
+//        }
+//    }
     }
 
     private void viewMonthlyReservationStatus() {
-        // ì„ íƒí•˜ë©´ ë“±ë¡ëœ ìˆ™ì†Œë“¤ì´ ë¦¬ìŠ¤íŠ¸ì—… ë˜ê³  ìˆ™ì†Œë¥¼ ì„ íƒí•˜ë©´ ê·¸ ìˆ™ì†Œì— ëŒ€í•œ ì˜ˆì•½ í˜„í™©ì„ ë‹¬ë ¥ìœ¼ë¡œ ì¶œë ¥ calender() ì°¸ê³ 
-        System.out.format("â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”%n");
-        System.out.format("â”‚ Registered Accommodations List â”‚                                                              â”‚%n");
-        System.out.format("â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤%n");
+        // ¼±ÅÃÇÏ¸é µî·ÏµÈ ¼÷¼ÒµéÀÌ ¸®½ºÆ®¾÷ µÇ°í ¼÷¼Ò¸¦ ¼±ÅÃÇÏ¸é ±× ¼÷¼Ò¿¡ ´ëÇÑ ¿¹¾à ÇöÈ²À» ´Ş·ÂÀ¸·Î Ãâ·Â calender() Âü°í
+        System.out.format("¦£¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¨¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¤%n");
+        System.out.format("¦¢ Registered Accommodations List ¦¢                                                              ¦¢%n");
+        System.out.format("¦§¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦«¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦©%n");
         printFormatted("Line", "", firstColWidth, secondColWidth);
-        // ìœ„ printFormattedë¥¼ ì´ìš©í•´ì„œ Lineì— DTOì—ì„œ ê°€ì ¸ì˜¨ê±¸ ë„£ê³  ë‘ë²ˆì§¸ë¶€í„°ëŠ” í†µì¼
-        System.out.format("â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜%n");
+        // À§ printFormatted¸¦ ÀÌ¿ëÇØ¼­ Line¿¡ DTO¿¡¼­ °¡Á®¿Â°É ³Ö°í µÎ¹øÂ°ºÎÅÍ´Â ÅëÀÏ
+        System.out.format("¦¦¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦ª¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¥%n");
         System.out.println("Please select the accommodation : ");
 
         System.out.println("Enter the year and month to check(YYYY MM): ");
     }
 
     private void viewMonthlyRevenue() {
-        System.out.format("â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”%n");
-        System.out.format("â”‚ Registered Accommodations List â”‚                                                              â”‚%n");
-        System.out.format("â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤%n");
+        System.out.format("¦£¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¨¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¤%n");
+        System.out.format("¦¢ Registered Accommodations List ¦¢                                                              ¦¢%n");
+        System.out.format("¦§¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦«¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦©%n");
         printFormatted("Line", "", firstColWidth, secondColWidth);
-        // ìœ„ printFormattedë¥¼ ì´ìš©í•´ì„œ Lineì— DTOì—ì„œ ê°€ì ¸ì˜¨ê±¸ ë„£ê³  ë‘ë²ˆì§¸ë¶€í„°ëŠ” í†µì¼
-        System.out.format("â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜%n");
+        // À§ printFormatted¸¦ ÀÌ¿ëÇØ¼­ Line¿¡ DTO¿¡¼­ °¡Á®¿Â°É ³Ö°í µÎ¹øÂ°ºÎÅÍ´Â ÅëÀÏ
+        System.out.format("¦¦¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦ª¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¥%n");
 
         System.out.println("Please select the accommodation : ");
 
@@ -114,20 +256,20 @@ public class AdminView {
     }
 
     private static void printFormatted(String label, String text, int labelWidth, int textWidth) {
-        // ë¼ë²¨ê³¼ í…ìŠ¤íŠ¸ë¥¼ ë°›ì•„ í¬ë§·ì— ë§ê²Œ ì¶œë ¥í•˜ëŠ” ë©”ì†Œë“œ
+        // ¶óº§°ú ÅØ½ºÆ®¸¦ ¹Ş¾Æ Æ÷¸Ë¿¡ ¸Â°Ô Ãâ·ÂÇÏ´Â ¸Ş¼Òµå
         String[] words = text.split(" ");
         StringBuilder line = new StringBuilder();
-        System.out.printf("â”‚ %-" + labelWidth + "s â”‚ ", label);
+        System.out.printf("¦¢ %-" + labelWidth + "s ¦¢ ", label);
 
         for (String word : words) {
             if (line.length() + word.length() > textWidth) {
-                System.out.printf("%-" + textWidth + "s â”‚%nâ”‚ %" + labelWidth + "s â”‚ ", line.toString(), "");
+                System.out.printf("%-" + textWidth + "s ¦¢%n¦¢ %" + labelWidth + "s ¦¢ ", line.toString(), "");
                 line.setLength(0);
             }
             line.append(word).append(" ");
         }
 
-        System.out.printf("%-" + textWidth + "s â”‚%n", line.toString());
+        System.out.printf("%-" + textWidth + "s ¦¢%n", line.toString());
     }
-    // ìˆ™ì†Œ ëª©ë¡ì„ ë¶ˆëŸ¬ì˜¤ëŠ” ë©”ì„œë“œ ë“± ì¶”ê°€ì ìœ¼ë¡œ í•„ìš”í•  ê²ƒìœ¼ë¡œ ì˜ˆìƒ
+    // ¼÷¼Ò ¸ñ·ÏÀ» ºÒ·¯¿À´Â ¸Ş¼­µå µî Ãß°¡ÀûÀ¸·Î ÇÊ¿äÇÒ °ÍÀ¸·Î ¿¹»ó
 }

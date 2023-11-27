@@ -1,23 +1,22 @@
 package airbnb.view;
 
 import airbnb.controller.SignController;
+import airbnb.network.MyIOStream;
 import airbnb.network.Protocol;
 import airbnb.network.RoleType;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.Scanner;
 
 public class SignView {
 
-    Scanner sc = new Scanner(System.in);
 
     public void showView() throws IOException, ClassNotFoundException, ParseException {
         System.out.format("忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖%n");
         System.out.format("弛                              <Sign Up>                                    弛%n");
         System.out.format("                                                                             %n");
         System.out.print("\t\t\t\t1. Host 2. Guest : ");
-        int roleNum = sc.nextInt();
+        int roleNum = MyIOStream.sc.nextInt();
         String roleType;
         if (roleNum == 1)
             roleType = "HOST";
@@ -25,15 +24,15 @@ public class SignView {
             roleType = "GUEST";
 
         System.out.print("\t\t\t\tEnter New ID : ");
-        String newID = sc.next();
+        String newID = MyIOStream.sc.next();
         System.out.print("\t\t\t\tEnter New Passwd : ");
-        String newPwd = sc.next();
+        String newPwd = MyIOStream.sc.next();
         System.out.print("\t\t\t\tEnter Name : ");
-        String newName = sc.next();
+        String newName = MyIOStream.sc.next();
         System.out.print("\t\t\t\tEnter Birthday (YYYYMMDD) : ");
-        String newBirthDay = sc.next();
+        String newBirthDay = MyIOStream.sc.next();
         System.out.print("\t\t\t\tEnter User PhoneNumber : ");
-        String newPhoneNumber = sc.next();
+        String newPhoneNumber = MyIOStream.sc.next();
 
         SignController signController = new SignController();
         Protocol protocol = signController.signRequest(newName, newPhoneNumber, newID, newPwd, newBirthDay, RoleType.valueOf(roleType));

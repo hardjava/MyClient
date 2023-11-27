@@ -45,7 +45,7 @@ public class LoginView {
                         hostView.showView();
                         break;
                     case ADMIN:
-                        AdminView adminView = new AdminView();
+                        AdminView adminView = new AdminView(userDTO);
                         adminView.showView();
                         break;
                 }

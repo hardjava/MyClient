@@ -3,6 +3,7 @@ package airbnb.view;
 import airbnb.controller.*;
 import airbnb.network.MyIOStream;
 import airbnb.network.Protocol;
+import airbnb.network.Status;
 import airbnb.persistence.dto.*;
 
 import java.io.IOException;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HostView {
-    private UserDTO userDTO;
+    private final UserDTO userDTO;
 
     public HostView(UserDTO userDTO) {
         this.userDTO = userDTO;
@@ -53,7 +54,7 @@ public class HostView {
     private void manageReviews() {
         System.out.println("1. 최근 리뷰 확인");
         System.out.println("2. 리뷰 답글 작성");
-        System.out.println("3. 뒤로가기");
+        System.out.println("3. Back..");
 
         int choice = MyIOStream.sc.nextInt();
         switch (choice) {
@@ -69,9 +70,66 @@ public class HostView {
         // 리뷰 관리 로직
     }
 
-    private void manageReservations() {
+    private void manageReservations() throws IOException, ClassNotFoundException {
         // 예약 승인 대기 리스트
+        ReservationAllowOrRefuseController reservationAllowOrRefuseController = new ReservationAllowOrRefuseController();
+        Protocol protocol = reservationAllowOrRefuseController.listRequest(userDTO);
+        // 예약 승인 대기 숙소 리스트 띄우기
+        int i = 0;
+        System.out.println("[List]");
+        System.out.printf("  %-30s%-15s%-15s%-15s%-15s%-15s%-30s%-30s\n", "[House Name]", "[Check In]"
+                , "[Check Out]", "[Guest Num]", "[User Name]", "[User Phone]", "[ID]", "[Cost]");
+        List<HouseAndReservationDTO> list = (List<HouseAndReservationDTO>) protocol.getObject();
+        if (list != null) {
+            for (HouseAndReservationDTO houseAndReservationDTO : list) {
+                System.out.println(++i + ". " + houseAndReservationDTO.toString());
+            }
+        }
+        System.out.print("\n(1) Approval (2) Reject (3) Back : ");
+        int enter = MyIOStream.sc.nextInt();
 
+        if (enter == 3) {
+            System.out.println("Back..");
+        } else if (enter == 1) {
+            // 승인할 것 입력받기
+            System.out.print("Enter the Number to Approval : ");
+            int approvalNumber = MyIOStream.sc.nextInt();
+
+            if (approvalNumber > 0 && approvalNumber <= i) {
+                protocol = reservationAllowOrRefuseController.statusChangeRequest(list.get(approvalNumber - 1).getReservationId(), Status.BEFORE_STAY);
+
+                if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
+                    System.out.println("Success!");
+                } else {
+                    System.out.println("Error!");
+                }
+
+            } else {
+                System.out.println("Wrong Input..");
+            }
+
+
+        } else if (enter == 2) {
+            // 거절할 것 입력받기
+            System.out.print("Enter the Number to Reject : ");
+            int rejectNumber = MyIOStream.sc.nextInt();
+
+            if (rejectNumber > 0 && rejectNumber <= i) {
+                protocol = reservationAllowOrRefuseController.statusChangeRequest(list.get(rejectNumber - 1).getReservationId(), Status.REFUSE);
+
+                if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
+                    System.out.println("Success!");
+                } else {
+                    System.out.println("Error!");
+                }
+
+            } else {
+                System.out.println("Wrong Input..");
+            }
+
+        } else {
+            System.out.println("Wrong Input..");
+        }
     }
 
     private void showReservationStatus() throws IOException, ClassNotFoundException { // 숙박 예약 현황 보기
@@ -312,6 +370,8 @@ public class HostView {
         System.out.println("\t\t2. Set Cost");
         System.out.println("\t\t3. Set Discount Policy");
         System.out.println("\t\t4. Check reservation status");
+        System.out.println("\t\t5. Approval/Reject guest's accommodation reservation");
+        System.out.println("\t\t6. Register a reply to a guest review");
         System.out.println("\t\t0. Log Out");
         System.out.print("enter : ");
 

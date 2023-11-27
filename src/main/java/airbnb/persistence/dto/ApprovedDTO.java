@@ -10,9 +10,9 @@ import lombok.*;
 
 public class ApprovedDTO {
     private int approveId, houseId;
-    private boolean isApproved;
+    private int isApproved;
 
-    public ApprovedDTO(int houseId, boolean isApproved) {
+    public ApprovedDTO(int houseId, int isApproved) {
         this.houseId = houseId;
         this.isApproved = isApproved;
     }

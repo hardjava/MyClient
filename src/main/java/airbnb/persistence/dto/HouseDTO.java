@@ -29,6 +29,14 @@ public class HouseDTO implements Serializable {
         this.houseType = houseType;
     }
 
+    public HouseDTO(int houseId) {
+        this.houseId = houseId;
+    }
+
+    public HouseDTO(String houseName) {
+        this.houseName = houseName;
+    }
+
     public HouseDTO(String houseName, String houseAddress, String houseIntroduce, int bedroom, int bathroom) {
         this.houseName = houseName;
         this.houseAddress = houseAddress;
