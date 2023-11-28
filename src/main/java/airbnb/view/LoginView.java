@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class LoginView {
 
-    public void showView() throws IOException, ClassNotFoundException {
+    public void showView() throws Exception {
 
         System.out.format("             忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖%n");
         System.out.format("             弛       _      ____   _____ _____ _   _          弛%n");

@@ -7,7 +7,7 @@ import java.text.ParseException;
 
 public class StartView {
 
-    public void showView() throws IOException, ClassNotFoundException, ParseException {
+    public void showView() throws Exception {
         for (; ; ) {
             int enter = getCommand();
 

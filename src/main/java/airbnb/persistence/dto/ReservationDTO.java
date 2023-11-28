@@ -19,7 +19,6 @@ public class ReservationDTO implements Serializable {
     private Date reservationDate, checkIn, checkOut;
     private int cost;
 
-
     public ReservationDTO(int houseId, int userId, int guestNum, Date checkIn, Date checkOut, int cost) {
         this.houseId = houseId;
         this.userId = userId;
@@ -32,6 +31,13 @@ public class ReservationDTO implements Serializable {
     public ReservationDTO(int reservationId, Status reservationStatus) {
         this.reservationId = reservationId;
         this.reservationStatus = reservationStatus;
+    }
+
+    public ReservationDTO(int reservationId, Status reservationStatus, Date checkIn, Date checkOut) {
+        this.reservationId = reservationId;
+        this.reservationStatus = reservationStatus;
+        this.checkIn = checkIn;
+        this.checkOut = checkOut;
     }
 
     public ReservationDTO(int reservationId, int guestNum, Date checkIn, Date checkOut, int cost) {

@@ -1,16 +1,17 @@
 package airbnb.view;
 
 import airbnb.ReservationRequestController;
+import airbnb.controller.AmenitiesRequestController;
 import airbnb.controller.SearchAllHouseController;
+import airbnb.controller.SearchHouseController;
 import airbnb.controller.SearchMoreHouseInfoController;
+import airbnb.network.HouseType;
 import airbnb.network.MyIOStream;
 import airbnb.network.Protocol;
-import airbnb.persistence.dto.AmenitiesDTO;
-import airbnb.persistence.dto.HouseAndFeeDTO;
-import airbnb.persistence.dto.MoreHouseInfoDTO;
-import airbnb.persistence.dto.UserDTO;
+import airbnb.persistence.dto.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GuestView {
@@ -23,7 +24,7 @@ public class GuestView {
         this.userDTO = userDTO;
     }
 
-    public void showView() throws IOException, ClassNotFoundException {
+    public void showView() throws Exception {
         for (; ; ) {
             int command = getCommand();
             if (command == 4) {
@@ -32,6 +33,7 @@ public class GuestView {
 
             switch (command) {
                 case 1:
+                    houseFiltering();
                     break;
                 case 2:
                     houseAllList();
@@ -48,6 +50,104 @@ public class GuestView {
             }
         }
 
+    }
+
+    private void houseFiltering() throws IOException, ClassNotFoundException {
+        MyIOStream.sc.nextLine(); // Buffer Clear
+        System.out.print("Enter House Name : ");
+        String houseName = MyIOStream.sc.nextLine();
+        System.out.print("Enter CheckIn (YYYY-MM-DD) : ");
+        String checkIn = MyIOStream.sc.next();
+        System.out.print("Enter CheckOut (YYYY-MM-DD) : ");
+        String checkOut = MyIOStream.sc.next();
+        System.out.print("Enter Guest Num : ");
+        int guestNum = MyIOStream.sc.nextInt();
+        System.out.print("Enter House Type (1) private (2) public : ");
+        int houseType = MyIOStream.sc.nextInt();
+        if(houseType == 1 || houseType == 2){
+            // Amenities List 출력
+            List<String> amenitiesList = new ArrayList<>();
+            AmenitiesRequestController amenitiesRequestController = new AmenitiesRequestController();
+            Protocol protocol = amenitiesRequestController.basicAmenitiesListRequest();
+            System.out.println("\t\t[Basic Amenities List]");
+
+            if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
+                int basicNum = 0;
+                List<AmenitiesDTO> list = (List<AmenitiesDTO>) protocol.getObject();
+                for (AmenitiesDTO amenitiesDTO : list) {
+                    System.out.println("\t" + ++basicNum + ". " + amenitiesDTO.getAmenities());
+                }
+                System.out.print("Enter (separated by commas) (If not, enter -1) : ");
+                MyIOStream.sc.nextLine(); // Buffer Clear
+                String basicAmenities = MyIOStream.sc.nextLine();
+                if (!basicAmenities.equals("-1")) {
+                    String[] basicArr = basicAmenities.split(",");
+                    for (String s : basicArr) {
+                        int n = Integer.parseInt(s);
+                        if (n > 0 && n <= list.size()) {
+                            amenitiesList.add(list.get(n - 1).getAmenities());
+                        }
+                    }
+                }
+            }
+            protocol = amenitiesRequestController.safetyAmenitiesListRequest();
+            System.out.println("\t\t[Safety Amenities List]");
+
+            if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
+                List<AmenitiesDTO> list = (List<AmenitiesDTO>) protocol.getObject();
+                int safetyNum = 0;
+                for (AmenitiesDTO amenitiesDTO : list) {
+                    System.out.println("\t" + ++safetyNum + ". " + amenitiesDTO.getAmenities());
+                }
+                System.out.print("Enter (separated by commas) (If not, enter -1) : ");
+                String safetyAmenities = MyIOStream.sc.nextLine();
+                if (!safetyAmenities.equals("-1")) {
+                    String[] safetyArr = safetyAmenities.split(",");
+                    for (String s : safetyArr) {
+                        int n = Integer.parseInt(s);
+                        if (n > 0 && n <= list.size()) {
+                            amenitiesList.add(list.get(n - 1).getAmenities());
+                        }
+                    }
+                }
+            }
+            protocol = amenitiesRequestController.accessAmenitiesListRequest();
+            System.out.println("\t\t[Accessibility Amenities List]");
+
+            if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
+                List<AmenitiesDTO> list = (List<AmenitiesDTO>) protocol.getObject();
+                int accessNum = 0;
+                for (AmenitiesDTO amenitiesDTO : list) {
+                    System.out.println("\t" + ++accessNum + ". " + amenitiesDTO.getAmenities());
+                }
+                System.out.print("Enter (separated by commas) (If not, enter -1) : ");
+                String accessibilityAmenities = MyIOStream.sc.nextLine();
+                if (!accessibilityAmenities.equals("-1")) {
+                    String[] accessArr = accessibilityAmenities.split(",");
+                    for (String s : accessArr) {
+                        int n = Integer.parseInt(s);
+                        if (n > 0 && n <= list.size()) {
+                            amenitiesList.add(list.get(n - 1).getAmenities());
+                        }
+                    }
+                }
+            }
+
+            SearchHouseController searchHouseController = new SearchHouseController();
+            if(houseType == 1){
+                protocol = searchHouseController.filteringHouseRequest(houseName, checkIn, checkOut, guestNum, HouseType.PRIVATE, amenitiesList);
+            }else{
+                protocol =searchHouseController.filteringHouseRequest(houseName, checkIn, checkOut, guestNum, HouseType.PUBLIC, amenitiesList);
+            }
+
+            if(protocol.getProtocolCode() == Protocol.CODE_SUCCESS){
+                List<HouseAndFeeDTO> houseAndFeeDTOS = (List<HouseAndFeeDTO>) protocol.getObject();
+                printHouseList(houseAndFeeDTOS);
+            }
+
+        }else{
+            System.out.println("Wrong Input..");
+        }
     }
 
     private static void printFormatted(String label, String text, int labelWidth, int textWidth) {
@@ -93,7 +193,7 @@ public class GuestView {
         return MyIOStream.sc.nextInt();
     }
 
-    private void houseAllList() throws IOException, ClassNotFoundException {
+    private void houseAllList() throws Exception {
         SearchAllHouseController searchAllHouseController = new SearchAllHouseController();
         Protocol protocol = searchAllHouseController.allHouseRequest();
 
@@ -135,11 +235,12 @@ public class GuestView {
         }
     }
 
-    private void seeMoreInfo(HouseAndFeeDTO houseAndFeeDTO) throws IOException, ClassNotFoundException {
+    private void seeMoreInfo(HouseAndFeeDTO houseAndFeeDTO) throws Exception {
         SearchMoreHouseInfoController searchMoreHouseInfoController = new SearchMoreHouseInfoController();
         Protocol protocol = searchMoreHouseInfoController.printMoreInfo(houseAndFeeDTO.getHouseId());
         MoreHouseInfoDTO moreHouseInfoDTO = (MoreHouseInfoDTO) protocol.getObject();
         // 상세정보 보여주기
+
         System.out.println("[Detail Info]");
         System.out.println("[House Name] : " + houseAndFeeDTO.getHouseName());
         System.out.println("[House Address] : " + houseAndFeeDTO.getHouseAddress());
@@ -175,11 +276,18 @@ public class GuestView {
                 }
             }
         }
+        List<UserReviewDTO> userReviewDTOS = moreHouseInfoDTO.getReviewDTOList();
+        System.out.println("\t\t[Review]");
+        if(userReviewDTOS != null){
+            for (UserReviewDTO userReviewDTO : userReviewDTOS) {
+                System.out.println(userReviewDTO.toString());
+            }
+        }
 
         System.out.print("(1) Reservation (2) Back : ");
         int command = MyIOStream.sc.nextInt();
         if (command == 1) {
-            reservation(houseAndFeeDTO);
+            reservation(houseAndFeeDTO, moreHouseInfoDTO);
         } else if (command == 2) {
             System.out.println("Back..");
         } else {
@@ -188,7 +296,27 @@ public class GuestView {
 
     }
 
-    private void reservation(HouseAndFeeDTO houseAndFeeDTO) throws IOException, ClassNotFoundException {
+    private void reservation(HouseAndFeeDTO houseAndFeeDTO, MoreHouseInfoDTO moreHouseInfoDTO) throws Exception {
+        List<ReservationDTO> reservationDTOList = moreHouseInfoDTO.getReservationDTOList();
+        DiscountPolicyDTO discountPolicyDTO = moreHouseInfoDTO.getDiscountPolicyDTO();
+        FeePolicyDTO feePolicyDTO = moreHouseInfoDTO.getFeePolicyDTO();
+
+        if (discountPolicyDTO == null){
+            discountPolicyDTO = new DiscountPolicyDTO();
+        }
+
+        int discountAmount = discountPolicyDTO.getDiscount_amount();
+        int discountRate = discountPolicyDTO.getDiscount_rate();
+        System.out.println("[Show Reservation available dates]");
+
+        if(reservationDTOList != null){
+           MyCalender.print(reservationDTOList);
+//            CalendarViewerForAdmin.print(reservationDTOList,houseAndFeeDTO.getBedroom());
+        }else {
+
+            System.out.println("All Date is Possible to Reservation");
+        }
+
         System.out.print("Adult Num : ");
         int adultNum = MyIOStream.sc.nextInt();
         System.out.print("Child Num : ");
@@ -198,18 +326,37 @@ public class GuestView {
         System.out.print("Enter CheckOut Day (YYYY-MM-DD) : ");
         String checkOut = MyIOStream.sc.next();
         int totalNum = adultNum + childNum;
-        ReservationRequestController reservationRequestController = new ReservationRequestController();
-        Protocol protocol = reservationRequestController.reservationRequest(houseAndFeeDTO.getHouseId(), userDTO.getUserId(), totalNum, checkIn, checkOut, 0);
 
-        if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
-            System.out.println("Success to Reservation");
-        } else {
-            System.out.println(protocol.getObject());
+        int cost = 0;
+
+        if(discountRate > 0){
+            cost = SaleCalculator.CalculateRate(checkIn, checkOut, discountPolicyDTO, feePolicyDTO);
+        }else{
+            cost = SaleCalculator.CalculateAmount(checkIn, checkOut, discountPolicyDTO, feePolicyDTO);
+        }
+
+        System.out.println("Cost = " + cost + "$");
+        System.out.print("Would you like to make a reservation? (1) Yes! (2) No! : ");
+        int enter = MyIOStream.sc.nextInt();
+
+        if(enter == 1) {
+            ReservationRequestController reservationRequestController = new ReservationRequestController();
+            Protocol protocol = reservationRequestController.reservationRequest(houseAndFeeDTO.getHouseId(), userDTO.getUserId(), totalNum, checkIn, checkOut, 0);
+
+            if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
+                System.out.println("Success to Reservation");
+            } else {
+                System.out.println(protocol.getObject());
+            }
+        } else if (enter == 2) {
+            System.out.println("Cancel..");
+        }else {
+            System.out.println("Wrong Input..");
         }
     }
 
     private void printDescendingList(SearchAllHouseController searchAllHouseController) throws
-            IOException, ClassNotFoundException {
+            Exception {
         Protocol protocol = searchAllHouseController.descendingHouseRequest();
         List<HouseAndFeeDTO> descendingList = (List<HouseAndFeeDTO>) protocol.getObject();
         System.out.println("[Descending List]");
@@ -252,7 +399,7 @@ public class GuestView {
     }
 
     private void printAscendingList(SearchAllHouseController searchAllHouseController) throws
-            IOException, ClassNotFoundException {
+            Exception {
         Protocol protocol = searchAllHouseController.ascendingHouseRequest();
         List<HouseAndFeeDTO> ascendingList = (List<HouseAndFeeDTO>) protocol.getObject();
         System.out.println("[Ascending List]");

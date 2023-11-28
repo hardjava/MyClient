@@ -153,7 +153,7 @@ public class HostView {
                 List<ReservationDTO> reservationDTOList = (List<ReservationDTO>) protocol.getObject();
                 System.out.println("[Reservation Status]");
                 if (reservationDTOList != null) {
-                    run.print(reservationDTOList);
+                    MyCalender.print(reservationDTOList);
                 }
             } else {
                 System.out.println("Wrong Input..");

@@ -152,7 +152,7 @@ public class MyPageView {
                 System.out.print("Enter the number of the accommodation to cancel (exit: -1): ");
                 int enter = MyIOStream.sc.nextInt();
                 if (enter != -1 && enter > 0 && enter <= list.size()) {
-                    Protocol protocol = controller.cancelReservationRequest(list.get(enter - 1).getReservationId(), list.get(enter - 1).getReservationStatus());
+                    Protocol protocol = controller.cancelReservationRequest(list.get(enter - 1).getReservationId(), list.get(enter - 1).getReservationStatus(), list.get(enter - 1).getCheckIn(), list.get(enter - 1).getCheckOut());
                     if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
                         System.out.println("Reservation successfully cancelled.");
                     } else if (protocol.getProtocolCode() == Protocol.CODE_ERROR) {

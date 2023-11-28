@@ -12,6 +12,7 @@ import java.util.List;
 public class MoreHouseInfoDTO implements Serializable {
     private List<AmenitiesDTO> amenitiesDTOList;
     private FeePolicyDTO feePolicyDTO;
+    private DiscountPolicyDTO discountPolicyDTO;
     private List<ReservationDTO> reservationDTOList;
     private List<UserReviewDTO> reviewDTOList;
 }

@@ -5,7 +5,7 @@ import airbnb.persistence.dto.ReservationDTO;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class run {
+public class MyCalender {
     public static void print(List<ReservationDTO> list) {
 
         List<Date> dateList = new ArrayList<>();
