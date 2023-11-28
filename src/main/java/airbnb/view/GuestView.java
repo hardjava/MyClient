@@ -52,9 +52,9 @@ public class GuestView {
 
     }
 
-    private void houseFiltering() throws IOException, ClassNotFoundException {
+    private void houseFiltering() throws Exception {
         MyIOStream.sc.nextLine(); // Buffer Clear
-        System.out.print("Enter House Name : ");
+        System.out.print("Enter House Name (if not -1): ");
         String houseName = MyIOStream.sc.nextLine();
         System.out.print("Enter CheckIn (YYYY-MM-DD) : ");
         String checkIn = MyIOStream.sc.next();
@@ -143,6 +143,14 @@ public class GuestView {
             if(protocol.getProtocolCode() == Protocol.CODE_SUCCESS){
                 List<HouseAndFeeDTO> houseAndFeeDTOS = (List<HouseAndFeeDTO>) protocol.getObject();
                 printHouseList(houseAndFeeDTOS);
+                System.out.print("See More Info : ");
+                int index = MyIOStream.sc.nextInt();
+
+                if(index > 0 && index <= houseAndFeeDTOS.size()){
+                    seeMoreInfo(houseAndFeeDTOS.get(index - 1));
+                }else {
+                    System.out.println("Wrong Input..");
+                }
             }
 
         }else{
