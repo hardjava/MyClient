@@ -18,7 +18,7 @@ public class MyCalender {
         HashSet<Integer> monthSet = new HashSet<>(); // 월을 저장할 HashSet 생성
         Calendar cal = Calendar.getInstance(); // Calendar 객체 생성
 
-        for (Date date : dateList) {
+        for (Date date : dateList) {//예약된 달을 저장함. 밑 스위치로 들어감
             cal.setTime(date); // Date 객체를 Calendar 객체로 변환
             monthSet.add(cal.get(Calendar.MONTH) + 1); // 월을 얻어와 HashSet에 추가, Calendar.MONTH는 0부터 시작하므로 +1
         }
