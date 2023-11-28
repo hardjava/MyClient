@@ -54,7 +54,8 @@ public class Protocol implements Serializable {
 
     public static final int TYPE_SEARCH_ALL_HOUSE = 7;          // 전체 숙소 목록 조회
     public static final int CODE_SEARCH_ALL_HOUSE_REQUEST = 1;  // 등록된 전체 숙소 목록 요청----
-    public static final int CODE_SEND_ALL_HOUSE = 2;            // 전체 숙소 목록 전달(서버 →클라이언트)
+    public static final int CODE_SEARCH_ALL_HOUSE_REQUEST_DESC = 2; // 내림차순 정렬
+    public static final int CODE_SEARCH_ALL_HOUSE_REQUEST_ASC = 3; // 오름차순 정렬
 
 
     public static final int TYPE_SELECT_HOUSE_VIEW_DETAIL = 8;  // 선택한 숙소 상세보기

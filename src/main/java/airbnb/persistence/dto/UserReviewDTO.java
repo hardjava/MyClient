@@ -21,6 +21,6 @@ public class UserReviewDTO implements Serializable {
         for (int i = 0; i < star; i++) {
             stars.append("*");
         }
-        return String.format("[%s]\nSTAR : %s\nREVIEW : %s", userName, stars.toString(), review);
+        return String.format("STAR: %s\nREVIEW: %s", stars.toString(), review);
     }
 }

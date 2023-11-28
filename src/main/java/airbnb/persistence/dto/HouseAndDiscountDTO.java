@@ -28,7 +28,6 @@ public class HouseAndDiscountDTO implements Serializable {
         }
         this.discountPolicyDTO = new DiscountPolicyDTO(discountDay, discount_amount, discount_rate, houseId);
     }
-
     public String toString() {
         return String.format("%-20s%-10d%-15d%-15d", houseDTO.getHouseName(), discountPolicyDTO.getDiscountDay(), discountPolicyDTO.getDiscount_amount(), discountPolicyDTO.getDiscount_rate());
     }
