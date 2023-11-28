@@ -161,14 +161,20 @@ public class MyCalender {
                 }
                 if ((firstDay + i - 1) % 7 == 0) {
                     System.out.println();
+                    System.out.println();
                 }
             } else {
                 System.out.print(i + "\t");
                 if ((firstDay + i - 1) % 7 == 0) {
                     System.out.println();
+
+                    System.out.println();
+
                 }
             }
 
         }
     }
 }
+
+
