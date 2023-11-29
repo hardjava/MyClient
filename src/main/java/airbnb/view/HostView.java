@@ -51,23 +51,53 @@ public class HostView {
         }
     }
 
-    private void manageReviews() {
-        System.out.println("1. 최근 리뷰 확인");
-        System.out.println("2. 리뷰 답글 작성");
-        System.out.println("3. Back..");
+    private void manageReviews() throws IOException, ClassNotFoundException {
+        System.out.println("\t\t[Unreviewed List]");
+        ReviewRequestController reviewRequestController = new ReviewRequestController();
+        Protocol protocol = reviewRequestController.listRequest(userDTO);
+        int i = 0;
+        List<ReviewCheckDTO> reviewCheckDTOList = (List<ReviewCheckDTO>) protocol.getObject();
+        if (reviewCheckDTOList != null) {
+            for (ReviewCheckDTO reviewCheckDTO : reviewCheckDTOList) {
+                System.out.println("(" + ++i + ")\n" + reviewCheckDTO.toString());
+            }
 
-        int choice = MyIOStream.sc.nextInt();
-        switch (choice) {
-            case 1:
-                // 최근 리뷰 확인
-            case 2:
-                // 리뷰 답글 작성
-            case 3:
-                break; // 뒤로가기
-            default:
-                System.out.println("잘못된 입력입니다. 다시 시도하세요.");
+            System.out.print("The accommodation number that you want to reply to (Back -1) : ");
+            int enter = MyIOStream.sc.nextInt();
+
+            if (enter == -1) {
+                System.out.println("Back..");
+            } else if (enter > 0 && enter <= i) {
+                System.out.print("Enter the Text : ");
+                MyIOStream.sc.nextLine(); // Buffer Clear
+                String text = MyIOStream.sc.nextLine();
+
+                System.out.print("Do you want to reply (1) Yes (2) No : ");
+                int check = MyIOStream.sc.nextInt();
+
+                if (check == 1) {
+                    ReviewDTO reviewDTO = reviewCheckDTOList.get(enter - 1).getReviewDTO();
+                    protocol = reviewRequestController.writeReviewRequest(reviewDTO.getReservationId(), userDTO.getLoginId(), userDTO.getUserName(), text);
+
+                    if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
+                        System.out.println("Success!..");
+                    } else if (protocol.getProtocolCode() == Protocol.CODE_ERROR) {
+                        System.out.println(protocol.getObject());
+                    }
+                    // 답글 달기
+                } else if (check == 2) {
+                    System.out.println("Cancel..");
+                    // 답글 안달기
+                } else {
+                    System.out.println("Wrong Input..");
+                }
+                // 리뷰 관리 로직
+            } else {
+                System.out.println("Wrong Input..");
+            }
+        } else {
+            System.out.println("Not Exist Unreviewed List");
         }
-        // 리뷰 관리 로직
     }
 
     private void manageReservations() throws IOException, ClassNotFoundException {

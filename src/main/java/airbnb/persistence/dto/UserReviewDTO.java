@@ -13,7 +13,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Builder
 public class UserReviewDTO implements Serializable {
-    private int star;
+    private int star, reservationId;
     private String review, userName;
 
     public String toString() {
@@ -21,6 +21,6 @@ public class UserReviewDTO implements Serializable {
         for (int i = 0; i < star; i++) {
             stars.append("*");
         }
-        return String.format("STAR: %s\nREVIEW: %s", stars.toString(), review);
+        return String.format("User Name: %s\nSTAR: %s\nREVIEW: %s", userName, stars.toString(), review);
     }
 }

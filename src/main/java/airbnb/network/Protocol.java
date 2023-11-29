@@ -120,7 +120,7 @@ public class Protocol implements Serializable {
 
 
     public static final int TYPE_REVIEW_MANAGEMENT = 19;                        // 리뷰 관리
-    public static final int CODE_REQUEST_MOST_RECENT_REVIEW_LIST = 1;           // 최근순 리뷰 리스트 요청(클라이언트→서버)----
+    public static final int CODE_REQUEST_NOT_REPLY_REVIEW = 1;           // 최근순 리뷰 리스트 요청(클라이언트→서버)----
     public static final int CODE_SEND_MOST_RECENT_REVIEW_LIST = 2;              // 최근순 리뷰 리스트 전달(서버 → 클라이언트)
     public static final int CODE_SEND_REPLYING_TO_REVIEW = 3;                   // 리뷰 답글 작성 정보 전달(클라이언트 → 서버)----
     //=============================================

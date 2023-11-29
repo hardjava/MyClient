@@ -10,7 +10,6 @@ import airbnb.network.MyIOStream;
 import airbnb.network.Protocol;
 import airbnb.persistence.dto.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,7 +63,7 @@ public class GuestView {
         int guestNum = MyIOStream.sc.nextInt();
         System.out.print("Enter House Type (1) private (2) public : ");
         int houseType = MyIOStream.sc.nextInt();
-        if(houseType == 1 || houseType == 2){
+        if (houseType == 1 || houseType == 2) {
             // Amenities List 출력
             List<String> amenitiesList = new ArrayList<>();
             AmenitiesRequestController amenitiesRequestController = new AmenitiesRequestController();
@@ -134,26 +133,26 @@ public class GuestView {
             }
 
             SearchHouseController searchHouseController = new SearchHouseController();
-            if(houseType == 1){
+            if (houseType == 1) {
                 protocol = searchHouseController.filteringHouseRequest(houseName, checkIn, checkOut, guestNum, HouseType.PRIVATE, amenitiesList);
-            }else{
-                protocol =searchHouseController.filteringHouseRequest(houseName, checkIn, checkOut, guestNum, HouseType.PUBLIC, amenitiesList);
+            } else {
+                protocol = searchHouseController.filteringHouseRequest(houseName, checkIn, checkOut, guestNum, HouseType.PUBLIC, amenitiesList);
             }
 
-            if(protocol.getProtocolCode() == Protocol.CODE_SUCCESS){
+            if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
                 List<HouseAndFeeDTO> houseAndFeeDTOS = (List<HouseAndFeeDTO>) protocol.getObject();
                 printHouseList(houseAndFeeDTOS);
                 System.out.print("See More Info : ");
                 int index = MyIOStream.sc.nextInt();
 
-                if(index > 0 && index <= houseAndFeeDTOS.size()){
+                if (index > 0 && index <= houseAndFeeDTOS.size()) {
                     seeMoreInfo(houseAndFeeDTOS.get(index - 1));
-                }else {
+                } else {
                     System.out.println("Wrong Input..");
                 }
             }
 
-        }else{
+        } else {
             System.out.println("Wrong Input..");
         }
     }
@@ -247,6 +246,7 @@ public class GuestView {
         SearchMoreHouseInfoController searchMoreHouseInfoController = new SearchMoreHouseInfoController();
         Protocol protocol = searchMoreHouseInfoController.printMoreInfo(houseAndFeeDTO.getHouseId());
         MoreHouseInfoDTO moreHouseInfoDTO = (MoreHouseInfoDTO) protocol.getObject();
+        List<ReplyDTO> replyDTOList = moreHouseInfoDTO.getReplyDTOList();
         // 상세정보 보여주기
 
         System.out.println("[Detail Info]");
@@ -286,9 +286,18 @@ public class GuestView {
         }
         List<UserReviewDTO> userReviewDTOS = moreHouseInfoDTO.getReviewDTOList();
         System.out.println("\t\t[Review]");
-        if(userReviewDTOS != null){
+        if (userReviewDTOS != null) {
             for (UserReviewDTO userReviewDTO : userReviewDTOS) {
+                System.out.println("<Guest>");
                 System.out.println(userReviewDTO.toString());
+                if (replyDTOList != null) {
+                    for (ReplyDTO replyDTO : replyDTOList) {
+                        if (replyDTO.getReservationId() == userReviewDTO.getReservationId()) {
+                            System.out.println("<Host>");
+                            System.out.println(replyDTO);
+                        }
+                    }
+                }
             }
         }
 
@@ -309,7 +318,7 @@ public class GuestView {
         DiscountPolicyDTO discountPolicyDTO = moreHouseInfoDTO.getDiscountPolicyDTO();
         FeePolicyDTO feePolicyDTO = moreHouseInfoDTO.getFeePolicyDTO();
 
-        if (discountPolicyDTO == null){
+        if (discountPolicyDTO == null) {
             discountPolicyDTO = new DiscountPolicyDTO();
         }
 
@@ -337,9 +346,9 @@ public class GuestView {
 
         int cost = 0;
 
-        if(discountRate > 0){
+        if (discountRate > 0) {
             cost = SaleCalculator.CalculateRate(checkIn, checkOut, discountPolicyDTO, feePolicyDTO);
-        }else{
+        } else {
             cost = SaleCalculator.CalculateAmount(checkIn, checkOut, discountPolicyDTO, feePolicyDTO);
         }
 
@@ -347,7 +356,7 @@ public class GuestView {
         System.out.print("Would you like to make a reservation? (1) Yes! (2) No! : ");
         int enter = MyIOStream.sc.nextInt();
 
-        if(enter == 1) {
+        if (enter == 1) {
             ReservationRequestController reservationRequestController = new ReservationRequestController();
             Protocol protocol = reservationRequestController.reservationRequest(houseAndFeeDTO.getHouseId(), userDTO.getUserId(), totalNum, checkIn, checkOut, 0);
 
@@ -358,7 +367,7 @@ public class GuestView {
             }
         } else if (enter == 2) {
             System.out.println("Cancel..");
-        }else {
+        } else {
             System.out.println("Wrong Input..");
         }
     }
