@@ -326,10 +326,11 @@ public class GuestView {
         int discountRate = discountPolicyDTO.getDiscount_rate();
         System.out.println("[Show Reservation available dates]");
 
-        if(reservationDTOList != null){
-           MyCalender.print(reservationDTOList);
-//            CalendarViewerForAdmin.print(reservationDTOList,houseAndFeeDTO.getBedroom());
-        }else {
+        if (reservationDTOList != null) {
+//           MyCalender.print(reservationDTOList);
+//          CalendarViewerForAdmin.run(reservationDTOList, houseAndFeeDTO);
+
+        } else {
 
             System.out.println("All Date is Possible to Reservation");
         }
