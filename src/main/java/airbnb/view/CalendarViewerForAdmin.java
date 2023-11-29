@@ -189,7 +189,7 @@ public class CalendarViewerForAdmin {
             arr[dayOfMonth] +=list.get(i).getGuestNum();
         }
         for (int i = 0; i < arr.length; i++) {
-            arr[i] = 8 - arr[i];
+            arr[i] = max - arr[i];
         }
         return arr;
     }

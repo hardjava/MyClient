@@ -328,7 +328,7 @@ public class GuestView {
 
         if (reservationDTOList != null) {
 //           MyCalender.print(reservationDTOList);
-//          CalendarViewerForAdmin.run(reservationDTOList, houseAndFeeDTO);
+          CalendarViewerForAdmin.run(reservationDTOList, houseAndFeeDTO);
 
         } else {
 
