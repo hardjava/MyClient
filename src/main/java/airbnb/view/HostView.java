@@ -367,7 +367,12 @@ public class HostView {
                     if (amount < 0) {
                         System.out.println("Wrong Input..");
                     } else {
-                        protocol = setDiscountPolicyController.setDiscountPolicyRequest(discountDay, amount, 0, list.get(number - 1).getDiscountPolicyDTO().getHouseId());
+                        System.out.print("Start Date (YYYY-MM-DD) : ");
+                        MyIOStream.sc.nextLine(); // Buffer Clear
+                        String startDate = MyIOStream.sc.nextLine();
+                        System.out.print("End Date (YYYY-MM-DD) : ");
+                        String endDate = MyIOStream.sc.nextLine();
+                        protocol = setDiscountPolicyController.setDiscountPolicyRequest(discountDay, amount, 0, list.get(number - 1).getDiscountPolicyDTO().getHouseId(), startDate, endDate);
                         if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
                             System.out.println("Success!");
                         }
@@ -378,7 +383,12 @@ public class HostView {
                     if (rate < 0) {
                         System.out.println("Wrong Input..");
                     } else {
-                        protocol = setDiscountPolicyController.setDiscountPolicyRequest(discountDay, 0, rate, list.get(number - 1).getDiscountPolicyDTO().getHouseId());
+                        System.out.print("Start Date (YYYY-MM-DD) : ");
+                        MyIOStream.sc.nextLine(); // Buffer Clear
+                        String startDate = MyIOStream.sc.nextLine();
+                        System.out.print("End Date (YYYY-MM-DD) : ");
+                        String endDate = MyIOStream.sc.nextLine();
+                        protocol = setDiscountPolicyController.setDiscountPolicyRequest(discountDay, 0, rate, list.get(number - 1).getDiscountPolicyDTO().getHouseId(), startDate, endDate);
                         if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
                             System.out.println("Success!");
                         }

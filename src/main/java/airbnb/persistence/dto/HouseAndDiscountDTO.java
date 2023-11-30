@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 @Setter
 @Getter
@@ -16,7 +17,7 @@ public class HouseAndDiscountDTO implements Serializable {
     private DiscountPolicyDTO discountPolicyDTO;
 
     public HouseAndDiscountDTO(int houseId, int hostId, String houseName, String houseAddress, String houseIntroduce, int bedroom, int bathroom,
-                               Integer discountDay, Integer discount_amount, Integer discount_rate) {
+                               Integer discountDay, Integer discount_amount, Integer discount_rate, Date discountStart, Date discountEnd) {
         this.houseDTO = new HouseDTO(hostId, houseName, houseAddress, houseIntroduce, bedroom, bathroom);
         if (discountDay == null)
             discountDay = discount_amount = discount_rate = 0;
@@ -26,7 +27,7 @@ public class HouseAndDiscountDTO implements Serializable {
             if (discount_rate == null)
                 discount_rate = 0;
         }
-        this.discountPolicyDTO = new DiscountPolicyDTO(discountDay, discount_amount, discount_rate, houseId);
+        this.discountPolicyDTO = new DiscountPolicyDTO(discountDay, discount_amount, discount_rate, houseId, discountStart, discountEnd);
     }
     public String toString() {
         return String.format("%-20s%-10d%-15d%-15d", houseDTO.getHouseName(), discountPolicyDTO.getDiscountDay(), discountPolicyDTO.getDiscount_amount(), discountPolicyDTO.getDiscount_rate());

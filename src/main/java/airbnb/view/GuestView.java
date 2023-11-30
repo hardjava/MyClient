@@ -52,15 +52,19 @@ public class GuestView {
     }
 
     private void houseFiltering() throws Exception {
+        String houseName, checkIn, checkOut = "";
+        int guestNum = 0;
         MyIOStream.sc.nextLine(); // Buffer Clear
-        System.out.print("Enter House Name (if not -1): ");
-        String houseName = MyIOStream.sc.nextLine();
-        System.out.print("Enter CheckIn (YYYY-MM-DD) : ");
-        String checkIn = MyIOStream.sc.next();
-        System.out.print("Enter CheckOut (YYYY-MM-DD) : ");
-        String checkOut = MyIOStream.sc.next();
-        System.out.print("Enter Guest Num : ");
-        int guestNum = MyIOStream.sc.nextInt();
+        System.out.print("Enter House Name (if not Enter) : ");
+        houseName = MyIOStream.sc.nextLine();
+        System.out.print("Enter CheckIn (YYYY-MM-DD) (if not Enter) : ");
+        checkIn = MyIOStream.sc.nextLine();
+        if (!checkIn.equals("")) {
+            System.out.print("Enter CheckOut (YYYY-MM-DD) (if not Enter) : ");
+            checkOut = MyIOStream.sc.nextLine();
+            System.out.print("Enter Guest Num : ");
+            guestNum = MyIOStream.sc.nextInt();
+        }
         System.out.print("Enter House Type (1) private (2) public : ");
         int houseType = MyIOStream.sc.nextInt();
         if (houseType == 1 || houseType == 2) {
@@ -76,10 +80,10 @@ public class GuestView {
                 for (AmenitiesDTO amenitiesDTO : list) {
                     System.out.println("\t" + ++basicNum + ". " + amenitiesDTO.getAmenities());
                 }
-                System.out.print("Enter (separated by commas) (If not, enter -1) : ");
+                System.out.print("Enter (separated by commas) (If not, enter) : ");
                 MyIOStream.sc.nextLine(); // Buffer Clear
                 String basicAmenities = MyIOStream.sc.nextLine();
-                if (!basicAmenities.equals("-1")) {
+                if (!basicAmenities.equals("")) {
                     String[] basicArr = basicAmenities.split(",");
                     for (String s : basicArr) {
                         int n = Integer.parseInt(s);
@@ -98,9 +102,9 @@ public class GuestView {
                 for (AmenitiesDTO amenitiesDTO : list) {
                     System.out.println("\t" + ++safetyNum + ". " + amenitiesDTO.getAmenities());
                 }
-                System.out.print("Enter (separated by commas) (If not, enter -1) : ");
+                System.out.print("Enter (separated by commas) (If not, enter) : ");
                 String safetyAmenities = MyIOStream.sc.nextLine();
-                if (!safetyAmenities.equals("-1")) {
+                if (!safetyAmenities.equals("")) {
                     String[] safetyArr = safetyAmenities.split(",");
                     for (String s : safetyArr) {
                         int n = Integer.parseInt(s);
@@ -119,9 +123,9 @@ public class GuestView {
                 for (AmenitiesDTO amenitiesDTO : list) {
                     System.out.println("\t" + ++accessNum + ". " + amenitiesDTO.getAmenities());
                 }
-                System.out.print("Enter (separated by commas) (If not, enter -1) : ");
+                System.out.print("Enter (separated by commas) (If not, enter) : ");
                 String accessibilityAmenities = MyIOStream.sc.nextLine();
-                if (!accessibilityAmenities.equals("-1")) {
+                if (!accessibilityAmenities.equals("")) {
                     String[] accessArr = accessibilityAmenities.split(",");
                     for (String s : accessArr) {
                         int n = Integer.parseInt(s);
@@ -328,7 +332,7 @@ public class GuestView {
 
         if (reservationDTOList != null) {
 //           MyCalender.print(reservationDTOList);
-          CalendarViewerForAdmin.run(reservationDTOList, houseAndFeeDTO);
+            CalendarViewerForAdmin.run(reservationDTOList, houseAndFeeDTO);
 
         } else {
 
