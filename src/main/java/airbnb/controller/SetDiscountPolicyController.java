@@ -16,10 +16,10 @@ public class SetDiscountPolicyController {
         return (Protocol) MyIOStream.ois.readObject();
     }
 
-    public Protocol setDiscountPolicyRequest(int discountDay, int discount_amount, int discount_rate, int houseId, String startDate, String endDate) throws IOException, ClassNotFoundException {
-        Date start = Date.valueOf(startDate);
-        Date end = Date.valueOf(endDate);
-        DiscountPolicyDTO discountPolicyDTO = new DiscountPolicyDTO(discountDay, discount_amount, discount_rate, houseId, start, end);
+    public Protocol setDiscountPolicyRequest(int houseId, int discountDay, int discount_amount, int discount_rate, String discountStart, String discountEnd) throws IOException, ClassNotFoundException {
+        Date start = Date.valueOf(discountStart);
+        Date end = Date.valueOf(discountEnd);
+        DiscountPolicyDTO discountPolicyDTO = new DiscountPolicyDTO(houseId, discountDay, discount_amount, discount_rate, start, end);
         Protocol protocol = new Protocol(Protocol.TYPE_SET_DISCOUNT_POLICY, Protocol.CODE_SEND_DISCOUNT_POLICY_ON_CONSECUTIVE_NIGHTS, discountPolicyDTO);
         MyIOStream.oos.writeObject(protocol);
         //

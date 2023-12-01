@@ -372,7 +372,7 @@ public class HostView {
                         String startDate = MyIOStream.sc.nextLine();
                         System.out.print("End Date (YYYY-MM-DD) : ");
                         String endDate = MyIOStream.sc.nextLine();
-                        protocol = setDiscountPolicyController.setDiscountPolicyRequest(discountDay, amount, 0, list.get(number - 1).getDiscountPolicyDTO().getHouseId(), startDate, endDate);
+                        protocol = setDiscountPolicyController.setDiscountPolicyRequest(list.get(number - 1).getDiscountPolicyDTO().getHouseId(), discountDay, amount, 0, startDate, endDate);
                         if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
                             System.out.println("Success!");
                         }
@@ -388,7 +388,7 @@ public class HostView {
                         String startDate = MyIOStream.sc.nextLine();
                         System.out.print("End Date (YYYY-MM-DD) : ");
                         String endDate = MyIOStream.sc.nextLine();
-                        protocol = setDiscountPolicyController.setDiscountPolicyRequest(discountDay, 0, rate, list.get(number - 1).getDiscountPolicyDTO().getHouseId(), startDate, endDate);
+                        protocol = setDiscountPolicyController.setDiscountPolicyRequest(list.get(number - 1).getDiscountPolicyDTO().getHouseId(), discountDay, 0, rate, startDate, endDate);
                         if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
                             System.out.println("Success!");
                         }

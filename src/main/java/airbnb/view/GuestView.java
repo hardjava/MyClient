@@ -62,9 +62,9 @@ public class GuestView {
         if (!checkIn.equals("")) {
             System.out.print("Enter CheckOut (YYYY-MM-DD) (if not Enter) : ");
             checkOut = MyIOStream.sc.nextLine();
-            System.out.print("Enter Guest Num : ");
-            guestNum = MyIOStream.sc.nextInt();
         }
+        System.out.print("Enter Guest Num : ");
+        guestNum = MyIOStream.sc.nextInt();
         System.out.print("Enter House Type (1) private (2) public : ");
         int houseType = MyIOStream.sc.nextInt();
         if (houseType == 1 || houseType == 2) {
