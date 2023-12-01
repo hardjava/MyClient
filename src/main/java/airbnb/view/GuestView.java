@@ -352,9 +352,9 @@ public class GuestView {
         int cost = 0;
 
         if (discountRate > 0) {
-            cost = SaleCalculator.CalculateRate(checkIn, checkOut, discountPolicyDTO, feePolicyDTO);
+            cost = SaleCalculator.CalculateRate(checkIn, checkOut, discountPolicyDTO, feePolicyDTO, totalNum);
         } else {
-            cost = SaleCalculator.CalculateAmount(checkIn, checkOut, discountPolicyDTO, feePolicyDTO);
+            cost = SaleCalculator.CalculateAmount(checkIn, checkOut, discountPolicyDTO, feePolicyDTO, totalNum);
         }
 
         System.out.println("Cost = " + cost + "$");

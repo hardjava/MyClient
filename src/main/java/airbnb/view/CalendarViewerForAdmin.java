@@ -68,7 +68,7 @@ public class CalendarViewerForAdmin {
         List<Date> list = new ArrayList<>();
         List <DateAndGuest> objectList = new ArrayList<>();
         for (int i = 0; i < inputList.size(); i++) {
-            objectList = makeList_1(inputList.get(i).getCheckIn(),inputList.get(i).getCheckOut(),objectList,houseAndFeeDTO.getBedroom());
+            objectList = makeList_1(inputList.get(i).getCheckIn(),inputList.get(i).getCheckOut(),objectList,inputList.get(i).getGuestNum());
         }
 
         for (int i = 0; i < objectList.size(); i++) {
@@ -76,10 +76,8 @@ public class CalendarViewerForAdmin {
         }
 
 
-
-        arr = returnArr(objectList,houseAndFeeDTO.getBedroom());
+        arr = returnArr(objectList,houseAndFeeDTO.getBedroom(),month);
         view(month, list,arr);
-
 
     }
 
@@ -127,8 +125,9 @@ public class CalendarViewerForAdmin {
         }
 
         //=========================
+        System.out.println("##################################"+monthValue+"##################################");
 
-        System.out.println("SUN  MON  TUE  WED  THU  FRI  SAT");
+        System.out.println("SUN         MON         TUE         WED         THU         FRI         SAT");
         int count_1 = 0;
         for (int i = 0; i < (arrayList_1.size() / 5) - 1; i++) {
             for (int j = count_1; j < count_1 + 7; j++) {
@@ -158,7 +157,7 @@ public class CalendarViewerForAdmin {
                     }else{
                         System.out.print("ROOM : ");
                         if(arr[Integer.parseInt(arrayList_1.get(j))] ==0){
-                            System.out.printf("%-9s", "FULL");
+                            System.out.printf("%-5s", "X");
                         }else{
                             System.out.printf("%-5d", arr[Integer.parseInt(arrayList_1.get(j))]);
 
@@ -176,7 +175,7 @@ public class CalendarViewerForAdmin {
         }
     }
 
-    public static int[] returnArr(List<DateAndGuest> list, int max){
+    public static int[] returnArr(List<DateAndGuest> list, int max,int month){
         int[] arr = new int[32];
 
         for (int i = 0; i < list.size(); i++) {
@@ -185,8 +184,11 @@ public class CalendarViewerForAdmin {
 
             // 현재 날짜의 일 정보 얻기
             int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+            int Month = calendar.get(Calendar.MONTH) + 1;
+            if(Month == month){
+                arr[dayOfMonth] +=list.get(i).getGuestNum();
 
-            arr[dayOfMonth] +=list.get(i).getGuestNum();
+            }
         }
         for (int i = 0; i < arr.length; i++) {
             arr[i] = max - arr[i];
@@ -263,7 +265,7 @@ public class CalendarViewerForAdmin {
         return list;
     }
 
-    private static List<DateAndGuest> makeList_1(Date checkIn, Date checkOut, List<DateAndGuest> list,int max) {
+    private static List<DateAndGuest> makeList_1(Date checkIn, Date checkOut, List<DateAndGuest> list,int guestNum) {
 
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -282,7 +284,7 @@ public class CalendarViewerForAdmin {
 
         while (!calendar.getTime().after(checkOut)) {
             Date result = calendar.getTime();
-            DateAndGuest dateAndGuest =new DateAndGuest(result,max);
+            DateAndGuest dateAndGuest =new DateAndGuest(result,guestNum);
             list.add(dateAndGuest);
             calendar.add(Calendar.DATE, 1);
         }
