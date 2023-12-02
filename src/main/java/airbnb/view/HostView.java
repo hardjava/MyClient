@@ -12,6 +12,8 @@ import java.util.List;
 
 public class HostView {
     private final UserDTO userDTO;
+    private final int firstColWidth = 70; // √π π¯¬∞ ø≠¿« ∆¯
+    private final int secondColWidth = 105; // µŒ π¯¬∞ ø≠¿« ∆¯
 
     public HostView(UserDTO userDTO) {
         this.userDTO = userDTO;
@@ -25,6 +27,7 @@ public class HostView {
                 System.out.println("Log out..");
                 break;
             }
+
             switch (command) {
                 case 1:
                     registerAccommodation();
@@ -45,33 +48,52 @@ public class HostView {
                     manageReviews();
                     break;
                 default:
-                    System.out.println("ÏûòÎ™ªÎêú ÏûÖÎ†•ÏûÖÎãàÎã§. Îã§Ïãú ÏãúÎèÑÌïòÏÑ∏Ïöî.");
+                    System.out.println("Wrong Input..");
             }
         }
     }
 
     private void manageReviews() throws IOException, ClassNotFoundException {
-        System.out.println("\t\t[Unreviewed List]");
+        System.out.format("¶£¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶®¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶§%n");
+        System.out.format("¶¢                          Unreviewed List                               ¶¢                                                                                                           ¶¢%n");
+        System.out.format("¶ß¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶´¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶©%n");
+
         ReviewRequestController reviewRequestController = new ReviewRequestController();
         Protocol protocol = reviewRequestController.listRequest(userDTO);
         int i = 0;
         List<ReviewCheckDTO> reviewCheckDTOList = (List<ReviewCheckDTO>) protocol.getObject();
         if (reviewCheckDTOList != null) {
             for (ReviewCheckDTO reviewCheckDTO : reviewCheckDTOList) {
-                System.out.println("(" + ++i + ")\n" + reviewCheckDTO.toString());
+//                System.out.println("(" + ++i + ")\n" + reviewCheckDTO.toString());
+                printFormatted("(" + ++i + ") " + reviewCheckDTO.getHouseName(), "Guest Name : " + reviewCheckDTO.getUserDTO().getUserName(), firstColWidth, secondColWidth);
+                printFormatted("", reviewCheckDTO.getReviewDTO().toString(), firstColWidth, secondColWidth);
+                printFormatted("", reviewCheckDTO.getReviewDTO().getReview(), firstColWidth, secondColWidth);
             }
+            System.out.format("¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶™¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•%n");
 
-            System.out.print("The accommodation number that you want to reply to (Back -1) : ");
+            System.out.format("                                             ¶£¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶§%n");
+            System.out.format("                                             ¶¢                   The accommodation number that you want to reply to (Back -1)                ¶¢%n");
+            System.out.format("                                             ¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•%n");
+            System.out.print("                                                                                      Enter : ");
+
             int enter = MyIOStream.sc.nextInt();
 
             if (enter == -1) {
                 System.out.println("Back..");
             } else if (enter > 0 && enter <= i) {
-                System.out.print("Enter the Text : ");
+                System.out.format("                                             ¶£¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶§%n");
+                System.out.format("                                             ¶¢                              Please write the content of your reply                           ¶¢%n");
+                System.out.format("                                             ¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•%n");
+                System.out.print("                                                Enter : ");
                 MyIOStream.sc.nextLine(); // Buffer Clear
                 String text = MyIOStream.sc.nextLine();
 
-                System.out.print("Do you want to reply (1) Yes (2) No : ");
+                System.out.println("                                                                             [     Do you want to reply?    ]");
+                System.out.println("                                                                             ¶£¶°¶°                          ¶°¶°¶§");
+                System.out.println("                                                                             ¶¢       (1) Yes   (2) No       ¶¢");
+                System.out.println("                                                                             ¶¶¶°¶°                          ¶°¶°¶•");
+                System.out.print("                                                                                       Selection : ");
+
                 int check = MyIOStream.sc.nextInt();
 
                 if (check == 1) {
@@ -79,58 +101,93 @@ public class HostView {
                     protocol = reviewRequestController.writeReviewRequest(reviewDTO.getReservationId(), userDTO.getLoginId(), userDTO.getUserName(), text);
 
                     if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
-                        System.out.println("Success!..");
+                        System.out.println("                                                                             ¶£¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶§");
+                        System.out.println("                                                                             ¶¢   Success To Write Reply!    ¶¢");
+                        System.out.println("                                                                             ¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•");
                     } else if (protocol.getProtocolCode() == Protocol.CODE_ERROR) {
                         System.out.println(protocol.getObject());
                     }
-                    // ÎãµÍ∏Ä Îã¨Í∏∞
+                    // ¥‰±€ ¥ﬁ±‚
                 } else if (check == 2) {
-                    System.out.println("Cancel..");
-                    // ÎãµÍ∏Ä ÏïàÎã¨Í∏∞
+                    System.out.println("                                                                             ¶£¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶§");
+                    System.out.println("                                                                             ¶¢            Cancel            ¶¢");
+                    System.out.println("                                                                             ¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•");
+
+                    // ¥‰±€ æ»¥ﬁ±‚
                 } else {
                     System.out.println("Wrong Input..");
                 }
-                // Î¶¨Î∑∞ Í¥ÄÎ¶¨ Î°úÏßÅ
+                // ∏Æ∫‰ ∞¸∏Æ ∑Œ¡˜
             } else {
                 System.out.println("Wrong Input..");
             }
         } else {
-            System.out.println("Not Exist Unreviewed List");
+            System.out.println("                                                                             ¶£¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶§");
+            System.out.println("                                                                             ¶¢  Not Exist Unreviewed List   ¶¢");
+            System.out.println("                                                                             ¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•");
+
         }
     }
 
     private void manageReservations() throws IOException, ClassNotFoundException {
-        // ÏòàÏïΩ ÏäπÏù∏ ÎåÄÍ∏∞ Î¶¨Ïä§Ìä∏
+        // øπæ‡ Ω¬¿Œ ¥Î±‚ ∏ÆΩ∫∆Æ
         ReservationAllowOrRefuseController reservationAllowOrRefuseController = new ReservationAllowOrRefuseController();
         Protocol protocol = reservationAllowOrRefuseController.listRequest(userDTO);
-        // ÏòàÏïΩ ÏäπÏù∏ ÎåÄÍ∏∞ ÏàôÏÜå Î¶¨Ïä§Ìä∏ ÎùÑÏö∞Í∏∞
+        // øπæ‡ Ω¬¿Œ ¥Î±‚ º˜º“ ∏ÆΩ∫∆Æ ∂ÁøÏ±‚
         int i = 0;
-        System.out.println("[List]");
-        System.out.printf("  %-30s%-15s%-15s%-15s%-15s%-15s%-30s%-30s\n", "[House Name]", "[Check In]"
-                , "[Check Out]", "[Guest Num]", "[User Name]", "[User Phone]", "[ID]", "[Cost]");
+        System.out.format("¶£¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶®¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶§%n");
+        System.out.format("¶¢                Waiting list for reservation approval                   ¶¢                                                                                                           ¶¢%n");
+        System.out.format("¶ß¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶´¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶©%n");
+//
+//        System.out.printf("  %-30s%-15s%-15s%-15s%-15s%-15s%-30s%-30s\n", "[House Name]", "[Check In]"
+//                , "[Check Out]", "[Guest Num]", "[User Name]", "[User Phone]", "[ID]", "[Cost]");
         List<HouseAndReservationDTO> list = (List<HouseAndReservationDTO>) protocol.getObject();
         if (list != null) {
             for (HouseAndReservationDTO houseAndReservationDTO : list) {
-                System.out.println(++i + ". " + houseAndReservationDTO.toString());
+//                System.out.println(++i + ". " + houseAndReservationDTO.toString());
+                printFormatted("[" + (++i) + "] " + "[House Name] " + houseAndReservationDTO.getHouseName(), "[ID] " + houseAndReservationDTO.getLoginId(), firstColWidth, secondColWidth);
+                printFormatted("", "[User Name] " + houseAndReservationDTO.getUserName(), firstColWidth, secondColWidth);
+                printFormatted("", "[User Phone] " + houseAndReservationDTO.getUserPhone(), firstColWidth, secondColWidth);
+                printFormatted("", "[Check In] " + houseAndReservationDTO.getCheckIn(), firstColWidth, secondColWidth);
+                printFormatted("", "[Check Out] " + houseAndReservationDTO.getCheckOut(), firstColWidth, secondColWidth);
+                printFormatted("", "[Guest Num] " + houseAndReservationDTO.getGuestNum(), firstColWidth, secondColWidth);
+                printFormatted("", "[Cost] " + houseAndReservationDTO.getCost(), firstColWidth, secondColWidth);
+                System.out.format("¶ß¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶´¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶©%n");
             }
+            System.out.format("¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶™¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•%n");
         }
-        System.out.print("\n(1) Approval (2) Reject (3) Back : ");
+        System.out.println("                                                                     ¶£¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶§");
+        System.out.println("                                                                     ¶¢                 1. APPROVAL               ¶¢");
+        System.out.println("                                                                     ¶¢                 2. REJECT                 ¶¢");
+        System.out.println("                                                                     ¶¢                 3. BACK                   ¶¢");
+        System.out.println("                                                                     ¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•");
+        System.out.print("                                                                                     Selection : ");
+
         int enter = MyIOStream.sc.nextInt();
 
         if (enter == 3) {
             System.out.println("Back..");
         } else if (enter == 1) {
-            // ÏäπÏù∏Ìï† Í≤É ÏûÖÎ†•Î∞õÍ∏∞
-            System.out.print("Enter the Number to Approval : ");
+            // Ω¬¿Œ«“ ∞Õ ¿‘∑¬πﬁ±‚
+            System.out.println("                                                                     ¶£¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶§");
+            System.out.println("                                                                     ¶¢   Which accommodations will you approve?  ¶¢");
+            System.out.println();
+            System.out.print("                                                                                     Enter : ");
             int approvalNumber = MyIOStream.sc.nextInt();
+            System.out.println("                                                                     ¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•");
 
             if (approvalNumber > 0 && approvalNumber <= i) {
                 protocol = reservationAllowOrRefuseController.statusChangeRequest(list.get(approvalNumber - 1).getReservationId(), Status.BEFORE_STAY);
 
                 if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
-                    System.out.println("Success!");
+                    System.out.println("                                                                     ¶£¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶§");
+                    System.out.println("                                                                     ¶¢           Success!           ¶¢");
+                    System.out.println("                                                                     ¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•");
                 } else {
-                    System.out.println("Error!");
+                    System.out.println("                                                                     ¶£¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶§");
+                    System.out.println("                                                                     ¶¢            Error!            ¶¢");
+                    System.out.println("                                                                     ¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•");
+
                 }
 
             } else {
@@ -139,17 +196,25 @@ public class HostView {
 
 
         } else if (enter == 2) {
-            // Í±∞Ï†àÌï† Í≤É ÏûÖÎ†•Î∞õÍ∏∞
-            System.out.print("Enter the Number to Reject : ");
+            // ∞≈¿˝«“ ∞Õ ¿‘∑¬πﬁ±‚
+            System.out.println("                                                                     ¶£¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶§");
+            System.out.println("                                                                     ¶¢   Which accommodations will you reject?   ¶¢");
+            System.out.println();
+            System.out.print("                                                                                     Enter : ");
             int rejectNumber = MyIOStream.sc.nextInt();
+            System.out.println("                                                                     ¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•");
 
             if (rejectNumber > 0 && rejectNumber <= i) {
                 protocol = reservationAllowOrRefuseController.statusChangeRequest(list.get(rejectNumber - 1).getReservationId(), Status.REFUSE);
 
                 if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
-                    System.out.println("Success!");
+                    System.out.println("                                                                     ¶£¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶§");
+                    System.out.println("                                                                     ¶¢           Success!           ¶¢");
+                    System.out.println("                                                                     ¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•");
                 } else {
-                    System.out.println("Error!");
+                    System.out.println("                                                                     ¶£¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶§");
+                    System.out.println("                                                                     ¶¢            Error!            ¶¢");
+                    System.out.println("                                                                     ¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•");
                 }
 
             } else {
@@ -161,26 +226,40 @@ public class HostView {
         }
     }
 
-    private void showReservationStatus() throws IOException, ClassNotFoundException { // ÏàôÎ∞ï ÏòàÏïΩ ÌòÑÌô© Î≥¥Í∏∞
-        // Îì±Î°ùÎêú ÏàôÏÜå Ï°∞Ìöå
+    private void showReservationStatus() throws IOException, ClassNotFoundException { // º˜π⁄ øπæ‡ «ˆ»≤ ∫∏±‚
+        // µÓ∑œµ» º˜º“ ¡∂»∏
         SearchHostReservationController searchHostReservationController = new SearchHostReservationController();
         Protocol protocol = searchHostReservationController.houseListRequest(userDTO);
         List<HouseDTO> list = (List<HouseDTO>) protocol.getObject();
-        System.out.println("\t\t[Approved List]");
+        System.out.format("¶£¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶®¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶§%n");
+        System.out.format("¶¢                           Approved List                                ¶¢                                                                                                           ¶¢%n");
+        System.out.format("¶ß¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶´¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶©%n");
         if (list != null) {
             int i = 0;
+            int labelWidth = 70; // Adjust as needed
+            int textWidth = 105; // Adjust as needed
 
             for (HouseDTO houseDTO : list) {
-                System.out.println("\t\t" + ++i + ". " + houseDTO.getHouseName());
+                String houseLabel = String.format("%d. %s", ++i, houseDTO.getHouseName());
+                printFormatted(houseLabel, "", labelWidth, textWidth); // Modify this line to match your data structure
             }
+            System.out.format("¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶™¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•%n");
 
-            System.out.print("Please enter the number of the accommodation you want to search : ");
+            System.out.format("                                             ¶£¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶§%n");
+            System.out.format("                                             ¶¢                 Please enter the number of the accommodation you want to search               ¶¢%n");
+            System.out.format("                                             ¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•%n");
+            System.out.print("                                                Enter : ");
+
+
             int enter = MyIOStream.sc.nextInt();
 
             if (enter > 0 && enter <= i) {
                 protocol = searchHostReservationController.reservationListRequest(list.get(enter - 1));
                 List<ReservationDTO> reservationDTOList = (List<ReservationDTO>) protocol.getObject();
-                System.out.println("[Reservation Status]");
+                System.out.println("                                                                       ¶£¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶§");
+                System.out.println("                                                                       ¶¢             Reservation Status            ¶¢");
+                System.out.println("                                                                       ¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•");
+
                 if (reservationDTOList != null) {
                     CalendarViewerForAdmin_host.run(reservationDTOList, list.get(enter -1).getBedroom(), list.get(enter - 1).getHouseType());
                 }
@@ -192,40 +271,57 @@ public class HostView {
         }
     }
 
-    // Ï∂îÍ∞ÄÏ†ÅÏù∏ Î©îÏÑúÎìúÎ°ú ÏàôÎ∞ï Îì±Î°ùÏùÑ ÏúÑÌïú registerAccommodation() Î©îÏÑúÎìú
+    // √ﬂ∞°¿˚¿Œ ∏ﬁº≠µÂ∑Œ º˜π⁄ µÓ∑œ¿ª ¿ß«— registerAccommodation() ∏ﬁº≠µÂ
     private void registerAccommodation() throws IOException, ClassNotFoundException {
-        System.out.println("\t\t<Register Accommodation>");
-        System.out.print("\t\tHouse Name : ");
-        MyIOStream.sc.nextLine(); // Î≤ÑÌçº ÎπÑÏö∞Í∏∞
+        System.out.format("                                                    ¶£¶°¶°¶°                                                                     ¶°¶°¶°¶§%n");
+        System.out.format("                                                    ¶¢                           <Register Accommodation>                        ¶¢%n");
+        System.out.format("                                                                                                                                 %n");
+
+        System.out.print("                                                                       House Name : ");
+        MyIOStream.sc.nextLine(); // πˆ∆€ ∫ÒøÏ±‚
         String houseName = MyIOStream.sc.nextLine();
-        System.out.print("\t\tHouse Address : ");
+        System.out.print("                                                                       House Address : ");
         String houseAddress = MyIOStream.sc.nextLine();
-        System.out.print("\t\tAccommodation Type (1. Private room.  2. Entire space) : ");
+        System.out.println("                                                                     ¶£¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶§");
+        System.out.println("                                                                     ¶¢             Accommodation Type            ¶¢");
+        System.out.println("                                                                     ¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•");
+        System.out.println("                                                                     ¶¢    (1) Private room   (2) Entire space    ¶¢");
+        System.out.println("                                                                     ¶¶¶°¶°                                       ¶°¶°¶•");
+        System.out.print("                                                                                     Selection : ");
         int roomType = MyIOStream.sc.nextInt();
 
-        System.out.print("\t\tBathroom Count : ");
+        System.out.print("                                                                       Bathroom Count : ");
         int bathroomCount = MyIOStream.sc.nextInt();
 
-        System.out.print("\t\tBedroom Count : ");
+        System.out.print("                                                                       Bedroom Count : ");
         int bedroomCount = MyIOStream.sc.nextInt();
 
-        System.out.print("\t\tAccommodation Info : ");
-        MyIOStream.sc.nextLine(); // Î≤ÑÌçº ÎπÑÏö∞Í∏∞
+        System.out.print("                                                                       Accommodation Info : ");
+        MyIOStream.sc.nextLine(); // πˆ∆€ ∫ÒøÏ±‚
         String info = MyIOStream.sc.nextLine();
 
-        System.out.println("\t\t[Amenities Register]");
+        System.out.format("                                                      ¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•%n");
+
+        System.out.format("                                                      ¶£¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶§%n");
+        System.out.format("                                                      ¶ß¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°[ Amenities Register ]¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶¢%n");
+        System.out.format("                                                      ¶ß¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶©%n");
         List<AmenitiesDTO> amenitiesDTOList = new ArrayList<>();
         AmenitiesRequestController amenitiesRequestController = new AmenitiesRequestController();
-        System.out.println("\t\tBasic Amenities : (If not, enter -1) : ");
+        System.out.format("                                                      ¶ß¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶©%n");
+        System.out.format("                                                      ¶¢                           Basic Amenities                           ¶¢%n");
+        System.out.format("                                                      ¶¢                      (If don't have, enter -1)                      ¶¢%n");
+        System.out.format("                                                      ¶ß¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶©%n");
         Protocol protocol = amenitiesRequestController.basicAmenitiesListRequest();
 
         if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
             int basicNum = 0;
             List<AmenitiesDTO> list = (List<AmenitiesDTO>) protocol.getObject();
             for (AmenitiesDTO amenitiesDTO : list) {
-                System.out.println("\t" + ++basicNum + ". " + amenitiesDTO.getAmenities());
+                System.out.format("                                                      ¶¢ %-67s ¶¢%n", ++basicNum + ". " + amenitiesDTO.getAmenities());
             }
-            System.out.print("Enter (separated by commas) : ");
+            System.out.format("                                                      ¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•%n");
+
+            System.out.print("                                                      Enter (separated by commas) : ");
             String basicAmenities = MyIOStream.sc.nextLine();
             if (!basicAmenities.equals("-1")) {
                 String[] basicArr = basicAmenities.split(",");
@@ -237,15 +333,19 @@ public class HostView {
                 }
             }
         }
-        System.out.println("\t\tSafety Amenities : (If not, enter -1) : ");
+        System.out.format("                                                      ¶£¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶§%n");
+        System.out.format("                                                      ¶¢                           Safety Amenities                          ¶¢%n");
+        System.out.format("                                                      ¶¢                       (If don't have, enter -1)                     ¶¢%n");
+        System.out.format("                                                      ¶ß¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶©%n");
         protocol = amenitiesRequestController.safetyAmenitiesListRequest();
         if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
             List<AmenitiesDTO> list = (List<AmenitiesDTO>) protocol.getObject();
             int safetyNum = 0;
             for (AmenitiesDTO amenitiesDTO : list) {
-                System.out.println("\t" + ++safetyNum + ". " + amenitiesDTO.getAmenities());
+                System.out.format("                                                      ¶¢ %-67s ¶¢%n", ++safetyNum + ". " + amenitiesDTO.getAmenities());
             }
-            System.out.print("Enter (separated by commas) : ");
+            System.out.format("                                                      ¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•%n");
+            System.out.print("                                                      Enter (separated by commas) : ");
             String safetyAmenities = MyIOStream.sc.nextLine();
             if (!safetyAmenities.equals("-1")) {
                 String[] safetyArr = safetyAmenities.split(",");
@@ -257,15 +357,19 @@ public class HostView {
                 }
             }
         }
-        System.out.println("\t\tAccessibility Amenities : (If not, enter -1) : ");
+        System.out.format("                                                      ¶£¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶§%n");
+        System.out.format("                                                      ¶¢                        Accessibility Amenities                      ¶¢%n");
+        System.out.format("                                                      ¶¢                       (If don't have, enter -1)                     ¶¢%n");
+        System.out.format("                                                      ¶ß¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶©%n");
         protocol = amenitiesRequestController.accessAmenitiesListRequest();
         if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
             List<AmenitiesDTO> list = (List<AmenitiesDTO>) protocol.getObject();
             int accessNum = 0;
             for (AmenitiesDTO amenitiesDTO : list) {
-                System.out.println("\t" + ++accessNum + ". " + amenitiesDTO.getAmenities());
+                System.out.format("                                                      ¶¢ %-67s ¶¢%n", ++accessNum + ". " + amenitiesDTO.getAmenities());
             }
-            System.out.print("Enter (separated by commas) : ");
+            System.out.format("                                                      ¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•%n");
+            System.out.print("                                                      Enter (separated by commas) : ");
             String accessibilityAmenities = MyIOStream.sc.nextLine();
             if (!accessibilityAmenities.equals("-1")) {
                 String[] accessArr = accessibilityAmenities.split(",");
@@ -277,45 +381,69 @@ public class HostView {
                 }
             }
         }
-        System.out.print("\t\tWould you like to register? (Enter 1 to register) : ");
+        System.out.println("                                                                     ¶£¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶§");
+        System.out.println("                                                                     ¶¢        Would you like to register?        ¶¢");
+        System.out.println("                                                                     ¶¢           (Enter 1 to register)           ¶¢");
+        System.out.println("                                                                     ¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•");
+        System.out.print("                                                                                     Selection : ");
         String enter = MyIOStream.sc.next();
         if (enter.equals("1")) {
             HouseDTO houseDTO = new HouseDTO(userDTO.getUserId(), houseName, houseAddress, info, bedroomCount, bathroomCount);
             HouseRegistrationController houseRegistrationController = new HouseRegistrationController();
             protocol = houseRegistrationController.houseRegisterRequest(houseDTO, amenitiesDTOList);
             if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
-                System.out.println("Successful!");
+                System.out.println("                                                                          ¶£¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶§");
+                System.out.println("                                                                          ¶¢         Successful!          ¶¢");
+                System.out.println("                                                                          ¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•");
             } else if (protocol.getProtocolCode() == Protocol.CODE_ERROR) {
                 System.out.println(protocol.getObject());
             }
         } else {
-            System.out.println("Fail to Register..");
+            System.out.println("                                                                          ¶£¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶§");
+            System.out.println("                                                                          ¶¢       Fail to Register       ¶¢");
+            System.out.println("                                                                          ¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•");
         }
     }
 
     private void setCost() throws IOException, ClassNotFoundException {
-        System.out.println("\t\t[Approved List]");
+        System.out.format("¶£¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶®¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶§%n");
+        System.out.format("¶ß¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°[Approved List ]¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶©                                                                                                           ¶¢%n");
+        System.out.format("¶ß¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶´¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶©%n");
+
         SetCostPolicyConroller setCostPolicyConroller = new SetCostPolicyConroller();
         Protocol protocol = setCostPolicyConroller.sendHouseListRequest(userDTO);
 
         List<HouseDTO> list = (List<HouseDTO>) protocol.getObject();
         int i = 0;
-        for (HouseDTO houseDTO : list) {
-            System.out.println(++i + ". " + houseDTO.toString());
-        }
 
-        System.out.print("\t\tEnter The Number You Want to Set Cost, (Back to -1) : ");
+        for (HouseDTO houseDTO : list) {
+            printFormatted(++i + ". " + houseDTO.getHouseName(), houseDTO.getHouseAddress(), firstColWidth, secondColWidth);
+        }
+        System.out.format("¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶™¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•%n");
+        System.out.println("                                                                     ¶£¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶§");
+        System.out.println("                                                                     ¶¢   Enter The Number You Want to Set Cost   ¶¢");
+        System.out.println("                                                                     ¶¢                (Back to -1)               ¶¢");
+        System.out.println("                                                                     ¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•");
+        System.out.print("                                                                                     Enter : ");
+
         int enter = MyIOStream.sc.nextInt();
 
         if (enter == -1) {
             System.out.println("Back..");
         } else if (enter > 0 && enter <= i) {
-            System.out.print("\t\tEnter Weekday Cost : ");
+            System.out.println("                                                                     ¶£¶°¶°                                       ¶°¶°¶§");
+            System.out.print("                                                                               Enter Weekday Cost : ");
             int weekdayCost = MyIOStream.sc.nextInt();
-            System.out.print("\t\tEnter Weekend Cost : ");
+            System.out.print("                                                                               Enter Weekend Cost : ");
             int weekendCost = MyIOStream.sc.nextInt();
+            System.out.println("                                                                     ¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•");
 
-            System.out.print("\t\tWould you like to register? (Enter 1 to register, back to -1) : ");
+            System.out.println("                                                                     ¶£¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶§");
+            System.out.println("                                                                     ¶¢        Would you like to register?        ¶¢");
+            System.out.println("                                                                     ¶¢          (1) YES   (2) NO, BACK           ¶¢");
+            System.out.println("                                                                     ¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•");
+            System.out.print("                                                                                     Selection : ");
+
             int input = MyIOStream.sc.nextInt();
 
             if (input == -1) {
@@ -325,7 +453,9 @@ public class HostView {
                     FeePolicyDTO feePolicyDTO = new FeePolicyDTO(list.get(enter - 1).getHouseId(), weekdayCost, weekendCost);
                     protocol = setCostPolicyConroller.costSettingRequest(feePolicyDTO);
                     if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
-                        System.out.println("Success!");
+                        System.out.println("                                                                     ¶£¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶§");
+                        System.out.println("                                                                     ¶¢           Success!           ¶¢");
+                        System.out.println("                                                                     ¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•");
                     } else if (protocol.getProtocolCode() == Protocol.CODE_ERROR) {
                         System.out.println(protocol.getObject());
                     }
@@ -345,51 +475,104 @@ public class HostView {
         Protocol protocol = setDiscountPolicyController.houseListRequest(userDTO);
         List<HouseAndDiscountDTO> list = (List<HouseAndDiscountDTO>) protocol.getObject();
         if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
-            System.out.println("[List]");
-            System.out.printf("%-20s%-10s%-15s%-15s\n", "[House Name]", "[Day]", "[Quantitative Discount]", "[Flat rate discount]");
+            System.out.format("¶£¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶§%n");
+            System.out.format("¶¢                                                                               [ Discount Policy ]                                                                                       ¶¢%n");
+            System.out.format("¶ß¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶®¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶®¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶®¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶©%n");
+            System.out.format("¶¢%-70s¶¢%-15s¶¢%-20s¶¢%-20s                                                 ¶¢%n", "[House Name]", "[Day]", "[Quantitative Discount]     ", "[Flat rate discount]");
+            System.out.format("¶ß¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶´¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶´¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶´¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶©%n");
+
             int i = 0;
             for (HouseAndDiscountDTO houseAndDiscountDTO : list) {
-                System.out.println(++i + ". " + houseAndDiscountDTO.toString());
+                printFormattedForAccommodationRequests(" "+ (++i) + ". " + houseAndDiscountDTO.getHouseDTO().getHouseName(),
+                        " " + String.valueOf(houseAndDiscountDTO.getDiscountPolicyDTO().getDiscountDay()),
+                        " " + String.valueOf(houseAndDiscountDTO.getDiscountPolicyDTO().getDiscount_amount()),
+                        " " + String.valueOf(houseAndDiscountDTO.getDiscountPolicyDTO().getDiscount_rate()), 70, 15, 28, 69);
             }
 
+            System.out.format("¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶™¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶™¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶™¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•%n");
+
             System.out.print("Select Number : ");
+
             int number = MyIOStream.sc.nextInt();
 
             if (number > 0 && number <= i) {
-                System.out.print("Enter Discount Day : ");
+                System.out.println("                                                                     ¶£¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶§");
+                System.out.println("                                                                     ¶¢             Set discount period           ¶¢");
+                System.out.println();
+                System.out.print("                                                                                  Period setting : ");
+
                 int discountDay = MyIOStream.sc.nextInt();
-                System.out.print("(1) Quantitative Discount (2) Flat rate discount : ");
+                System.out.println("                                                                     ¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•");
+                System.out.println("                                                                     ¶£¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶§");
+                System.out.println("                                                                     ¶¢          1. Quantitative Discount         ¶¢");
+                System.out.println("                                                                     ¶¢          2. Flat rate discount            ¶¢");
+                System.out.println("                                                                     ¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•");
+                System.out.print("                                                                                     Selection : ");
                 int select = MyIOStream.sc.nextInt();
                 if (select == 1) {
-                    System.out.print("Amount : ");
+                    System.out.println("                                                                     ¶£¶°¶°                                       ¶°¶°¶§");
+                    System.out.print("                                                                                 Amount Set : ");
                     int amount = MyIOStream.sc.nextInt();
+                    System.out.println("                                                                     ¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•");
+
                     if (amount < 0) {
                         System.out.println("Wrong Input..");
                     } else {
-                        System.out.print("Start Date (YYYY-MM-DD) : ");
+                        System.out.println("                                                                     ¶£¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶§");
+                        System.out.println("                                                                     ¶¢              Enter Start Date             ¶¢");
+                        System.out.println("                                                                     ¶¢                (YYYY-MM-DD)               ¶¢");
+                        System.out.println();
+                        System.out.print("                                                                                  Enter : ");
                         MyIOStream.sc.nextLine(); // Buffer Clear
                         String startDate = MyIOStream.sc.nextLine();
-                        System.out.print("End Date (YYYY-MM-DD) : ");
+                        System.out.println("                                                                     ¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•");
+
+                        System.out.println("                                                                     ¶£¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶§");
+                        System.out.println("                                                                     ¶¢               Enter End Date              ¶¢");
+                        System.out.println("                                                                     ¶¢                (YYYY-MM-DD)               ¶¢");
+                        System.out.println();
+                        System.out.print("                                                                                  Enter : ");
                         String endDate = MyIOStream.sc.nextLine();
+                        System.out.println("                                                                     ¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•");
+
                         protocol = setDiscountPolicyController.setDiscountPolicyRequest(list.get(number - 1).getDiscountPolicyDTO().getHouseId(), discountDay, amount, 0, startDate, endDate);
                         if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
-                            System.out.println("Success!");
+                            System.out.println("                                                                          ¶£¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶§");
+                            System.out.println("                                                                          ¶¢           Success!           ¶¢");
+                            System.out.println("                                                                          ¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•");
                         }
                     }
                 } else if (select == 2) {
-                    System.out.print("Rate : ");
+                    System.out.println("                                                                     ¶£¶°¶°                                       ¶°¶°¶§");
+                    System.out.print("                                                                                    Set Rate : ");
                     int rate = MyIOStream.sc.nextInt();
+                    System.out.println("                                                                     ¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•");
+
                     if (rate < 0) {
                         System.out.println("Wrong Input..");
                     } else {
-                        System.out.print("Start Date (YYYY-MM-DD) : ");
+                        System.out.println("                                                                     ¶£¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶§");
+                        System.out.println("                                                                     ¶¢              Enter Start Date             ¶¢");
+                        System.out.println("                                                                     ¶¢                (YYYY-MM-DD)               ¶¢");
+                        System.out.println();
+                        System.out.print("                                                                                  Enter : ");
                         MyIOStream.sc.nextLine(); // Buffer Clear
                         String startDate = MyIOStream.sc.nextLine();
-                        System.out.print("End Date (YYYY-MM-DD) : ");
+                        System.out.println("                                                                     ¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•");
+
+                        System.out.println("                                                                     ¶£¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶§");
+                        System.out.println("                                                                     ¶¢               Enter End Date              ¶¢");
+                        System.out.println("                                                                     ¶¢                (YYYY-MM-DD)               ¶¢");
+                        System.out.println();
+                        System.out.print("                                                                                  Enter : ");
                         String endDate = MyIOStream.sc.nextLine();
+                        System.out.println("                                                                     ¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•");
+
                         protocol = setDiscountPolicyController.setDiscountPolicyRequest(list.get(number - 1).getDiscountPolicyDTO().getHouseId(), discountDay, 0, rate, startDate, endDate);
                         if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
-                            System.out.println("Success!");
+                            System.out.println("                                                                     ¶£¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶§");
+                            System.out.println("                                                                     ¶¢           Success!           ¶¢");
+                            System.out.println("                                                                     ¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•");
                         }
                     }
                 } else {
@@ -403,17 +586,100 @@ public class HostView {
         }
     }
 
+
     private int getCommand() {
-        System.out.println("\t\t<Host Page>");
-        System.out.println("\t\t1. Accommodation Registration");
-        System.out.println("\t\t2. Set Cost");
-        System.out.println("\t\t3. Set Discount Policy");
-        System.out.println("\t\t4. Check reservation status");
-        System.out.println("\t\t5. Approval/Reject guest's accommodation reservation");
-        System.out.println("\t\t6. Register a reply to a guest review");
-        System.out.println("\t\t0. Log Out");
+        System.out.format("¶£¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶®¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶§%n");
+        System.out.format("¶¢                             <Host Page>                                ¶¢                                                                                                           ¶¢%n");
+        System.out.format("¶ß¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶´¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶©%n");
+        System.out.format("¶¢         1. Accommodation Registration                                  ¶¢                                                                                                           ¶¢%n");
+        System.out.format("¶¢         2. Set Cost                                                    ¶¢                                                                                                           ¶¢%n");
+        System.out.format("¶¢         3. Set Discount Policy                                         ¶¢                                                                                                           ¶¢%n");
+        System.out.format("¶¢         4. Check reservation status                                    ¶¢                                                                                                           ¶¢%n");
+        System.out.format("¶¢         5. Approval/Reject guest's accommodation reservation           ¶¢                                                                                                           ¶¢%n");
+        System.out.format("¶¢         6. Register a reply to a guest review                          ¶¢                                                                                                           ¶¢%n");
+        System.out.format("¶¢         0. Log Out                                                     ¶¢                                                                                                           ¶¢%n");
+        System.out.format("¶¶¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶™¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶•%n");
         System.out.print("enter : ");
 
         return MyIOStream.sc.nextInt();
+    }
+
+    private static void printFormatted(String label, String text, int labelWidth, int textWidth) {
+        String[] labelWords = label.split(" ");
+        String[] textWords = text.split(" ");
+        ArrayList<String> formattedLabel = new ArrayList<>();
+        StringBuilder labelLine = new StringBuilder();
+        StringBuilder textLine = new StringBuilder();
+
+        // ∂Û∫ß ¡ŸπŸ≤ﬁ √≥∏Æ
+        for (String word : labelWords) {
+            if (labelLine.length() + word.length() + 1 > labelWidth) { // ∞¯πÈ ∆˜«‘
+                formattedLabel.add(labelLine.toString().trim());
+                labelLine.setLength(0);
+            }
+            labelLine.append(word).append(" ");
+        }
+        formattedLabel.add(labelLine.toString().trim()); // ∏∂¡ˆ∏∑ ∂Û∫ß ¡Ÿ √ﬂ∞°
+
+        // ≈ÿΩ∫∆Æ ¡ŸπŸ≤ﬁ π◊ ∂Û∫ß∞˙ «‘≤≤ √‚∑¬
+        int labelIndex = 0;
+        for (String word : textWords) {
+            if (textLine.length() + word.length() + 1 > textWidth) { // ∞¯πÈ ∆˜«‘
+                String currentLabel = labelIndex < formattedLabel.size() ? formattedLabel.get(labelIndex) : "";
+                System.out.printf("¶¢ %-" + labelWidth + "s ¶¢ %-" + textWidth + "s ¶¢%n", currentLabel, textLine.toString().trim());
+                textLine.setLength(0);
+                labelIndex++;
+            }
+            textLine.append(word).append(" ");
+        }
+        // ≈ÿΩ∫∆Æ¿« ∏∂¡ˆ∏∑ ¡Ÿ∞˙ ≥≤¿∫ ∂Û∫ß ¡Ÿ √‚∑¬
+        while (labelIndex < formattedLabel.size() || textLine.length() > 0) {
+            String currentLabel = labelIndex < formattedLabel.size() ? formattedLabel.get(labelIndex) : "";
+            String currentText = textLine.toString().trim();
+            System.out.printf("¶¢ %-" + labelWidth + "s ¶¢ %-" + textWidth + "s ¶¢%n", currentLabel, currentText);
+            textLine.setLength(0);
+            labelIndex++;
+        }
+    }
+
+    private static void printFormattedForAccommodationRequests(String houseName, String houseAddress, String hostName, String hostID,
+                                                               int firstWidth, int secondWidth, int thirdWidth, int fourthWidth) {
+        ArrayList<String> houseNameLines = splitAndFormat(houseName, firstWidth);
+        ArrayList<String> houseAddressLines = splitAndFormat(houseAddress, secondWidth);
+        ArrayList<String> hostNameLines = splitAndFormat(hostName, thirdWidth);
+        ArrayList<String> hostIDLines = splitAndFormat(hostID, fourthWidth);
+
+        int maxLines = Math.max(Math.max(houseNameLines.size(), houseAddressLines.size()),
+                Math.max(hostNameLines.size(), hostIDLines.size()));
+
+        for (int i = 0; i < maxLines; i++) {
+            String houseNameLine = i < houseNameLines.size() ? houseNameLines.get(i) : "";
+            String houseAddressLine = i < houseAddressLines.size() ? houseAddressLines.get(i) : "";
+            String hostNameLine = i < hostNameLines.size() ? hostNameLines.get(i) : "";
+            String hostIDLine = i < hostIDLines.size() ? hostIDLines.get(i) : "";
+
+            System.out.format("¶¢%-" + firstWidth + "s¶¢%-" + secondWidth + "s¶¢%-" + thirdWidth + "s¶¢%-" + fourthWidth + "s¶¢%n",
+                    houseNameLine, houseAddressLine, hostNameLine, hostIDLine);
+        }
+    }
+
+    private static ArrayList<String> splitAndFormat(String text, int width) {
+        String[] words = text.split(" ");
+        ArrayList<String> lines = new ArrayList<>();
+        StringBuilder currentLine = new StringBuilder();
+
+        for (String word : words) {
+            if (currentLine.length() + word.length() + 1 > width) {
+                lines.add(currentLine.toString().trim());
+                currentLine = new StringBuilder();
+            }
+            currentLine.append(word).append(" ");
+        }
+
+        if (currentLine.length() > 0) {
+            lines.add(currentLine.toString().trim());
+        }
+
+        return lines;
     }
 }

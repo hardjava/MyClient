@@ -74,6 +74,7 @@ public class MyPageView {
                     System.out.format(leftAlignFormat1, "", "Check-out: " + completedStayDTO.getCheckOut());
                     System.out.format(leftAlignFormat1, "", "Cost: " + completedStayDTO.getCost());
                     System.out.format(leftAlignFormat1, "", reviewStatus);
+                    System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
                 }
             }
             System.out.format("戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扛式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
@@ -150,6 +151,7 @@ public class MyPageView {
                     System.out.format(leftAlignFormat1, "", "Check-out: " + completedStayDTO.getCheckOut());
                     System.out.format(leftAlignFormat1, "", "Cost: " + completedStayDTO.getCost());
                     System.out.format(leftAlignFormat1, "", "Status: " + completedStayDTO.getReservationStatus().name());
+                    System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
                 }
             }
 
