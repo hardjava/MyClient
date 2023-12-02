@@ -77,16 +77,13 @@ public class AdminView {
                 List<ReservationDTO> reservationDTOList = (List<ReservationDTO>) protocol.getObject();
                 System.out.println("[Reservation List]");
                 if (reservationDTOList != null) {
-                    for (ReservationDTO reservationDTO : reservationDTOList) {
-                        System.out.println(reservationDTO.toString());
-                    }
+        //!@#!@            MyCalender.print(reservationDTOList);
                 }
             } else {
                 System.out.println("Wrong Input..");
             }
-
-
         } else if (command == 2) {
+            System.out.print("Select Accommodation number : ");
             int select = MyIOStream.sc.nextInt();
         } else {
             System.out.println("Wrong Input..");

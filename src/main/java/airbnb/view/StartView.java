@@ -2,9 +2,6 @@ package airbnb.view;
 
 import airbnb.network.MyIOStream;
 
-import java.io.IOException;
-import java.text.ParseException;
-
 public class StartView {
 
     public void showView() throws Exception {
@@ -27,21 +24,23 @@ public class StartView {
                 case 3:
                     break;
                 default:
-                    System.out.println("Please Enter (1) ~ (3)");
+                    System.out.println("忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖");
+                    System.out.println("弛   Please Select (1) ~ (3)    弛");
+                    System.out.println("戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎");
                     break;
             }
         }
     }
 
     private int getCommand() {
-        System.out.format("忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖%n");
-        System.out.format("弛                               <Initial Menu>                              弛%n");
-        System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
-        System.out.format("弛                              [ 1. Login     ]                             弛%n");
-        System.out.format("弛                              [ 2. Sign in   ]                             弛%n");
-        System.out.format("弛                              [ 3. Terminate ]                             弛%n");
-        System.out.format("戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
-        System.out.print("Enter Command: ");
+        System.out.format("                                                    忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖%n");
+        System.out.format("                                                    弛                               <Initial Menu>                              弛%n");
+        System.out.format("                                                    戍式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
+        System.out.format("                                                    弛                              [ 1. Login     ]                             弛%n");
+        System.out.format("                                                    弛                              [ 2. Sign in   ]                             弛%n");
+        System.out.format("                                                    弛                              [ 3. Terminate ]                             弛%n");
+        System.out.format("                                                    戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
+        System.out.print("                                                                                    Enter Command: ");
 
         return MyIOStream.sc.nextInt();
     }
