@@ -21,4 +21,11 @@ public class AccommodationSituationController {
 
         return (Protocol) MyIOStream.ois.readObject();
     }
+
+    public Protocol afterStayReservationRequest(HouseDTO houseDTO) throws IOException, ClassNotFoundException {
+        Protocol protocol = new Protocol(Protocol.TYPE_MONTHLY_RESERVATION_STATUS_FOR_ACCOMMODATION, Protocol.CODE_REQUEST_COMPLETED_RESERVATION, houseDTO);
+        MyIOStream.oos.writeObject(protocol);
+
+        return (Protocol) MyIOStream.ois.readObject();
+    }
 }

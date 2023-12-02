@@ -182,9 +182,7 @@ public class HostView {
                 List<ReservationDTO> reservationDTOList = (List<ReservationDTO>) protocol.getObject();
                 System.out.println("[Reservation Status]");
                 if (reservationDTOList != null) {
-//                   CalendarViewerForAdmin.run(reservationDTOList);
-                    //HouseAndFeeDTO 받아야 됨
-                    CalendarViewerForAdmin_host.run(reservationDTOList, list.get(enter -1).getBedroom());
+                    CalendarViewerForAdmin_host.run(reservationDTOList, list.get(enter -1).getBedroom(), list.get(enter - 1).getHouseType());
                 }
             } else {
                 System.out.println("Wrong Input..");

@@ -138,6 +138,7 @@ public class Protocol implements Serializable {
 //    public static final int CODE_SEND_REJECTED_ACCOMMODATION_LIST = 5;              // 거절된 숙소 목록 전달(클라이언트 → 서버)----
 
     public static final int TYPE_MONTHLY_RESERVATION_STATUS_FOR_ACCOMMODATION = 21; // 숙소별 월별 예약 현황
+    public static final int CODE_REQUEST_COMPLETED_RESERVATION = 3; // 숙박완료된거
     public static final int CODE_REQUEST_ACCOMMODATION_LIST = 1;    // 등록된 숙소 요청
     public static final int CODE_REQUEST_CALCULATE = 2;     // 달력 출력 및 총 매출 출력
 

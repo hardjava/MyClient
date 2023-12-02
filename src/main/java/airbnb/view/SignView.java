@@ -15,9 +15,9 @@ public class SignView {
         System.out.format("                                                      忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖%n");
         System.out.format("                                                      弛                                  <Sign Up>                                弛%n");
         System.out.format("                                                                                                                                   %n");
-        System.out.println("                                                                             忙式式                          式式忖");
-        System.out.println("                                                                             弛     (1) HOST   (2) GUEST     弛");
-        System.out.println("                                                                                       Selection : ");
+        System.out.println("                                                                            忙式式                          式式忖");
+        System.out.println("                                                                            弛     (1) HOST   (2) GUEST     弛");
+        System.out.print("                                                                                      Selection : ");
         int roleNum = MyIOStream.sc.nextInt();
         String roleType;
         System.out.println("                                                                             戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎");
@@ -32,11 +32,12 @@ public class SignView {
         System.out.print("                                                                                    Enter New Passwd : ");
         String newPwd = MyIOStream.sc.next();
         System.out.print("                                                                                    Enter Name : ");
-        String newName = MyIOStream.sc.next();
+        MyIOStream.sc.nextLine();
+        String newName = MyIOStream.sc.nextLine();
         System.out.print("                                                                                    Enter Birthday (YYYYMMDD) : ");
-        String newBirthDay = MyIOStream.sc.next();
+        String newBirthDay = MyIOStream.sc.nextLine();
         System.out.print("                                                                                    Enter User PhoneNumber : ");
-        String newPhoneNumber = MyIOStream.sc.next();
+        String newPhoneNumber = MyIOStream.sc.nextLine();
 
         SignController signController = new SignController();
         Protocol protocol = signController.signRequest(newName, newPhoneNumber, newID, newPwd, newBirthDay, RoleType.valueOf(roleType));

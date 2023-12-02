@@ -1,5 +1,6 @@
 package airbnb.view;
 
+import airbnb.network.HouseType;
 import airbnb.persistence.dto.ReservationDTO;
 
 import java.text.SimpleDateFormat;
@@ -7,7 +8,7 @@ import java.util.*;
 
 public class CalendarViewerForAdmin_host {
 
-    public static void run(List<ReservationDTO> inputList, int bedroom) {
+    public static void run(List<ReservationDTO> inputList, int bedroom, HouseType houseType) {
 
         List<Date> dateList = new ArrayList<>();
 
@@ -27,13 +28,13 @@ public class CalendarViewerForAdmin_host {
         List<Integer> monthList = new ArrayList<>(monthSet); // 월 정보를 담은 HashSet을 ArrayList로 변환
 
         for (int i = 0; i < monthList.size(); i++) {
-            selectMonth(monthList.get(i), inputList, bedroom);
+            selectMonth(monthList.get(i), inputList, bedroom, houseType);
             System.out.println();
         }
 
     }
 
-    private static void inputDate(int month, List<ReservationDTO> inputList, int bedroom) {
+    private static void inputDate(int month, List<ReservationDTO> inputList, int bedroom, HouseType houseType) {
 
 
         int[] arr;
@@ -49,12 +50,12 @@ public class CalendarViewerForAdmin_host {
 
 
         arr = returnArr(objectList, bedroom, month);
-        view(month, list, arr);
+        view(month, list, arr, houseType);
 
     }
 
 
-    private static void view(int monthValue, List<Date> list, int[] arr) {
+    private static void view(int monthValue, List<Date> list, int[] arr, HouseType houseType) {
 
         Collections.sort(list);
         ArrayList<Integer> arrayList = new ArrayList<>();
@@ -126,11 +127,19 @@ public class CalendarViewerForAdmin_host {
                     if (arrayList_1.get(j).equals(" ")) {
                         System.out.printf("%-12s", " ");
                     } else {
-                        System.out.print("ROOM : ");
+                        if (houseType == HouseType.PRIVATE) {
+                            System.out.print("ROOM : ");
+                        } else {
+                            System.out.print("       ");
+                        }
                         if (arr[Integer.parseInt(arrayList_1.get(j))] == 0) {
                             System.out.printf("%-5s", "X");
                         } else {
-                            System.out.printf("%-5d", arr[Integer.parseInt(arrayList_1.get(j))]);
+                            if (houseType == HouseType.PRIVATE) {
+                                System.out.printf("%-5d", arr[Integer.parseInt(arrayList_1.get(j))]);
+                            } else {
+                                System.out.printf("%-5s", "O");
+                            }
 
                         }
 
@@ -168,44 +177,44 @@ public class CalendarViewerForAdmin_host {
     }
 
 
-    public static void selectMonth(int val, List<ReservationDTO> reservationDTOList, int bedroom) {
+    public static void selectMonth(int val, List<ReservationDTO> reservationDTOList, int bedroom, HouseType houseType) {
 
         switch (val) {
             case 1:
-                inputDate(1, reservationDTOList, bedroom);
+                inputDate(1, reservationDTOList, bedroom, houseType);
                 break;
             case 2:
-                inputDate(2, reservationDTOList, bedroom);
+                inputDate(2, reservationDTOList, bedroom, houseType);
                 break;
             case 3:
-                inputDate(3, reservationDTOList, bedroom);
+                inputDate(3, reservationDTOList, bedroom, houseType);
                 break;
             case 4:
-                inputDate(4, reservationDTOList, bedroom);
+                inputDate(4, reservationDTOList, bedroom, houseType);
                 break;
             case 5:
-                inputDate(5, reservationDTOList, bedroom);
+                inputDate(5, reservationDTOList, bedroom, houseType);
                 break;
             case 6:
-                inputDate(6, reservationDTOList, bedroom);
+                inputDate(6, reservationDTOList, bedroom, houseType);
                 break;
             case 7:
-                inputDate(7, reservationDTOList, bedroom);
+                inputDate(7, reservationDTOList, bedroom, houseType);
                 break;
             case 8:
-                inputDate(8, reservationDTOList, bedroom);
+                inputDate(8, reservationDTOList, bedroom, houseType);
                 break;
             case 9:
-                inputDate(9, reservationDTOList, bedroom);
+                inputDate(9, reservationDTOList, bedroom, houseType);
                 break;
             case 10:
-                inputDate(10, reservationDTOList, bedroom);
+                inputDate(10, reservationDTOList, bedroom, houseType);
                 break;
             case 11:
-                inputDate(11, reservationDTOList, bedroom);
+                inputDate(11, reservationDTOList, bedroom, houseType);
                 break;
             case 12:
-                inputDate(12, reservationDTOList, bedroom);
+                inputDate(12, reservationDTOList, bedroom, houseType);
                 break;
         }
         System.out.println();

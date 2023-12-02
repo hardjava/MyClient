@@ -1,4 +1,4 @@
-package airbnb;
+package airbnb.controller;
 
 import airbnb.network.MyIOStream;
 import airbnb.network.Protocol;

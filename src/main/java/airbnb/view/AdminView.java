@@ -25,7 +25,7 @@ public class AdminView {
             System.out.format("│   <Admin Page>         │                                                    │%n");
             System.out.format("├────────────────────────┼────────────────────────────────────────────────────┤%n");
             System.out.format("│ 1. Approval/Reject Host's Accommodation registration                        │%n");
-            System.out.format("│ 2. Check current accommodation situation                                    │%n");
+            System.out.format("│ 2. Check accommodation situation                                            │%n");
             System.out.format("│ 0. Logout              │                                                    │%n");
             System.out.format("└────────────────────────┴────────────────────────────────────────────────────┘%n");
 
@@ -68,35 +68,37 @@ public class AdminView {
         int accommodationNum = MyIOStream.sc.nextInt();
 
         if (accommodationNum > 0 && accommodationNum <= i) {
-            protocol = accommodationSituationController.monthlyReservationRequest(houseDTOList.get(accommodationNum - 1).getHouseId());
-            MoreHouseInfoDTO moreHouseInfoDTO = (MoreHouseInfoDTO) protocol.getObject();
-            List<ReservationDTO> reservationDTOList = moreHouseInfoDTO.getReservationDTOList();
-            System.out.print("Select Month (1 ~ 12) : ");
-            int enterMonth = MyIOStream.sc.nextInt();
+            //추가 시작
+            System.out.print("(1) Check monthly reservation status (2) Check total monthly sales : ");
+            int num = MyIOStream.sc.nextInt();
 
-            if (enterMonth >= 1 && enterMonth <= 12) {
-                CalendarViewerForAdmin_test.selectMonth(enterMonth, reservationDTOList, houseDTOList.get(accommodationNum - 1));
-                //  CalendarViewer.selectMonth(reservationDTOList, moreHouseInfoDTO.getDiscountPolicyDTO(), moreHouseInfoDTO.getFeePolicyDTO());
-//              System.out.printf("%-10s%-5s%-20s%-20s%-20s%-20s%-20s\n", "userId", "guestNum", "reservationDate", "checkIn", "checkOut", "cost", "reservationStatus");
+            if (num == 1) { // 모든 reservationDTOList 가져와서 상태에 따라 달력에 표시해서 띄워줌
+                protocol = accommodationSituationController.monthlyReservationRequest(houseDTOList.get(accommodationNum - 1).getHouseId());
+                MoreHouseInfoDTO moreHouseInfoDTO = (MoreHouseInfoDTO) protocol.getObject();
+                List<ReservationDTO> reservationDTOList = moreHouseInfoDTO.getReservationDTOList();
+                System.out.print("Select Month (1 ~ 12) : ");
+                int enterMonth = MyIOStream.sc.nextInt();
 
-//                for (ReservationDTO reservationDTO : reservationDTOList) {
-//                    Calendar calendar = Calendar.getInstance();
-//                    calendar.setTime(reservationDTO.getCheckIn());
-//
-//                    int reservationMonth = calendar.get(Calendar.MONTH) + 1;
-//                    if (enterMonth == reservationMonth) {
-//                        System.out.println(reservationDTO.toString());
-//                    }
+                if (enterMonth >= 1 && enterMonth <= 12) {
+                    CalendarViewerForAdmin_test.selectMonth(enterMonth, reservationDTOList, houseDTOList.get(accommodationNum - 1));
+                } else {
+                    System.out.println("Wrong Input..");
+                }
+            } else if (num == 2) {
+                protocol = accommodationSituationController.afterStayReservationRequest(houseDTOList.get(accommodationNum - 1));
+                MoreHouseInfoDTO moreHouseInfoDTO = (MoreHouseInfoDTO) protocol.getObject();
+                List<ReservationDTO> reservationDTOList = moreHouseInfoDTO.getReservationDTOList();
+                System.out.print("Select Month (1 ~ 12) : ");
+                int enterMonth = MyIOStream.sc.nextInt();
+                if (enterMonth >= 1 && enterMonth <= 12) {
+                    TotalCost.totalCost(enterMonth, reservationDTOList, moreHouseInfoDTO.getDiscountPolicyDTO(), moreHouseInfoDTO.getFeePolicyDTO(), houseDTOList.get(accommodationNum - 1));
+                } else {
+                    System.out.println("Wrong Input..");
+                }
+            } else {
+                System.out.println("Wrong Input..");
             }
-        } else {
-            System.out.println("Wrong Input..");
         }
-
-
-//            CalendarViewer.selectMonth(reservationDTOList);
-        //  } else {
-        //    System.out.println("Wrong Input..");
-        //}
     }
 
     private void manageAccommodationRequests() throws IOException, ClassNotFoundException {

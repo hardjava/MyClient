@@ -1,6 +1,6 @@
 package airbnb.view;
 
-import airbnb.ReservationRequestController;
+import airbnb.controller.ReservationRequestController;
 import airbnb.controller.AmenitiesRequestController;
 import airbnb.controller.SearchAllHouseController;
 import airbnb.controller.SearchHouseController;
@@ -106,7 +106,7 @@ public class GuestView {
                 System.out.print("Enter (separated by commas) (If not, Press 'Enter') : ");
                 MyIOStream.sc.nextLine(); // Buffer Clear
                 String basicAmenities = MyIOStream.sc.nextLine();
-                if (!basicAmenities.equals("-1")) {
+                if (!basicAmenities.equals("")) {
                     String[] basicArr = basicAmenities.split(",");
                     for (String s : basicArr) {
                         int n = Integer.parseInt(s);
@@ -133,7 +133,7 @@ public class GuestView {
 
                 System.out.print("Enter (separated by commas) (If not, Press 'Enter') : ");
                 String safetyAmenities = MyIOStream.sc.nextLine();
-                if (!safetyAmenities.equals("-1")) {
+                if (!safetyAmenities.equals("")) {
                     String[] safetyArr = safetyAmenities.split(",");
                     for (String s : safetyArr) {
                         int n = Integer.parseInt(s);
@@ -159,7 +159,7 @@ public class GuestView {
 
                 System.out.print("Enter (separated by commas) (If not, Press 'Enter') : ");
                 String accessibilityAmenities = MyIOStream.sc.nextLine();
-                if (!accessibilityAmenities.equals("-1")) {
+                if (!accessibilityAmenities.equals("")) {
                     String[] accessArr = accessibilityAmenities.split(",");
                     for (String s : accessArr) {
                         int n = Integer.parseInt(s);
@@ -183,7 +183,7 @@ public class GuestView {
                 System.out.format("                                             忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖%n");
                 System.out.format("                                             弛                       Which accommodation would you like to see more INFO?                    弛%n");
                 System.out.format("                                             戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
-                System.out.print ("                                                                                      Enter : ");
+                System.out.print("                                                                                      Enter : ");
 
                 int index = MyIOStream.sc.nextInt();
 
@@ -400,7 +400,7 @@ public class GuestView {
         System.out.println("                                                                             忙式式                          式式忖");
         System.out.println("                                                                             弛  (1) Reservation  (2) Back   弛");
         System.out.println("                                                                             戌式式                          式式戎");
-        System.out.print  ("                                                                                       Selection : ");
+        System.out.print("                                                                                       Selection : ");
         int command = MyIOStream.sc.nextInt();
         if (command == 1) {
             reservation(houseAndFeeDTO, moreHouseInfoDTO);
@@ -428,7 +428,6 @@ public class GuestView {
         if (reservationDTOList != null) {
 //           MyCalender.print(reservationDTOList);
             CalendarViewerForAdmin.run(reservationDTOList, houseAndFeeDTO);
-
         } else {
             System.out.println("                                                                         忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖");
             System.out.println("                                                                         弛 All Date is Possible to Reservation  弛");
@@ -439,7 +438,7 @@ public class GuestView {
         System.out.format("                                                      弛                                                                           弛%n");
         System.out.format("                                                                                                                                   %n");
 
-        System.out.print ("                                                                               Adult Num : ");
+        System.out.print("                                                                               Adult Num : ");
         int adultNum = MyIOStream.sc.nextInt();
         System.out.print("                                                                                Child Num : ");
         int childNum = MyIOStream.sc.nextInt();
@@ -452,14 +451,21 @@ public class GuestView {
 
         int cost = 0;
 
-        if (discountRate > 0) {
-            cost = SaleCalculator.CalculateRate(checkIn, checkOut, discountPolicyDTO, feePolicyDTO, totalNum);
+        if (houseAndFeeDTO.getHouseType() == HouseType.PRIVATE) {
+            if (discountRate > 0) {
+                cost = SaleCalculator.CalculateRate(checkIn, checkOut, discountPolicyDTO, feePolicyDTO, totalNum);
+            } else {
+                cost = SaleCalculator.CalculateAmount(checkIn, checkOut, discountPolicyDTO, feePolicyDTO, totalNum);
+            }
         } else {
-            cost = SaleCalculator.CalculateAmount(checkIn, checkOut, discountPolicyDTO, feePolicyDTO, totalNum);
+            if (discountRate > 0) {
+                cost = SaleCalculator_2.CalculateRate(checkIn, checkOut, discountPolicyDTO, feePolicyDTO, totalNum);
+            } else {
+                cost = SaleCalculator_2.CalculateAmount(checkIn, checkOut, discountPolicyDTO, feePolicyDTO, totalNum);
+            }
         }
-
         System.out.println("                                                                             忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖");
-        System.out.format ("                                                                                    Cost = %s $             \n", cost);
+        System.out.format("                                                                                    Cost = %s $             \n", cost);
         System.out.println("                                                                             戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎");
 
         System.out.println("                                                                     忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖");
@@ -473,7 +479,7 @@ public class GuestView {
 
         if (enter == 1) {
             ReservationRequestController reservationRequestController = new ReservationRequestController();
-            Protocol protocol = reservationRequestController.reservationRequest(houseAndFeeDTO.getHouseId(), userDTO.getUserId(), totalNum, checkIn, checkOut, 0);
+            Protocol protocol = reservationRequestController.reservationRequest(houseAndFeeDTO.getHouseId(), userDTO.getUserId(), totalNum, checkIn, checkOut, cost);
 
             if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
                 System.out.println("                                                                             忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖");
