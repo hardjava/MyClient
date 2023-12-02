@@ -10,8 +10,6 @@ import java.sql.Date;
 
 @Setter
 @Getter
-@Builder
-@AllArgsConstructor
 public class HouseAndDiscountDTO implements Serializable {
     private HouseDTO houseDTO;
     private DiscountPolicyDTO discountPolicyDTO;
@@ -27,7 +25,7 @@ public class HouseAndDiscountDTO implements Serializable {
             if (discount_rate == null)
                 discount_rate = 0;
         }
-        this.discountPolicyDTO = new DiscountPolicyDTO(discountDay, discount_amount, discount_rate, houseId, discountStart, discountEnd);
+        this.discountPolicyDTO = new DiscountPolicyDTO(houseId, discountDay ,discount_amount, discount_rate, discountStart, discountEnd);
     }
     public String toString() {
         return String.format("%-20s%-10d%-15d%-15d", houseDTO.getHouseName(), discountPolicyDTO.getDiscountDay(), discountPolicyDTO.getDiscount_amount(), discountPolicyDTO.getDiscount_rate());
