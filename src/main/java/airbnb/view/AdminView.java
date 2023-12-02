@@ -7,7 +7,6 @@ import airbnb.network.Protocol;
 import airbnb.persistence.dto.*;
 
 import java.io.IOException;
-import java.util.Calendar;
 import java.util.List;
 
 public class AdminView {
@@ -20,7 +19,7 @@ public class AdminView {
         this.userDTO = userDTO;
     }
 
-    public void showView() throws IOException, ClassNotFoundException {
+    public void showView() throws Exception {
         for (; ; ) {
             System.out.format("┌────────────────────────┬────────────────────────────────────────────────────┐%n");
             System.out.format("│   <Admin Page>         │                                                    │%n");
@@ -52,7 +51,7 @@ public class AdminView {
         }
     }
 
-    private void checkAccommodationSituation() throws IOException, ClassNotFoundException {
+    private void checkAccommodationSituation() throws Exception {
         //숙소 리스트 출력
         AccommodationSituationController accommodationSituationController = new AccommodationSituationController();
         Protocol protocol = accommodationSituationController.listRequest();
@@ -70,33 +69,33 @@ public class AdminView {
 
         if (accommodationNum > 0 && accommodationNum <= i) {
             protocol = accommodationSituationController.monthlyReservationRequest(houseDTOList.get(accommodationNum - 1).getHouseId());
-            List<ReservationDTO> reservationDTOList = (List<ReservationDTO>) protocol.getObject();
-            System.out.print("Select Month (1 ~ 12) : ");
-            int enterMonth = MyIOStream.sc.nextInt();
+            MoreHouseInfoDTO moreHouseInfoDTO = (MoreHouseInfoDTO) protocol.getObject();
+            List<ReservationDTO> reservationDTOList = moreHouseInfoDTO.getReservationDTOList();
+          //  System.out.print("Select Month (1 ~ 12) : ");
+           // int enterMonth = MyIOStream.sc.nextInt();
 
-            if (enterMonth >= 1 && enterMonth <= 12) {
-                System.out.printf("%-10s%-5s%-20s%-20s%-20s%-20s%-20s\n", "userId", "guestNum", "reservationDate", "checkIn", "checkOut", "cost", "reservationStatus");
-                int total = 0;
-                for (ReservationDTO reservationDTO : reservationDTOList) {
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.setTime(reservationDTO.getCheckIn());
+           // if (enterMonth >= 1 && enterMonth <= 12) {
+                CalendarViewer.selectMonth(reservationDTOList, moreHouseInfoDTO.getDiscountPolicyDTO(), moreHouseInfoDTO.getFeePolicyDTO());
+//              System.out.printf("%-10s%-5s%-20s%-20s%-20s%-20s%-20s\n", "userId", "guestNum", "reservationDate", "checkIn", "checkOut", "cost", "reservationStatus");
 
-                    int reservationMonth = calendar.get(Calendar.MONTH) + 1;
-                    if (enterMonth == reservationMonth) {
-                        System.out.println(reservationDTO.toString());
-                        total += reservationDTO.getCost();
-                    }
-                }
-                System.out.println("Total : " + total);
+//                for (ReservationDTO reservationDTO : reservationDTOList) {
+//                    Calendar calendar = Calendar.getInstance();
+//                    calendar.setTime(reservationDTO.getCheckIn());
+//
+//                    int reservationMonth = calendar.get(Calendar.MONTH) + 1;
+//                    if (enterMonth == reservationMonth) {
+//                        System.out.println(reservationDTO.toString());
+//                    }
+//                }
             } else {
                 System.out.println("Wrong Input..");
             }
 
 
 //            CalendarViewer.selectMonth(reservationDTOList);
-        } else {
-            System.out.println("Wrong Input..");
-        }
+      //  } else {
+        //    System.out.println("Wrong Input..");
+        //}
     }
 
     private void manageAccommodationRequests() throws IOException, ClassNotFoundException {

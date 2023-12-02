@@ -1,61 +1,63 @@
 package airbnb.view;
 
 import airbnb.network.MyIOStream;
-import airbnb.persistence.dto.ReservationDTO;
 import airbnb.persistence.dto.DiscountPolicyDTO;
 import airbnb.persistence.dto.FeePolicyDTO;
+import airbnb.persistence.dto.ReservationDTO;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 
 public class CalendarViewer {
 
 
-    public static void selectMonth(List<ReservationDTO> reservationDTOList,DiscountPolicyDTO discountPolicyDTO, FeePolicyDTO feePolicyDTO, int guestNum) {
+    public static void selectMonth(List<ReservationDTO> reservationDTOList, DiscountPolicyDTO discountPolicyDTO, FeePolicyDTO feePolicyDTO) throws Exception {
         System.out.print("Select month!! ( 1 ~ 12 ): ");
         int input = MyIOStream.sc.nextInt();
         switch (input) {
             case 1:
-                viewCalendar(1, reservationDTOList, discountPolicyDTO,feePolicyDTO,guestNum);
+                viewCalendar(1, reservationDTOList, discountPolicyDTO, feePolicyDTO);
                 break;
             case 2:
-                viewCalendar(2, reservationDTOList, discountPolicyDTO,feePolicyDTO,guestNum);
+                viewCalendar(2, reservationDTOList, discountPolicyDTO, feePolicyDTO);
                 break;
             case 3:
-                viewCalendar(3, reservationDTOList, discountPolicyDTO,feePolicyDTO,guestNum);
+                viewCalendar(3, reservationDTOList, discountPolicyDTO, feePolicyDTO);
                 break;
             case 4:
-                viewCalendar(4, reservationDTOList, discountPolicyDTO,feePolicyDTO,guestNum);
+                viewCalendar(4, reservationDTOList, discountPolicyDTO, feePolicyDTO);
                 break;
             case 5:
-                viewCalendar(5, reservationDTOList, discountPolicyDTO,feePolicyDTO,guestNum);
+                viewCalendar(5, reservationDTOList, discountPolicyDTO, feePolicyDTO);
                 break;
             case 6:
-                viewCalendar(6, reservationDTOList, discountPolicyDTO,feePolicyDTO,guestNum);
+                viewCalendar(6, reservationDTOList, discountPolicyDTO, feePolicyDTO);
                 break;
             case 7:
-                viewCalendar(7, reservationDTOList, discountPolicyDTO,feePolicyDTO,guestNum);
+                viewCalendar(7, reservationDTOList, discountPolicyDTO, feePolicyDTO);
                 break;
             case 8:
-                viewCalendar(8, reservationDTOList, discountPolicyDTO,feePolicyDTO,guestNum);
+                viewCalendar(8, reservationDTOList, discountPolicyDTO, feePolicyDTO);
                 break;
             case 9:
-                viewCalendar(9, reservationDTOList, discountPolicyDTO,feePolicyDTO,guestNum);
+                viewCalendar(9, reservationDTOList, discountPolicyDTO, feePolicyDTO);
                 break;
             case 10:
-                viewCalendar(10, reservationDTOList, discountPolicyDTO,feePolicyDTO,guestNum);
+                viewCalendar(10, reservationDTOList, discountPolicyDTO, feePolicyDTO);
                 break;
             case 11:
-                viewCalendar(11, reservationDTOList, discountPolicyDTO,feePolicyDTO,guestNum);
+                viewCalendar(11, reservationDTOList, discountPolicyDTO, feePolicyDTO);
                 break;
             case 12:
-                viewCalendar(12, reservationDTOList, discountPolicyDTO,feePolicyDTO,guestNum);
+                viewCalendar(12, reservationDTOList, discountPolicyDTO, feePolicyDTO);
                 break;
         }
         System.out.println();
     }
 
-    private static void viewCalendar(int month, List<ReservationDTO> list,DiscountPolicyDTO discountPolicyDTO, FeePolicyDTO feePolicyDTO, int guestNum) {
+    private static void viewCalendar(int month, List<ReservationDTO> list, DiscountPolicyDTO discountPolicyDTO, FeePolicyDTO feePolicyDTO) throws Exception {
         List<Date> newList = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             newList = makeList(list.get(i).getCheckIn(), list.get(i).getCheckOut(), newList);
@@ -70,39 +72,57 @@ public class CalendarViewer {
             calendar.setTime(list.get(i).getCheckOut());
             int checkOutMonth = calendar.get(Calendar.MONTH) + 1;
 
-            if(checkInMonth==checkOutMonth){
+            if (checkInMonth == checkOutMonth) {
                 total += list.get(i).getCost();
-            }else{
-                int cost;
+            } else {
+                int frontCost;
+                int backCost;
                 calendar.setTime(list.get(i).getCheckOut());
                 int lastDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH); // 해당 월의 마지막 날짜
-                int discountRate = discountPolicyDTO.getDiscount_rate();
-                /*
-                if (discountRate > 0) {
-                    cost = SaleCalculator.CalculateRate(checkIn, checkOut, discountPolicyDTO, feePolicyDTO, totalNum);
-                } else {
-                    cost = SaleCalculator.CalculateAmount(checkIn, checkOut, discountPolicyDTO, feePolicyDTO, totalNum);
-                }
-*/
+                calendar.set(Calendar.DAY_OF_MONTH, lastDay);
+                Date modifiedDateFront = calendar.getTime();
 
+                LocalDate localDate = modifiedDateFront.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+                // LocalDate를 원하는 형식의 문자열로 변환
+                String formattedDate = localDate.toString();
+
+                calendar.setTime(list.get(i).getCheckOut());
+                calendar.set(Calendar.DAY_OF_MONTH, 1);
+                Date modifiedDateBack = calendar.getTime();
+                LocalDate localDate_1 = modifiedDateBack.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+                // LocalDate를 원하는 형식의 문자열로 변환
+                String formattedDate_1 = localDate_1.toString();
+
+
+                int discountRate = discountPolicyDTO.getDiscount_rate();
+
+
+                if (discountRate > 0) {
+                    frontCost = SaleCalculator.CalculateRate(list.get(i).getCheckIn().toString(), formattedDate, discountPolicyDTO, feePolicyDTO, list.get(i).getGuestNum());
+                    backCost = SaleCalculator.CalculateRate(formattedDate_1, list.get(i).getCheckOut().toString(), discountPolicyDTO, feePolicyDTO, list.get(i).getGuestNum());
+
+                } else {
+                    frontCost = SaleCalculator.CalculateAmount(list.get(i).getCheckIn().toString(), formattedDate, discountPolicyDTO, feePolicyDTO, list.get(i).getGuestNum());
+                    backCost = SaleCalculator.CalculateAmount(formattedDate_1, list.get(i).getCheckOut().toString(), discountPolicyDTO, feePolicyDTO, list.get(i).getGuestNum());
+
+                }
+
+                if (checkInMonth == month) {
+                    total += frontCost;
+
+                } else {
+                    total += backCost;
+                }
 
 
             }
 
 
         }
+        System.out.println("TOTAL COST : " + total);
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
     private static List<Date> makeList(Date checkIn, Date checkOut, List<Date> list) {
@@ -168,7 +188,7 @@ public class CalendarViewer {
         for (int i = 1; i <= lastDay; i++) {
             if (!arrayList.isEmpty()) {
                 if ((i == arrayList.get(count))) {
-                    System.out.print("●\t");
+                    System.out.print("-\t");
                     if (count == arrayList.size() - 1) {
 
                     } else {
@@ -191,12 +211,12 @@ public class CalendarViewer {
         }
     }
 
-    private static int printTotalCost(List<Date> list){
-        int total= 0;
+    private static int printTotalCost(List<Date> list) {
+        int total = 0;
         for (int i = 0; i < list.size(); i++) {
 //            total += list.get(i).getCost();
         }
-        return  total;
+        return total;
     }
 
 }

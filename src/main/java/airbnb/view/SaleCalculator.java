@@ -16,7 +16,6 @@ public class SaleCalculator {
         List<CostObject> withoutCostObject = new ArrayList<CostObject>();
         List<CostObject> withCostObject = new ArrayList<CostObject>();
 
-
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         Date checkInDate = dateFormat.parse(checkIn);
