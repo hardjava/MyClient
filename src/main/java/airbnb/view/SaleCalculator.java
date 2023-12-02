@@ -119,17 +119,22 @@ public class SaleCalculator {
     }
 
     public static List<Date> generateDateList_1(Date checkInDate, Date checkOutDate) {
+
         List<Date> dateList = new ArrayList<>();
+        if (checkInDate != null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(checkInDate);
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(checkInDate);
+            while (!calendar.getTime().after(checkOutDate)) {
+                dateList.add((Date) calendar.getTime().clone());
+                calendar.add(Calendar.DATE, 1);
+            }
 
-        while (!calendar.getTime().after(checkOutDate)) {
-            dateList.add((Date) calendar.getTime().clone());
-            calendar.add(Calendar.DATE, 1);
+            return dateList;
+        } else {
+            return dateList;
         }
 
-        return dateList;
     }
 
 

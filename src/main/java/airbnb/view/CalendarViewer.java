@@ -2,6 +2,8 @@ package airbnb.view;
 
 import airbnb.network.MyIOStream;
 import airbnb.persistence.dto.ReservationDTO;
+import airbnb.persistence.dto.DiscountPolicyDTO;
+import airbnb.persistence.dto.FeePolicyDTO;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -9,56 +11,56 @@ import java.util.*;
 public class CalendarViewer {
 
 
-    public static void selectMonth(List<ReservationDTO> reservationDTOList) {
+    public static void selectMonth(List<ReservationDTO> reservationDTOList,DiscountPolicyDTO discountPolicyDTO, FeePolicyDTO feePolicyDTO, int guestNum) {
         System.out.print("Select month!! ( 1 ~ 12 ): ");
         int input = MyIOStream.sc.nextInt();
         switch (input) {
             case 1:
-                viewCalendar(1, reservationDTOList);
+                viewCalendar(1, reservationDTOList, discountPolicyDTO,feePolicyDTO,guestNum);
                 break;
             case 2:
-                viewCalendar(2, reservationDTOList);
+                viewCalendar(2, reservationDTOList, discountPolicyDTO,feePolicyDTO,guestNum);
                 break;
             case 3:
-                viewCalendar(3, reservationDTOList);
+                viewCalendar(3, reservationDTOList, discountPolicyDTO,feePolicyDTO,guestNum);
                 break;
             case 4:
-                viewCalendar(4, reservationDTOList);
+                viewCalendar(4, reservationDTOList, discountPolicyDTO,feePolicyDTO,guestNum);
                 break;
             case 5:
-                viewCalendar(5, reservationDTOList);
+                viewCalendar(5, reservationDTOList, discountPolicyDTO,feePolicyDTO,guestNum);
                 break;
             case 6:
-                viewCalendar(6, reservationDTOList);
+                viewCalendar(6, reservationDTOList, discountPolicyDTO,feePolicyDTO,guestNum);
                 break;
             case 7:
-                viewCalendar(7, reservationDTOList);
+                viewCalendar(7, reservationDTOList, discountPolicyDTO,feePolicyDTO,guestNum);
                 break;
             case 8:
-                viewCalendar(8, reservationDTOList);
+                viewCalendar(8, reservationDTOList, discountPolicyDTO,feePolicyDTO,guestNum);
                 break;
             case 9:
-                viewCalendar(9, reservationDTOList);
+                viewCalendar(9, reservationDTOList, discountPolicyDTO,feePolicyDTO,guestNum);
                 break;
             case 10:
-                viewCalendar(10, reservationDTOList);
+                viewCalendar(10, reservationDTOList, discountPolicyDTO,feePolicyDTO,guestNum);
                 break;
             case 11:
-                viewCalendar(11, reservationDTOList);
+                viewCalendar(11, reservationDTOList, discountPolicyDTO,feePolicyDTO,guestNum);
                 break;
             case 12:
-                viewCalendar(12, reservationDTOList);
+                viewCalendar(12, reservationDTOList, discountPolicyDTO,feePolicyDTO,guestNum);
                 break;
         }
         System.out.println();
     }
 
-    private static void viewCalendar(int month, List<ReservationDTO> list) {
+    private static void viewCalendar(int month, List<ReservationDTO> list,DiscountPolicyDTO discountPolicyDTO, FeePolicyDTO feePolicyDTO, int guestNum) {
         List<Date> newList = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             newList = makeList(list.get(i).getCheckIn(), list.get(i).getCheckOut(), newList);
         }
-
+        int total = 0;
         view(month, newList);
 
         for (int i = 0; i < list.size(); i++) {
@@ -101,7 +103,7 @@ public class CalendarViewer {
 
 
 
-    }
+
 
     private static List<Date> makeList(Date checkIn, Date checkOut, List<Date> list) {
 

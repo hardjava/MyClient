@@ -40,30 +40,8 @@ public class CalendarViewerForAdmin {
     }
 
     private static void inputDate(int month,List<ReservationDTO> inputList, HouseAndFeeDTO houseAndFeeDTO ){
-//        int[] arr;
-//        List <DateAndGuest> objectList = new ArrayList<>();
-//        String checkInDateString = "2023-11-01";
-//        String checkOutDateString = "2023-11-02";
-//
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//        Date checkInDate = dateFormat.parse(checkInDateString);
-//        Date checkInDate_1 = dateFormat.parse(checkOutDateString);
-//
-//        DateAndGuest dateAndGuest = new DateAndGuest(checkInDate,2);
-//        DateAndGuest dateAndGuest_1 = new DateAndGuest(checkInDate_1,8);
-//        DateAndGuest dateAndGuest_2 = new DateAndGuest(checkInDate,3);
-//        objectList.add(dateAndGuest);
-//        objectList.add(dateAndGuest_1);
-//        objectList.add(dateAndGuest_2);
-//
-//
-//        List<Date> list = new ArrayList<>();
-//        list.add(checkInDate);
-//        list.add(checkInDate_1);
-//
-//        arr = returnArr(objectList,8);
-//        view(2, list,arr);
-        //=================================
+
+
         int[] arr;
         List<Date> list = new ArrayList<>();
         List <DateAndGuest> objectList = new ArrayList<>();
