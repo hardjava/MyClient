@@ -184,6 +184,7 @@ public class HostView {
                 if (reservationDTOList != null) {
 //                   CalendarViewerForAdmin.run(reservationDTOList);
                     //HouseAndFeeDTO 받아야 됨
+                    CalendarViewerForAdmin_host.run(reservationDTOList, list.get(enter -1).getBedroom());
                 }
             } else {
                 System.out.println("Wrong Input..");

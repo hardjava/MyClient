@@ -15,8 +15,8 @@ import java.util.List;
 
 public class GuestView {
     private final UserDTO userDTO;
-    private final int firstColWidth = 20; // 羅 廓簞 翮曖 ァ
-    private final int secondColWidth = 50; // 舒 廓簞 翮曖 ァ
+    private final int firstColWidth = 70; // 羅 廓簞 翮曖 ァ
+    private final int secondColWidth = 105; // 舒 廓簞 翮曖 ァ
     private final String leftAlignFormat = "| %-" + firstColWidth + "s | %-" + secondColWidth + "s |%n";
 
     public GuestView(UserDTO userDTO) {
@@ -50,8 +50,8 @@ public class GuestView {
                 }
             } catch (Exception e) {
                 throw e;
-             //   System.out.println(e.getMessage());
-               // MyIOStream.sc.nextLine();
+                //   System.out.println(e.getMessage());
+                // MyIOStream.sc.nextLine();
             }
         }
     }
@@ -60,35 +60,53 @@ public class GuestView {
         String houseName, checkIn, checkOut = "";
         int guestNum = 0;
         MyIOStream.sc.nextLine(); // Buffer Clear
-        System.out.print("Enter House Name (if not Enter) : ");
+        System.out.format("                                                    忙式式式                                                                     式式式忖%n");
+        System.out.format("                                                    弛                                                                           弛%n");
+        System.out.format("                                                                                                                                 %n");
+        System.out.print("                                                               Enter House Name (If not, Press 'Enter'): ");
+
         houseName = MyIOStream.sc.nextLine();
-        System.out.print("Enter CheckIn (YYYY-MM-DD) (if not Enter) : ");
+        System.out.print("                                                               Enter CheckIn (YYYY-MM-DD) (If not, Press 'Enter'): ");
         checkIn = MyIOStream.sc.nextLine();
         if (!checkIn.equals("")) {
-            System.out.print("Enter CheckOut (YYYY-MM-DD) (if not Enter) : ");
+            System.out.print("                                                               Enter CheckOut (YYYY-MM-DD) (If not, Press 'Enter'): ");
             checkOut = MyIOStream.sc.nextLine();
         }
-        System.out.print("Enter Guest Num : ");
+        System.out.print("                                                               Enter Guest Num : ");
         guestNum = MyIOStream.sc.nextInt();
-        System.out.print("Enter House Type (1) private (2) public : ");
+
+        System.out.println("                                                                     忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖");
+        System.out.println("                                                                     弛              Enter House Type             弛");
+        System.out.println("                                                                     戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎");
+        System.out.println("                                                                     弛           (1) private   (2) public        弛");
+        System.out.println("                                                                     戌式式                                       式式戎");
+        System.out.print("                                                                                     Selection : ");
         int houseType = MyIOStream.sc.nextInt();
+        System.out.format("                                                    戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
+
         if (houseType == 1 || houseType == 2) {
             // Amenities List 轎溘
             List<String> amenitiesList = new ArrayList<>();
             AmenitiesRequestController amenitiesRequestController = new AmenitiesRequestController();
             Protocol protocol = amenitiesRequestController.basicAmenitiesListRequest();
-            System.out.println("\t\t[Basic Amenities List]");
+            System.out.format("忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式成式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖%n");
+            System.out.format("弛                       Basic Amenities List                             弛                                                                                                           弛%n");
+            System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
+
 
             if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
                 int basicNum = 0;
                 List<AmenitiesDTO> list = (List<AmenitiesDTO>) protocol.getObject();
                 for (AmenitiesDTO amenitiesDTO : list) {
-                    System.out.println("\t" + ++basicNum + ". " + amenitiesDTO.getAmenities());
+                    String BasicList = String.format("%d. %s", ++basicNum, amenitiesDTO.getAmenities());
+                    printFormatted(BasicList, "", firstColWidth, secondColWidth);
                 }
-                System.out.print("Enter (separated by commas) (If not, enter) : ");
+                System.out.format("戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扛式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
+
+                System.out.print("Enter (separated by commas) (If not, Press 'Enter') : ");
                 MyIOStream.sc.nextLine(); // Buffer Clear
                 String basicAmenities = MyIOStream.sc.nextLine();
-                if (!basicAmenities.equals("")) {
+                if (!basicAmenities.equals("-1")) {
                     String[] basicArr = basicAmenities.split(",");
                     for (String s : basicArr) {
                         int n = Integer.parseInt(s);
@@ -99,17 +117,23 @@ public class GuestView {
                 }
             }
             protocol = amenitiesRequestController.safetyAmenitiesListRequest();
-            System.out.println("\t\t[Safety Amenities List]");
+            System.out.format("忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式成式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖%n");
+            System.out.format("弛                        Safety Amenities List                           弛                                                                                                           弛%n");
+            System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
+
 
             if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
                 List<AmenitiesDTO> list = (List<AmenitiesDTO>) protocol.getObject();
                 int safetyNum = 0;
                 for (AmenitiesDTO amenitiesDTO : list) {
-                    System.out.println("\t" + ++safetyNum + ". " + amenitiesDTO.getAmenities());
+                    String SafetyList = String.format("%d. %s", ++safetyNum, amenitiesDTO.getAmenities());
+                    printFormatted(SafetyList, "", firstColWidth, secondColWidth);
                 }
-                System.out.print("Enter (separated by commas) (If not, enter) : ");
+                System.out.format("戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扛式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
+
+                System.out.print("Enter (separated by commas) (If not, Press 'Enter') : ");
                 String safetyAmenities = MyIOStream.sc.nextLine();
-                if (!safetyAmenities.equals("")) {
+                if (!safetyAmenities.equals("-1")) {
                     String[] safetyArr = safetyAmenities.split(",");
                     for (String s : safetyArr) {
                         int n = Integer.parseInt(s);
@@ -120,17 +144,22 @@ public class GuestView {
                 }
             }
             protocol = amenitiesRequestController.accessAmenitiesListRequest();
-            System.out.println("\t\t[Accessibility Amenities List]");
+            System.out.format("忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式成式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖%n");
+            System.out.format("弛                    Accessibility Amenities List                        弛                                                                                                           弛%n");
+            System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
 
             if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
                 List<AmenitiesDTO> list = (List<AmenitiesDTO>) protocol.getObject();
                 int accessNum = 0;
                 for (AmenitiesDTO amenitiesDTO : list) {
-                    System.out.println("\t" + ++accessNum + ". " + amenitiesDTO.getAmenities());
+                    String AccessibilityList = String.format("%d. %s", ++accessNum, amenitiesDTO.getAmenities());
+                    printFormatted(AccessibilityList, "", firstColWidth, secondColWidth);
                 }
-                System.out.print("Enter (separated by commas) (If not, enter) : ");
+                System.out.format("戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扛式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
+
+                System.out.print("Enter (separated by commas) (If not, Press 'Enter') : ");
                 String accessibilityAmenities = MyIOStream.sc.nextLine();
-                if (!accessibilityAmenities.equals("")) {
+                if (!accessibilityAmenities.equals("-1")) {
                     String[] accessArr = accessibilityAmenities.split(",");
                     for (String s : accessArr) {
                         int n = Integer.parseInt(s);
@@ -151,7 +180,11 @@ public class GuestView {
             if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
                 List<HouseAndFeeDTO> houseAndFeeDTOS = (List<HouseAndFeeDTO>) protocol.getObject();
                 printHouseList(houseAndFeeDTOS);
-                System.out.print("See More Info : ");
+                System.out.format("                                             忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖%n");
+                System.out.format("                                             弛                       Which accommodation would you like to see more INFO?                    弛%n");
+                System.out.format("                                             戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
+                System.out.print ("                                                                                      Enter : ");
+
                 int index = MyIOStream.sc.nextInt();
 
                 if (index > 0 && index <= houseAndFeeDTOS.size()) {
@@ -167,44 +200,73 @@ public class GuestView {
     }
 
     private static void printFormatted(String label, String text, int labelWidth, int textWidth) {
-        // 塭漣婁 臢蝶お蒂 嫡嬴 ん裝縑 蜃啪 轎溘ж朝 詭模萄
-        String[] words = text.split(" ");
-        StringBuilder line = new StringBuilder();
-        System.out.printf("弛 %-" + labelWidth + "s 弛 ", label);
+        String[] labelWords = label.split(" ");
+        String[] textWords = text.split(" ");
+        ArrayList<String> formattedLabel = new ArrayList<>();
+        StringBuilder labelLine = new StringBuilder();
+        StringBuilder textLine = new StringBuilder();
 
-        for (String word : words) {
-            if (line.length() + word.length() > textWidth) {
-                System.out.printf("%-" + textWidth + "s 弛%n弛 %" + labelWidth + "s 弛 ", line.toString(), "");
-                line.setLength(0);
+        // 塭漣 還夥翎 籀葬
+        for (String word : labelWords) {
+            if (labelLine.length() + word.length() + 1 > labelWidth) { // 奢寥 んл
+                formattedLabel.add(labelLine.toString().trim());
+                labelLine.setLength(0);
             }
-            line.append(word).append(" ");
+            labelLine.append(word).append(" ");
         }
+        formattedLabel.add(labelLine.toString().trim()); // 葆雖虞 塭漣 還 蹺陛
 
-        System.out.printf("%-" + textWidth + "s 弛%n", line.toString());
+        // 臢蝶お 還夥翎 塽 塭漣婁 л眷 轎溘
+        int labelIndex = 0;
+        for (String word : textWords) {
+            if (textLine.length() + word.length() + 1 > textWidth) { // 奢寥 んл
+                String currentLabel = labelIndex < formattedLabel.size() ? formattedLabel.get(labelIndex) : "";
+                System.out.printf("弛 %-" + labelWidth + "s 弛 %-" + textWidth + "s 弛%n", currentLabel, textLine.toString().trim());
+                textLine.setLength(0);
+                labelIndex++;
+            }
+            textLine.append(word).append(" ");
+        }
+        // 臢蝶お曖 葆雖虞 還婁 陴擎 塭漣 還 轎溘
+        while (labelIndex < formattedLabel.size() || textLine.length() > 0) {
+            String currentLabel = labelIndex < formattedLabel.size() ? formattedLabel.get(labelIndex) : "";
+            String currentText = textLine.toString().trim();
+            System.out.printf("弛 %-" + labelWidth + "s 弛 %-" + textWidth + "s 弛%n", currentLabel, currentText);
+            textLine.setLength(0);
+            labelIndex++;
+        }
     }
 
     private int getCommand() {
-        System.out.format("忙式式式式式式式式式式式式式式式式式式式式式式成式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖%n");
-        System.out.format("弛    <Guest Page>      弛                                                    弛%n");
-        System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
+        System.out.format("忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式成式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖%n");
+        System.out.format("弛                             <Guest Page>                               弛                                                                                                           弛%n");
+        System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
         printUserInfo();
-        System.out.format("弛 1. FIND HOUSE        弛                                                    弛%n");
-        System.out.format("弛 2. HOUSE LIST        弛                                                    弛%n");
-        System.out.format("弛 3. MYPAGE            弛                                                    弛%n");
-        System.out.format("弛 4. LOGOUT            弛                                                    弛%n");
-        System.out.format("戌式式式式式式式式式式式式式式式式式式式式式式扛式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
+        System.out.format("弛                            1. FIND HOUSE                               弛                                                                                                           弛%n");
+        System.out.format("弛                            2. HOUSE LIST                               弛                                                                                                           弛%n");
+        System.out.format("弛                            3. MYPAGE                                   弛                                                                                                           弛%n");
+        System.out.format("弛                            4. LOGOUT                                   弛                                                                                                           弛%n");
+        System.out.format("戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扛式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
+
         System.out.print("enter : ");
         return MyIOStream.sc.nextInt();
     }
 
     private void printUserInfo() {
-        System.out.format("弛 Name : %-13s 弛                                                    弛%n", userDTO.getUserName());
-        System.out.format("弛 Role : %-13s 弛                                                    弛%n", userDTO.getRole());
-        System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
+        System.out.format("弛                          Name : %-13s                          弛                                                                                                           弛%n", userDTO.getUserName());
+        System.out.format("弛                          Role : %-13s                          弛                                                                                                           弛%n", userDTO.getRole());
+        System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
     }
 
     private int getHouseListCommand() {
-        System.out.print("(1) Ascending (2) Descending (3) Reservation (4) Back : ");
+        System.out.format("忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式成式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖%n");
+        System.out.format("弛                             <HOUSE LIST>                               弛                                                                                                           弛%n");
+        System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
+        System.out.format("弛                            1. Ascending                                弛                                                                                                           弛%n");
+        System.out.format("弛                            2. Descending                               弛                                                                                                           弛%n");
+        System.out.format("弛                            3. Reservation                              弛                                                                                                           弛%n");
+        System.out.format("弛                            4. Back                                     弛                                                                                                           弛%n");
+        System.out.format("戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扛式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
 
         return MyIOStream.sc.nextInt();
     }
@@ -214,7 +276,10 @@ public class GuestView {
         Protocol protocol = searchAllHouseController.allHouseRequest();
 
         List<HouseAndFeeDTO> allList = (List<HouseAndFeeDTO>) protocol.getObject();
-        System.out.println("[All List]");
+        System.out.format("                                             忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖%n");
+        System.out.format("                                             弛                                              ALL LIST                                         弛%n");
+        System.out.format("                                             戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
+
         if (allList != null) {
             printHouseList(allList);
             int listCommand = getHouseListCommand();
@@ -232,7 +297,11 @@ public class GuestView {
                         printDescendingList(searchAllHouseController);
                         break;
                     case 3:
-                        System.out.print("Enter Num to Reservation (Back : -1): ");
+                        System.out.format("                                             忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖%n");
+                        System.out.format("                                             弛                                 Enter Num to Reservation (Back : -1)                          弛%n");
+                        System.out.format("                                             戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
+                        System.out.print("                                                                                      Enter : ");
+
                         int enter = MyIOStream.sc.nextInt();
 
                         if (enter == -1) {
@@ -257,60 +326,81 @@ public class GuestView {
         MoreHouseInfoDTO moreHouseInfoDTO = (MoreHouseInfoDTO) protocol.getObject();
         List<ReplyDTO> replyDTOList = moreHouseInfoDTO.getReplyDTOList();
         // 鼻撮薑爾 爾罹輿晦
+        System.out.format("忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式成式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖%n");
+        System.out.format("弛                         DETAIL INFORMATION                             弛                                                                                                           弛%n");
+        System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
+        printFormatted("[House Name] : ", houseAndFeeDTO.getHouseName(), firstColWidth, secondColWidth);
+        printFormatted("[House Address] : ", houseAndFeeDTO.getHouseAddress(), firstColWidth, secondColWidth);
+        printFormatted("[Capacity] : ", String.valueOf(houseAndFeeDTO.getBedroom()), firstColWidth, secondColWidth);
+        printFormatted("[Bedroom Count] : ", String.valueOf(houseAndFeeDTO.getBedroom()), firstColWidth, secondColWidth);
+        printFormatted("[Bathroom Count] : ", String.valueOf(houseAndFeeDTO.getBathroom()), firstColWidth, secondColWidth);
+        printFormatted("[House Type] : ", houseAndFeeDTO.getHouseType().toString(), firstColWidth, secondColWidth);
+        System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
+        printFormatted("[Weekday Cost] : ", String.valueOf(houseAndFeeDTO.getWeekday()), firstColWidth, secondColWidth);
+        printFormatted("[Weekend Cost] : ", String.valueOf(houseAndFeeDTO.getWeekend()), firstColWidth, secondColWidth);
+        System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
+        printFormatted("[House Info] : ", houseAndFeeDTO.getHouseIntroduce(), firstColWidth, secondColWidth);
 
-        System.out.println("[Detail Info]");
-        System.out.println("[House Name] : " + houseAndFeeDTO.getHouseName());
-        System.out.println("[House Address] : " + houseAndFeeDTO.getHouseAddress());
-        System.out.println("[Bedroom Count] : " + houseAndFeeDTO.getBedroom());
-        System.out.println("[Bathroom Count] : " + houseAndFeeDTO.getBathroom());
-        System.out.println("[Capacity] : " + houseAndFeeDTO.getBedroom());
-        System.out.println("[House Type] : " + houseAndFeeDTO.getHouseType().toString());
-        System.out.println("[Weekday Cost] : " + houseAndFeeDTO.getWeekday());
-        System.out.println("[Weekend Cost] : " + houseAndFeeDTO.getWeekend());
-        System.out.println("[House Info] : " + houseAndFeeDTO.getHouseIntroduce());
         List<AmenitiesDTO> amenitiesList = moreHouseInfoDTO.getAmenitiesDTOList();
-        System.out.println("\t\t[Basic Amenities]");
+        System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
+        System.out.format("弛                           Basic Amenities                              弛                                                                                                           弛%n");
+        System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
         if (amenitiesList != null) {
             for (AmenitiesDTO amenitiesDTO : amenitiesList) {
                 if (amenitiesDTO.getTypeId() == 1) {
-                    System.out.println(amenitiesDTO.getAmenities());
+                    printFormatted(amenitiesDTO.getAmenities(), "", firstColWidth, secondColWidth);
                 }
             }
         }
-        System.out.println("\t\t[Safety Amenities]");
+        System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
+
+        System.out.format("弛                          Safety Amenities                              弛                                                                                                           弛%n");
+        System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
         if (amenitiesList != null) {
             for (AmenitiesDTO amenitiesDTO : amenitiesList) {
                 if (amenitiesDTO.getTypeId() == 2) {
-                    System.out.println(amenitiesDTO.getAmenities());
+                    printFormatted(amenitiesDTO.getAmenities(), "", firstColWidth, secondColWidth);
                 }
             }
         }
-        System.out.println("\t\t[Accessibility Amenities]");
+        System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
+
+        System.out.format("弛                       Accessibility Amenities                          弛                                                                                                           弛%n");
+        System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
         if (amenitiesList != null) {
             for (AmenitiesDTO amenitiesDTO : amenitiesList) {
                 if (amenitiesDTO.getTypeId() == 3) {
-                    System.out.println(amenitiesDTO.getAmenities());
+                    printFormatted(amenitiesDTO.getAmenities(), "", firstColWidth, secondColWidth);
                 }
             }
         }
+        System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
+
         List<UserReviewDTO> userReviewDTOS = moreHouseInfoDTO.getReviewDTOList();
-        System.out.println("\t\t[Review]");
+        System.out.format("弛                                Review                                  弛                                                                                                           弛%n");
+        System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
+
+        int reviewWidth1 = 70;
+        int reviewWidth2 = 100;
         if (userReviewDTOS != null) {
             for (UserReviewDTO userReviewDTO : userReviewDTOS) {
-                System.out.println("<Guest>");
-                System.out.println(userReviewDTO.toString());
+                printFormatted("<Guest>", userReviewDTO.toString(), firstColWidth, secondColWidth);
                 if (replyDTOList != null) {
+                    printFormatted("", "忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式 <HOST REPLY> 式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖", firstColWidth, secondColWidth);
                     for (ReplyDTO replyDTO : replyDTOList) {
                         if (replyDTO.getReservationId() == userReviewDTO.getReservationId()) {
-                            System.out.println("<Host>");
-                            System.out.println(replyDTO);
+                            printFormattedReview("", replyDTO.toString(), reviewWidth1, reviewWidth2);
                         }
                     }
+                    printFormatted("", "戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎", firstColWidth, secondColWidth);
                 }
             }
         }
 
-        System.out.print("(1) Reservation (2) Back : ");
+        System.out.println("                                                                             忙式式                          式式忖");
+        System.out.println("                                                                             弛  (1) Reservation  (2) Back   弛");
+        System.out.println("                                                                             戌式式                          式式戎");
+        System.out.print  ("                                                                                       Selection : ");
         int command = MyIOStream.sc.nextInt();
         if (command == 1) {
             reservation(houseAndFeeDTO, moreHouseInfoDTO);
@@ -333,24 +423,31 @@ public class GuestView {
 
         int discountAmount = discountPolicyDTO.getDiscount_amount();
         int discountRate = discountPolicyDTO.getDiscount_rate();
-        System.out.println("[Show Reservation available dates]");
+        System.out.println("[Show Reservation available dates]");//////////殖溘 旋濠 熱 �挫恉炾� 轎溘ж晦
 
         if (reservationDTOList != null) {
 //           MyCalender.print(reservationDTOList);
             CalendarViewerForAdmin.run(reservationDTOList, houseAndFeeDTO);
+
         } else {
-            System.out.println("All Date is Possible to Reservation");
+            System.out.println("                                                                         忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖");
+            System.out.println("                                                                         弛 All Date is Possible to Reservation  弛");
+            System.out.println("                                                                         戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎");
         }
 
-        System.out.print("Adult Num : ");
+        System.out.format("                                                      忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖%n");
+        System.out.format("                                                      弛                                                                           弛%n");
+        System.out.format("                                                                                                                                   %n");
+
+        System.out.print ("                                                                               Adult Num : ");
         int adultNum = MyIOStream.sc.nextInt();
-        System.out.print("Child Num : ");
+        System.out.print("                                                                                Child Num : ");
         int childNum = MyIOStream.sc.nextInt();
-        System.out.print("Enter CheckIn Day (YYYY-MM-DD) : ");
-        MyIOStream.sc.nextLine(); // Buffer Clear
-        String checkIn = MyIOStream.sc.nextLine();
-        System.out.print("Enter CheckOut Day (YYYY-MM-DD) : ");
-        String checkOut = MyIOStream.sc.nextLine();
+        System.out.print("                                                                       Enter CheckIn Day (YYYY-MM-DD) : ");
+        MyIOStream.sc.nextLine();
+        String checkIn = MyIOStream.sc.next();
+        System.out.print("                                                                       Enter CheckOut Day (YYYY-MM-DD) : ");
+        String checkOut = MyIOStream.sc.next();
         int totalNum = adultNum + childNum;
 
         int cost = 0;
@@ -361,21 +458,34 @@ public class GuestView {
             cost = SaleCalculator.CalculateAmount(checkIn, checkOut, discountPolicyDTO, feePolicyDTO, totalNum);
         }
 
-        System.out.println("Cost = " + cost + "$");
-        System.out.print("Would you like to make a reservation? (1) Yes! (2) No! : ");
+        System.out.println("                                                                             忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖");
+        System.out.format ("                                                                                    Cost = %s $             \n", cost);
+        System.out.println("                                                                             戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎");
+
+        System.out.println("                                                                     忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖");
+        System.out.println("                                                                     弛   Would you like to make a reservation?   弛");
+        System.out.println("                                                                     戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎");
+        System.out.println("                                                                     弛             (1) YES!   (2) NO!            弛");
+        System.out.println("                                                                     戌式式                                       式式戎");
+        System.out.print("                                                                                      Selection : ");
+
         int enter = MyIOStream.sc.nextInt();
 
         if (enter == 1) {
             ReservationRequestController reservationRequestController = new ReservationRequestController();
-            Protocol protocol = reservationRequestController.reservationRequest(houseAndFeeDTO.getHouseId(), userDTO.getUserId(), totalNum, checkIn, checkOut, cost);
+            Protocol protocol = reservationRequestController.reservationRequest(houseAndFeeDTO.getHouseId(), userDTO.getUserId(), totalNum, checkIn, checkOut, 0);
 
             if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
-                System.out.println("Success to Reservation");
+                System.out.println("                                                                             忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖");
+                System.out.println("                                                                             弛    Success to Reservation    弛");
+                System.out.println("                                                                             戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎");
             } else {
                 System.out.println(protocol.getObject());
             }
         } else if (enter == 2) {
-            System.out.println("Cancel..");
+            System.out.println("                                                                             忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖");
+            System.out.println("                                                                             弛           CANCEL!!           弛");
+            System.out.println("                                                                             戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎");
         } else {
             System.out.println("Wrong Input..");
         }
@@ -385,7 +495,9 @@ public class GuestView {
             Exception {
         Protocol protocol = searchAllHouseController.descendingHouseRequest();
         List<HouseAndFeeDTO> descendingList = (List<HouseAndFeeDTO>) protocol.getObject();
-        System.out.println("[Descending List]");
+        System.out.format("                                             忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖%n");
+        System.out.format("                                             弛                                         DESCENDING LIST                                       弛%n");
+        System.out.format("                                             戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
 
         if (descendingList != null) {
             printHouseList(descendingList);
@@ -405,7 +517,11 @@ public class GuestView {
                         printDescendingList(searchAllHouseController);
                         break;
                     case 3:
-                        System.out.print("Enter Num to Reservation (Back : -1): ");
+                        System.out.println("                                                                         忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖");
+                        System.out.println("                                                                         弛 Enter Num to Reservation (Back : -1) 弛");
+                        System.out.println("                                                                         戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎");
+                        System.out.print("                                                                                      Enter : ");
+
                         int enter = MyIOStream.sc.nextInt();
 
                         if (enter == -1) {
@@ -428,7 +544,9 @@ public class GuestView {
             Exception {
         Protocol protocol = searchAllHouseController.ascendingHouseRequest();
         List<HouseAndFeeDTO> ascendingList = (List<HouseAndFeeDTO>) protocol.getObject();
-        System.out.println("[Ascending List]");
+        System.out.format("                                             忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖%n");
+        System.out.format("                                             弛                                          ASCENDING LIST                                       弛%n");
+        System.out.format("                                             戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
 
         if (ascendingList != null) {
             printHouseList(ascendingList);
@@ -448,7 +566,11 @@ public class GuestView {
                         printDescendingList(searchAllHouseController);
                         break;
                     case 3:
-                        System.out.print("Enter Num to Reservation (Back : -1): ");
+                        System.out.println("                                                                         忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖");
+                        System.out.println("                                                                         弛 Enter Num to Reservation (Back : -1) 弛");
+                        System.out.println("                                                                         戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎");
+                        System.out.print("                                                                                      Enter : ");
+
                         int enter = MyIOStream.sc.nextInt();
 
                         if (enter == -1) {
@@ -469,8 +591,57 @@ public class GuestView {
 
     private void printHouseList(List<HouseAndFeeDTO> houseList) {
         int i = 0;
+        System.out.format("忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式成式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖%n");
+        System.out.format("弛                             <HOUSE LIST>                               弛                                                                                                           弛%n");
+        System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
+
         for (HouseAndFeeDTO houseAndFeeDTO : houseList) {
-            System.out.printf("%d. %s\n", ++i, houseAndFeeDTO.toString());
+//            System.out.printf("%d. %s\n", ++i, houseAndFeeDTO.toString());
+            printFormatted("["+ (++i) + "] "+"[House Name] " + houseAndFeeDTO.getHouseName(), "[House Address] " + houseAndFeeDTO.getHouseAddress(), firstColWidth, secondColWidth);
+            printFormatted("", "[Weekday Cost] " + houseAndFeeDTO.getWeekday(), firstColWidth, secondColWidth);
+            printFormatted("", "[Weekend Cost] " + houseAndFeeDTO.getWeekend(), firstColWidth, secondColWidth);
+            printFormatted("", "[Bedroom] " + houseAndFeeDTO.getBedroom(), firstColWidth, secondColWidth);
+            printFormatted("", "[House Type] " + houseAndFeeDTO.getHouseType().toString(), firstColWidth, secondColWidth);
+        }
+        System.out.format("戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扛式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
+
+    }
+
+    private static void printFormattedReview(String label, String text, int labelWidth, int textWidth) {
+        String[] labelWords = label.split(" ");
+        String[] textWords = text.split(" ");
+        ArrayList<String> formattedLabel = new ArrayList<>();
+        StringBuilder labelLine = new StringBuilder();
+        StringBuilder textLine = new StringBuilder();
+
+        // 塭漣 還夥翎 籀葬
+        for (String word : labelWords) {
+            if (labelLine.length() + word.length() + 1 > labelWidth) { // 奢寥 んл
+                formattedLabel.add(labelLine.toString().trim());
+                labelLine.setLength(0);
+            }
+            labelLine.append(word).append(" ");
+        }
+        formattedLabel.add(labelLine.toString().trim()); // 葆雖虞 塭漣 還 蹺陛
+
+        // 臢蝶お 還夥翎 塽 塭漣婁 л眷 轎溘
+        int labelIndex = 0;
+        for (String word : textWords) {
+            if (textLine.length() + word.length() + 1 > textWidth) { // 奢寥 んл
+                String currentLabel = labelIndex < formattedLabel.size() ? formattedLabel.get(labelIndex) : "";
+                System.out.printf("弛 %-" + labelWidth + "s 弛 弛 %-" + textWidth + "s 弛  弛%n", currentLabel, textLine.toString().trim());
+                textLine.setLength(0);
+                labelIndex++;
+            }
+            textLine.append(word).append(" ");
+        }
+        // 臢蝶お曖 葆雖虞 還婁 陴擎 塭漣 還 轎溘
+        while (labelIndex < formattedLabel.size() || textLine.length() > 0) {
+            String currentLabel = labelIndex < formattedLabel.size() ? formattedLabel.get(labelIndex) : "";
+            String currentText = textLine.toString().trim();
+            System.out.printf("弛 %-" + labelWidth + "s 弛 弛 %-" + textWidth + "s 弛  弛%n", currentLabel, currentText);
+            textLine.setLength(0);
+            labelIndex++;
         }
     }
 }

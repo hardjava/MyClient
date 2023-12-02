@@ -71,11 +71,12 @@ public class AdminView {
             protocol = accommodationSituationController.monthlyReservationRequest(houseDTOList.get(accommodationNum - 1).getHouseId());
             MoreHouseInfoDTO moreHouseInfoDTO = (MoreHouseInfoDTO) protocol.getObject();
             List<ReservationDTO> reservationDTOList = moreHouseInfoDTO.getReservationDTOList();
-          //  System.out.print("Select Month (1 ~ 12) : ");
-           // int enterMonth = MyIOStream.sc.nextInt();
+            System.out.print("Select Month (1 ~ 12) : ");
+            int enterMonth = MyIOStream.sc.nextInt();
 
-           // if (enterMonth >= 1 && enterMonth <= 12) {
-                CalendarViewer.selectMonth(reservationDTOList, moreHouseInfoDTO.getDiscountPolicyDTO(), moreHouseInfoDTO.getFeePolicyDTO());
+            if (enterMonth >= 1 && enterMonth <= 12) {
+                CalendarViewerForAdmin_test.selectMonth(enterMonth, reservationDTOList, houseDTOList.get(accommodationNum - 1));
+                //  CalendarViewer.selectMonth(reservationDTOList, moreHouseInfoDTO.getDiscountPolicyDTO(), moreHouseInfoDTO.getFeePolicyDTO());
 //              System.out.printf("%-10s%-5s%-20s%-20s%-20s%-20s%-20s\n", "userId", "guestNum", "reservationDate", "checkIn", "checkOut", "cost", "reservationStatus");
 
 //                for (ReservationDTO reservationDTO : reservationDTOList) {
@@ -86,14 +87,14 @@ public class AdminView {
 //                    if (enterMonth == reservationMonth) {
 //                        System.out.println(reservationDTO.toString());
 //                    }
-//                }
-            } else {
-                System.out.println("Wrong Input..");
             }
+        } else {
+            System.out.println("Wrong Input..");
+        }
 
 
 //            CalendarViewer.selectMonth(reservationDTOList);
-      //  } else {
+        //  } else {
         //    System.out.println("Wrong Input..");
         //}
     }
