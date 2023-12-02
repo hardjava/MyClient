@@ -25,30 +25,35 @@ public class GuestView {
 
     public void showView() throws Exception {
         for (; ; ) {
-            int command = getCommand();
-            if (command == 4) {
-                break;
-            }
+            try {
+                int command = getCommand();
+                if (command == 4) {
+                    break;
+                }
 
-            switch (command) {
-                case 1:
-                    houseFiltering();
-                    break;
-                case 2:
-                    houseAllList();
-                    break;
-                case 3:
-                    MyPageView myPageView = new MyPageView(userDTO);
-                    myPageView.showView();
-                    break;
-                default:
-                    System.out.println("忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖");
-                    System.out.println("弛   Please Select (1) ~ (4)    弛");
-                    System.out.println("戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎");
-                    break;
+                switch (command) {
+                    case 1:
+                        houseFiltering();
+                        break;
+                    case 2:
+                        houseAllList();
+                        break;
+                    case 3:
+                        MyPageView myPageView = new MyPageView(userDTO);
+                        myPageView.showView();
+                        break;
+                    default:
+                        System.out.println("忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖");
+                        System.out.println("弛   Please Select (1) ~ (4)    弛");
+                        System.out.println("戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎");
+                        break;
+                }
+            } catch (Exception e) {
+                throw e;
+             //   System.out.println(e.getMessage());
+               // MyIOStream.sc.nextLine();
             }
         }
-
     }
 
     private void houseFiltering() throws Exception {
@@ -333,9 +338,7 @@ public class GuestView {
         if (reservationDTOList != null) {
 //           MyCalender.print(reservationDTOList);
             CalendarViewerForAdmin.run(reservationDTOList, houseAndFeeDTO);
-
         } else {
-
             System.out.println("All Date is Possible to Reservation");
         }
 
@@ -344,9 +347,10 @@ public class GuestView {
         System.out.print("Child Num : ");
         int childNum = MyIOStream.sc.nextInt();
         System.out.print("Enter CheckIn Day (YYYY-MM-DD) : ");
-        String checkIn = MyIOStream.sc.next();
+        MyIOStream.sc.nextLine(); // Buffer Clear
+        String checkIn = MyIOStream.sc.nextLine();
         System.out.print("Enter CheckOut Day (YYYY-MM-DD) : ");
-        String checkOut = MyIOStream.sc.next();
+        String checkOut = MyIOStream.sc.nextLine();
         int totalNum = adultNum + childNum;
 
         int cost = 0;
@@ -363,7 +367,7 @@ public class GuestView {
 
         if (enter == 1) {
             ReservationRequestController reservationRequestController = new ReservationRequestController();
-            Protocol protocol = reservationRequestController.reservationRequest(houseAndFeeDTO.getHouseId(), userDTO.getUserId(), totalNum, checkIn, checkOut, 0);
+            Protocol protocol = reservationRequestController.reservationRequest(houseAndFeeDTO.getHouseId(), userDTO.getUserId(), totalNum, checkIn, checkOut, cost);
 
             if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
                 System.out.println("Success to Reservation");

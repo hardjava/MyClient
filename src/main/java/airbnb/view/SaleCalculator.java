@@ -1,22 +1,20 @@
 package airbnb.view;
+
 import airbnb.persistence.dto.DiscountPolicyDTO;
 import airbnb.persistence.dto.FeePolicyDTO;
-import airbnb.persistence.dto.ReservationDTO;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class SaleCalculator {
 
-    public static int CalculateAmount(String checkIn, String checkOut, DiscountPolicyDTO discountPolicyDTO,FeePolicyDTO feePolicyDTO,int guestNum) throws Exception {
+    public static int CalculateAmount(String checkIn, String checkOut, DiscountPolicyDTO discountPolicyDTO, FeePolicyDTO feePolicyDTO, int guestNum) throws Exception {
 
 
         List<Integer> withDiscount = new ArrayList<Integer>();
         List<Integer> withoutDiscount = new ArrayList<Integer>();
         List<CostObject> withoutCostObject = new ArrayList<CostObject>();
         List<CostObject> withCostObject = new ArrayList<CostObject>();
-
 
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -27,15 +25,14 @@ public class SaleCalculator {
         List<Date> dateList = generateDateList(checkInDate, checkOutDate);
         List<Date> discountDays = generateDateList_1(discountPolicyDTO.getDiscountStart(), discountPolicyDTO.getDiscountEnd());
 
-        // ê°€ê²© ì„¤ì •
-        int weekdayPrice = feePolicyDTO.getWeekday(); // í‰ì¼ ê°€ê²©
-        int weekendPrice = feePolicyDTO.getWeekend(); // ì£¼ë§ ê°€ê²©
-        if(dateList.size()>= discountPolicyDTO.getDiscountDay()){
+        // °¡°İ ¼³Á¤
+        int weekdayPrice = feePolicyDTO.getWeekday(); // ÆòÀÏ °¡°İ
+        int weekendPrice = feePolicyDTO.getWeekend(); // ÁÖ¸» °¡°İ
+        if (dateList.size() >= discountPolicyDTO.getDiscountDay()) {
             withoutDiscount = printDates(dateList, weekdayPrice, weekendPrice);
             System.out.println();
 
             withDiscount = printDatesWithDiscountForAmount(dateList, weekdayPrice, weekendPrice, discountPolicyDTO.getDiscount_amount());
-
 
 
             for (int i = 0; i < withoutDiscount.size(); i++) {
@@ -48,26 +45,23 @@ public class SaleCalculator {
                 withCostObject.add(costObject);
             }
 
-            return CalculateTotalCost(dateList, discountDays, withoutCostObject, withCostObject)*guestNum;
-        }else{
+            return CalculateTotalCost(dateList, discountDays, withoutCostObject, withCostObject) * guestNum;
+        } else {
             int totalPrice = calculateTotalPrice(dateList, weekdayPrice, weekendPrice);
             return totalPrice;
         }
 
 
-
-
     }
 
 
-    public static int CalculateRate(String checkIn, String checkOut, DiscountPolicyDTO discountPolicyDTO,FeePolicyDTO feePolicyDTO,int guestNum) throws Exception {
+    public static int CalculateRate(String checkIn, String checkOut, DiscountPolicyDTO discountPolicyDTO, FeePolicyDTO feePolicyDTO, int guestNum) throws Exception {
 
 
         List<Integer> withDiscount = new ArrayList<Integer>();
         List<Integer> withoutDiscount = new ArrayList<Integer>();
         List<CostObject> withoutCostObject = new ArrayList<CostObject>();
         List<CostObject> withCostObject = new ArrayList<CostObject>();
-
 
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -80,34 +74,34 @@ public class SaleCalculator {
         List<Date> dateList = generateDateList(checkInDate, checkOutDate);
         List<Date> discountDays = generateDateList_1(discountPolicyDTO.getDiscountStart(), discountPolicyDTO.getDiscountEnd());
 
-        // ê°€ê²© ì„¤ì •
-        int weekdayPrice = feePolicyDTO.getWeekday(); // í‰ì¼ ê°€ê²©
-        int weekendPrice = feePolicyDTO.getWeekend(); // ì£¼ë§ ê°€ê²©
+        // °¡°İ ¼³Á¤
+        int weekdayPrice = feePolicyDTO.getWeekday(); // ÆòÀÏ °¡°İ
+        int weekendPrice = feePolicyDTO.getWeekend(); // ÁÖ¸» °¡°İ
 
-        // ì´ ê°€ê²© ì¶œë ¥
-        int totalPrice = calculateTotalPrice(dateList, weekdayPrice, weekendPrice);
-        System.out.println("ì´ ê°€ê²©: " + totalPrice);
+        // ÃÑ °¡°İ Ãâ·Â
+        if (dateList.size() >= discountPolicyDTO.getDiscountDay()) {
+            withoutDiscount = printDates(dateList, weekdayPrice, weekendPrice);
+            System.out.println();
 
-        withoutDiscount = printDates(dateList, weekdayPrice, weekendPrice);
-        System.out.println();
-
-        withDiscount = printDatesWithDiscountForRate(dateList, weekdayPrice, weekendPrice, discountPolicyDTO.getDiscount_amount());
+            withDiscount = printDatesWithDiscountForRate(dateList, weekdayPrice, weekendPrice, discountPolicyDTO.getDiscount_amount());
 
 
+            for (int i = 0; i < withoutDiscount.size(); i++) {
+                CostObject costObject = new CostObject(dateList.get(i), withoutDiscount.get(i));
+                withoutCostObject.add(costObject);
+            }
 
-        for (int i = 0; i < withoutDiscount.size(); i++) {
-            CostObject costObject = new CostObject(dateList.get(i), withoutDiscount.get(i));
-            withoutCostObject.add(costObject);
+            for (int i = 0; i < withDiscount.size(); i++) {
+                CostObject costObject = new CostObject(dateList.get(i), withDiscount.get(i));
+                withCostObject.add(costObject);
+            }
+
+            return CalculateTotalCost(dateList, discountDays, withoutCostObject, withCostObject) * guestNum;
+        } else {
+            int totalPrice = calculateTotalPrice(dateList, weekdayPrice, weekendPrice);
+            return totalPrice;
         }
-
-        for (int i = 0; i < withDiscount.size(); i++) {
-            CostObject costObject = new CostObject(dateList.get(i), withDiscount.get(i));
-            withCostObject.add(costObject);
-        }
-
-        return CalculateTotalCost(dateList, discountDays, withoutCostObject, withCostObject);
     }
-
 
 
     public static List<Date> generateDateList(Date checkInDate, Date checkOutDate) {
@@ -219,41 +213,43 @@ public class SaleCalculator {
     public static int CalculateTotalCost(List<Date> dateList, List<Date> dateList_2, List<CostObject> withOutList, List<CostObject> withList) {
         List<Date> list = findOverlap(dateList, dateList_2);
         Collections.sort(list);
-        for (int i = 0; i < list.size(); i++) {
-        }
-        for (int i = 0; i < list.size(); i++) {
-        }
-
 
         int total = 0;
         int count = 0;
-        for (int i = 0; i < withOutList.size(); i++) {
-            if(withOutList.get(i).getDate().equals(list.get(count)) ){
-                total += withList.get(i).getCost();
-                if(count == list.size()-1){
+        if (list.size() != 0) {
+            for (int i = 0; i < withOutList.size(); i++) {
+                if (withOutList.get(i).getDate().equals(list.get(count))) {
+                    total += withList.get(i).getCost();
+                    if (count == list.size() - 1) {
 
-                }else{
-                    count++;
+                    } else {
+                        count++;
+                    }
+
+                } else {
+                    total += withOutList.get(i).getCost();
                 }
-
-            }else{
+            }
+        } else {
+            for (int i = 0; i < withOutList.size(); i++) {
                 total += withOutList.get(i).getCost();
+
             }
         }
-//        System.out.println(total);
+
         return total;
     }
 
     public static List<Date> findOverlap(List<Date> list1, List<Date> list2) {
-        // ê²¹ì¹˜ëŠ” ë‚ ì§œë¥¼ ì €ì¥í•  Set ìƒì„±
+        // °ãÄ¡´Â ³¯Â¥¸¦ ÀúÀåÇÒ Set »ı¼º
         Set<Date> overlapDates = new HashSet<>();
 
-        // list1ì˜ ë‚ ì§œë¥¼ Setì— ì¶”ê°€
+        // list1ÀÇ ³¯Â¥¸¦ Set¿¡ Ãß°¡
         for (Date date : list1) {
             overlapDates.add(date);
         }
         List<Date> dates = new ArrayList<>();
-        // list2ì˜ ë‚ ì§œ ì¤‘ ê²¹ì¹˜ëŠ” ë‚ ì§œë¥¼ Setì— ì¶”ê°€
+        // list2ÀÇ ³¯Â¥ Áß °ãÄ¡´Â ³¯Â¥¸¦ Set¿¡ Ãß°¡
         for (Date date : list2) {
             if (overlapDates.contains(date)) {
                 overlapDates.add(date);
@@ -262,9 +258,7 @@ public class SaleCalculator {
         }
 
 
-
-
-        // ê²¹ì¹˜ëŠ” ë‚ ì§œë¥¼ ë¦¬ìŠ¤íŠ¸ë¡œ ë³€í™˜í•˜ì—¬ ë°˜í™˜
+        // °ãÄ¡´Â ³¯Â¥¸¦ ¸®½ºÆ®·Î º¯È¯ÇÏ¿© ¹İÈ¯
 //        return new ArrayList<>(overlapDates);
         return dates;
     }

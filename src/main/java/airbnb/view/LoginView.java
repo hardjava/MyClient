@@ -20,7 +20,7 @@ public class LoginView {
         System.out.format("                                                    忙式式式                                                                     式式式忖%n");
         System.out.format("                                                    弛                                 <Login>                                   弛%n");
         System.out.format("                                                                                                                                 %n");
-        System.out.println("                                                                               ID       : ");
+        System.out.print("                                                                               ID       : ");
         String id = MyIOStream.sc.next();
         System.out.print("                                                                               Password : ");
         String password = MyIOStream.sc.next();

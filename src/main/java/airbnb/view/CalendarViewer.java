@@ -61,6 +61,46 @@ public class CalendarViewer {
 
         view(month, newList);
 
+        for (int i = 0; i < list.size(); i++) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(list.get(i).getCheckIn());
+            int checkInMonth = calendar.get(Calendar.MONTH) + 1;
+            calendar.setTime(list.get(i).getCheckOut());
+            int checkOutMonth = calendar.get(Calendar.MONTH) + 1;
+
+            if(checkInMonth==checkOutMonth){
+                total += list.get(i).getCost();
+            }else{
+                int cost;
+                calendar.setTime(list.get(i).getCheckOut());
+                int lastDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH); // 해당 월의 마지막 날짜
+                int discountRate = discountPolicyDTO.getDiscount_rate();
+                /*
+                if (discountRate > 0) {
+                    cost = SaleCalculator.CalculateRate(checkIn, checkOut, discountPolicyDTO, feePolicyDTO, totalNum);
+                } else {
+                    cost = SaleCalculator.CalculateAmount(checkIn, checkOut, discountPolicyDTO, feePolicyDTO, totalNum);
+                }
+*/
+
+
+
+            }
+
+
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
     }
 
     private static List<Date> makeList(Date checkIn, Date checkOut, List<Date> list) {
@@ -147,6 +187,14 @@ public class CalendarViewer {
             }
 
         }
+    }
+
+    private static int printTotalCost(List<Date> list){
+        int total= 0;
+        for (int i = 0; i < list.size(); i++) {
+//            total += list.get(i).getCost();
+        }
+        return  total;
     }
 
 }

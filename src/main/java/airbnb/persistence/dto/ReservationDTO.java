@@ -1,7 +1,7 @@
 package airbnb.persistence.dto;
 
-import lombok.*;
 import airbnb.network.Status;
+import lombok.*;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -47,5 +47,9 @@ public class ReservationDTO implements Serializable {
         this.checkIn = checkIn;
         this.checkOut = checkOut;
         this.cost = cost;
+    }
+
+    public String toString() {
+        return String.format("%-10d%-5d%-20s%-20s%-20s%-20d%-20s", userId, guestNum, reservationDate, checkIn, checkOut, cost, reservationStatus.name());
     }
 }

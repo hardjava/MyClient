@@ -25,7 +25,6 @@ public class HostView {
                 System.out.println("Log out..");
                 break;
             }
-
             switch (command) {
                 case 1:
                     registerAccommodation();
