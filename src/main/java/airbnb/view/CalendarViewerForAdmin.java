@@ -103,7 +103,7 @@ public class CalendarViewerForAdmin {
         }
 
         //=========================
-        System.out.println("##################################"+monthValue+"##################################");
+        System.out.println("#################################-"+monthValue+"-#######################################");
 
         System.out.println("SUN         MON         TUE         WED         THU         FRI         SAT");
         int count_1 = 0;

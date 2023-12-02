@@ -7,12 +7,13 @@ import airbnb.network.Protocol;
 import airbnb.persistence.dto.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AdminView {
     private final UserDTO userDTO;
-    private final int firstColWidth = 30; // First column width
-    private final int secondColWidth = 60; // Second column width
+    private final int firstColWidth = 70; // First column width
+    private final int secondColWidth = 105; // Second column width
     private final String leftAlignFormat = "| %-" + firstColWidth + "s | %-" + secondColWidth + "s |%n";
 
     public AdminView(UserDTO userDTO) {
@@ -21,13 +22,13 @@ public class AdminView {
 
     public void showView() throws Exception {
         for (; ; ) {
-            System.out.format("忙式式式式式式式式式式式式式式式式式式式式式式式式成式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖%n");
-            System.out.format("弛   <Admin Page>         弛                                                    弛%n");
-            System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
-            System.out.format("弛 1. Approval/Reject Host's Accommodation registration                        弛%n");
-            System.out.format("弛 2. Check accommodation situation                                            弛%n");
-            System.out.format("弛 0. Logout              弛                                                    弛%n");
-            System.out.format("戌式式式式式式式式式式式式式式式式式式式式式式式式扛式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
+            System.out.format("忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式成式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖%n");
+            System.out.format("弛                            <ADMIN PAGE>                                弛                                                                                                           弛%n");
+            System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
+            System.out.format("弛 1. Approval/Reject Host's Accommodation registration                   弛                                                                                                           弛%n");
+            System.out.format("弛 2. Check current accommodation situation                               弛                                                                                                           弛%n");
+            System.out.format("弛 0. Logout                                                              弛                                                                                                           弛%n");
+            System.out.format("戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扛式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
 
             System.out.print("Enter command: ");
 
@@ -46,7 +47,9 @@ public class AdminView {
                     checkAccommodationSituation();
                     break;
                 default:
-                    System.out.println("Invalid input. Please try again.");
+                    System.out.format("                                             忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖%n");
+                    System.out.format("                                             弛                                 Invalid input. Please try again.                              弛%n");
+                    System.out.format("                                             戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
             }
         }
     }
@@ -56,27 +59,44 @@ public class AdminView {
         AccommodationSituationController accommodationSituationController = new AccommodationSituationController();
         Protocol protocol = accommodationSituationController.listRequest();
         List<HouseDTO> houseDTOList = (List<HouseDTO>) protocol.getObject();
-        System.out.println("[List]");
+        System.out.format("忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式成式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖%n");
+        System.out.format("弛                             <HOUSE LIST>                               弛                                                                                                           弛%n");
+        System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
+        System.out.format("弛                             [HOUSE NAME]                               弛                                                [HOUSE ADDRESS]                                            弛%n");
+
         int i = 0;
         if (houseDTOList != null) {
             for (HouseDTO houseDTO : houseDTOList) {
-                System.out.println(++i + ". " + houseDTO.toString());
+                printFormatted(++i +". " + houseDTO.getHouseName(), houseDTO.getHouseAddress(), firstColWidth, secondColWidth);
             }
         }
+        System.out.format("戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扛式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
 
-        System.out.print("Select Accommodation number : ");
+
+        System.out.println("                                                           忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖");
+        System.out.println("                                                           弛                   Select Accommodation number                   弛");
+        System.out.println("                                                           戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎");
+        System.out.print("                                                                                     Selection : ");
         int accommodationNum = MyIOStream.sc.nextInt();
 
         if (accommodationNum > 0 && accommodationNum <= i) {
             //蹺陛 衛濛
-            System.out.print("(1) Check monthly reservation status (2) Check total monthly sales : ");
+            System.out.println("                                                           忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖");
+            System.out.println("                                                           弛   1. Check monthly reservation status for each accommodation    弛");
+            System.out.println("                                                           弛   2. Check total monthly sales for each accommodation           弛");
+            System.out.println("                                                           戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎");
+            System.out.print("                                                                                     Selection : ");
             int num = MyIOStream.sc.nextInt();
 
             if (num == 1) { // 賅萇 reservationDTOList 陛螳諦憮 鼻鷓縑 評塭 殖溘縑 ル衛п憮 嗥錶邀
                 protocol = accommodationSituationController.monthlyReservationRequest(houseDTOList.get(accommodationNum - 1).getHouseId());
                 MoreHouseInfoDTO moreHouseInfoDTO = (MoreHouseInfoDTO) protocol.getObject();
                 List<ReservationDTO> reservationDTOList = moreHouseInfoDTO.getReservationDTOList();
-                System.out.print("Select Month (1 ~ 12) : ");
+                System.out.println("                                                                         忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖");
+                System.out.println("                                                                         弛        Select Month (1 ~ 12)         弛");
+                System.out.println("                                                                         戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎");
+                System.out.print("                                                                                      Select : ");
+
                 int enterMonth = MyIOStream.sc.nextInt();
 
                 if (enterMonth >= 1 && enterMonth <= 12) {
@@ -88,9 +108,14 @@ public class AdminView {
                 protocol = accommodationSituationController.afterStayReservationRequest(houseDTOList.get(accommodationNum - 1));
                 MoreHouseInfoDTO moreHouseInfoDTO = (MoreHouseInfoDTO) protocol.getObject();
                 List<ReservationDTO> reservationDTOList = moreHouseInfoDTO.getReservationDTOList();
-                System.out.print("Select Month (1 ~ 12) : ");
+                System.out.println("                                                                         忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖");
+                System.out.println("                                                                         弛        Select Month (1 ~ 12)         弛");
+                System.out.println("                                                                         戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎");
+                System.out.print("                                                                                      Select : ");
+
                 int enterMonth = MyIOStream.sc.nextInt();
                 if (enterMonth >= 1 && enterMonth <= 12) {
+                    CalendarViewerForAdmin_test.selectMonth(enterMonth, reservationDTOList, houseDTOList.get(accommodationNum - 1));
                     TotalCost.totalCost(enterMonth, reservationDTOList, moreHouseInfoDTO.getDiscountPolicyDTO(), moreHouseInfoDTO.getFeePolicyDTO(), houseDTOList.get(accommodationNum - 1));
                 } else {
                     System.out.println("Wrong Input..");
@@ -99,6 +124,8 @@ public class AdminView {
                 System.out.println("Wrong Input..");
             }
         }
+
+
     }
 
     private void manageAccommodationRequests() throws IOException, ClassNotFoundException {
@@ -106,16 +133,24 @@ public class AdminView {
         RequestHouseRegistrationController requestHouseRegistrationController = new RequestHouseRegistrationController();
         Protocol protocol = requestHouseRegistrationController.listRequest();
         List<HouseAndHostDTO> list = (List<HouseAndHostDTO>) protocol.getObject();
-        System.out.println("[List]");
-        System.out.printf("  %-50s%-80s%-10s%-20s\n", "[House Name]", "[HouseAddress]", "[Host Name]", "[Host ID]");
+        System.out.format("忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖%n");
+        System.out.format("弛                                                                               [ Discount Policy ]                                                                                       弛%n");
+        System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式成式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式成式式式式式式式式式式式式式式式式式式式式成式式式式式式式式式式式式式式式式式式式式式式扣%n");
+        System.out.format("弛%-60s弛%-80s弛%-20s弛%-15s       弛%n", "[House Name]", "[HouseAddress]", "[Host Name]", "[Host ID]");
+        System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式扣%n");
+
         int i = 0;
         if (list != null) {
             for (HouseAndHostDTO houseAndHostDTO : list) {
-                System.out.println(++i + ". " + houseAndHostDTO.toString());
+                printFormattedForAccommodationRequests(++i + ". " +houseAndHostDTO.getHostName(), houseAndHostDTO.getHouseAddress(), houseAndHostDTO.getHostName(), String.valueOf(houseAndHostDTO.getHostId()), 58, 78, 18, 20);
             }
         }
+        System.out.format("戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扛式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扛式式式式式式式式式式式式式式式式式式式式扛式式式式式式式式式式式式式式式式式式式式式式戎%n");
+        System.out.println("                                                                         忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖");
+        System.out.println("                                                                         弛  See More Detail Number [Back (-1)]  弛");
+        System.out.println("                                                                         戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎");
+        System.out.print("                                                                                      Select : ");
 
-        System.out.print("\nSee More Detail Number (Back (-1)) : ");
         int enter = MyIOStream.sc.nextInt();
 
         if (enter == -1) {
@@ -125,43 +160,61 @@ public class AdminView {
             protocol = requestHouseRegistrationController.detailInfoRequest(list.get(enter - 1).getHouseId());
 
             List<AmenitiesDTO> amenitiesDTOList = (List<AmenitiesDTO>) protocol.getObject();
-            System.out.println("[Host Name] : " + list.get(enter - 1).getHostName());
-            System.out.println("[Host Id] : " + list.get(enter - 1).getLoginId());
-            System.out.println("[House Name] : " + list.get(enter - 1).getHouseName());
-            System.out.println("[House Address] : " + list.get(enter - 1).getHouseAddress());
-            System.out.println("[Bedroom Count] : " + list.get(enter - 1).getBedroom());
-            System.out.println("[Bathroom Count] : " + list.get(enter - 1).getBathroom());
-            System.out.println("[Capacity] : " + list.get(enter - 1).getBedroom());
-            System.out.println("[House Type] : " + list.get(enter - 1).getHouseType().toString());
-            System.out.println("[House Info] : " + list.get(enter - 1).getHouseIntroduce());
-            System.out.println("[Basic Amenities]");
+            System.out.format("忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖%n");
+            System.out.format("弛                                                                                    HOUSE DETAIL                                                                                    弛%n");
+            System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式成式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
+            printFormatted("[Host Name]", list.get(enter - 1).getHostName(), firstColWidth, secondColWidth);
+            printFormatted("[Host ID]", list.get(enter - 1).getLoginId(), firstColWidth, secondColWidth);
+            printFormatted("[House Name]", list.get(enter - 1).getHouseName(), firstColWidth, secondColWidth);
+            printFormatted("[House Address]", list.get(enter - 1).getHouseAddress(), firstColWidth, secondColWidth);
+            printFormatted("[Bedroom Count]", String.valueOf(list.get(enter - 1).getBedroom()), firstColWidth, secondColWidth);
+            printFormatted("[Bathroom Count]", String.valueOf(list.get(enter - 1).getBathroom()), firstColWidth, secondColWidth);
+            printFormatted("[Capacity]", String.valueOf(list.get(enter - 1).getBedroom()), firstColWidth, secondColWidth);
+            printFormatted("[House Type]", list.get(enter - 1).getHouseType().toString(), firstColWidth, secondColWidth);
+            printFormatted("[House Info]", list.get(enter - 1).getHouseIntroduce(), firstColWidth, secondColWidth);
+
+
+            System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
+            System.out.format("弛                           Basic Amenities                              弛                                                                                                           弛%n");
+            System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
+
             if (list != null) {
                 for (AmenitiesDTO amenitiesDTO : amenitiesDTOList) {
                     if (amenitiesDTO.getTypeId() == 1) {
-                        System.out.println(amenitiesDTO.getAmenities());
+                        printFormatted(amenitiesDTO.getAmenities(), "", firstColWidth, secondColWidth);
                     }
                 }
             }
+            System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
 
-            System.out.println("[Safety Amenities]");
+            System.out.format("弛                          Safety Amenities                              弛                                                                                                           弛%n");
+            System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
+
             if (list != null) {
                 for (AmenitiesDTO amenitiesDTO : amenitiesDTOList) {
                     if (amenitiesDTO.getTypeId() == 2) {
-                        System.out.println(amenitiesDTO.getAmenities());
+                        printFormatted(amenitiesDTO.getAmenities(), "", firstColWidth, secondColWidth);
                     }
                 }
             }
+            System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
 
-            System.out.println("[Accessibility Amenities]");
+            System.out.format("弛                       Accessibility Amenities                          弛                                                                                                           弛%n");
+            System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
             if (list != null) {
                 for (AmenitiesDTO amenitiesDTO : amenitiesDTOList) {
                     if (amenitiesDTO.getTypeId() == 3) {
-                        System.out.println(amenitiesDTO.getAmenities());
+                        printFormatted(amenitiesDTO.getAmenities(), "", firstColWidth, secondColWidth);
                     }
                 }
             }
+            System.out.format("戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扛式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
 
-            System.out.print("(1) Approval (2) Reject (3) Back : ");
+            System.out.println("                                                                          忙式式                                式式忖");
+            System.out.println("                                                                          弛  (1) Approval (2) Reject (3) Back  弛");
+            System.out.println("                                                                          戌式式                                式式戎");
+            System.out.print("                                                                                     Selection : ");
+
             int command = MyIOStream.sc.nextInt();
 
             if (command == 3) {
@@ -171,14 +224,20 @@ public class AdminView {
                 protocol = requestHouseRegistrationController.approvalRequest(list.get(enter - 1).getHouseId());
 
                 if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
-                    System.out.println("Success to Approval");
+                    System.out.println("                                                                             忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖");
+                    System.out.println("                                                                             弛     Success to Approval      弛");
+                    System.out.println("                                                                             戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎");
+
                 }
 
             } else if (command == 2) {
                 protocol = requestHouseRegistrationController.rejectRequest(list.get(enter - 1).getHouseId());
 
                 if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
-                    System.out.println("Success to Reject");
+                    System.out.println("                                                                             忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖");
+                    System.out.println("                                                                             弛      Success to Reject       弛");
+                    System.out.println("                                                                             戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎");
+
                 }
                 // 剪瞰
             } else {
@@ -187,52 +246,6 @@ public class AdminView {
         } else {
             System.out.println("Wrong Input..");
         }
-
-
-//        System.out.format("忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式成式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖%n");
-//        System.out.format("弛 1. Pending Accommodations      弛                                                              弛%n");
-//        System.out.format("弛 2. Rejected Accommodations     弛                                                              弛%n");
-//        System.out.format("弛 3. Go Back                     弛                                                              弛%n");
-//        System.out.format("戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扛式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
-//        System.out.print("Enter command: ");
-
-//        int choice = sc.nextInt();
-//        switch (choice) {
-//            case 1:
-//                 嘐蝓檣 熨夢 衛撲 跡煙
-//                System.out.format("忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式成式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖%n");
-//                System.out.format("弛 Unapproved Accommodation List  弛                                                              弛%n");
-//                System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
-//                printFormatted("Line", "", firstColWidth, secondColWidth);
-//                 嬪 printFormatted蒂 檜辨п憮 Line縑 DTO縑憮 陛螳螞勘 厥堅 舒廓簞睡攪朝 鱔橾
-//                System.out.format("戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扛式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
-//                System.out.println("Please select the unapproved accommodation : ");
-//
-//                System.out.println("忙式式                          式式忖");
-//                System.out.println("弛 (1) Approval  (2) Rejection  弛");
-//                System.out.println("戌式式                          式式戎");
-//                System.out.println("          Selection : ");
-//
-//                 葬蝶お機 熨夢 衛撲 醞 摹鷗ж賊 "蝓檣" "剪瞰" 醞 摹鷗ж堅 詭衛雖 轎溘
-//                System.out.println("Accommodation request from ~~ has been approved.");
-//                System.out.println("Accommodation request from ~~ has been rejected.");
-//                break;
-//            case 2:
-//                 剪瞰脹 熨夢 衛撲 跡煙
-//                System.out.format("忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式成式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖%n");
-//                System.out.format("弛  Rejected Accommodation List   弛                                                              弛%n");
-//                System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
-//                printFormatted("Line", "", firstColWidth, secondColWidth);
-//                 嬪 printFormatted蒂 檜辨п憮 Line縑 DTO縑憮 陛螳螞勘 厥堅 舒廓簞睡攪朝 鱔橾
-//                System.out.format("戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扛式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
-//                System.out.println("Press Any Key : ");
-//
-//            case 0:
-//                return; // 菴煎陛晦
-//            default:
-//                System.out.println("Invalid input. Please try again.");
-//        }
-//    }
     }
 
     private void viewMonthlyReservationStatus() {
@@ -262,20 +275,81 @@ public class AdminView {
     }
 
     private static void printFormatted(String label, String text, int labelWidth, int textWidth) {
-        // 塭漣婁 臢蝶お蒂 嫡嬴 ん裝縑 蜃啪 轎溘ж朝 詭模萄
+        String[] labelWords = label.split(" ");
+        String[] textWords = text.split(" ");
+        ArrayList<String> formattedLabel = new ArrayList<>();
+        StringBuilder labelLine = new StringBuilder();
+        StringBuilder textLine = new StringBuilder();
+
+        // 塭漣 還夥翎 籀葬
+        for (String word : labelWords) {
+            if (labelLine.length() + word.length() + 1 > labelWidth) { // 奢寥 んл
+                formattedLabel.add(labelLine.toString().trim());
+                labelLine.setLength(0);
+            }
+            labelLine.append(word).append(" ");
+        }
+        formattedLabel.add(labelLine.toString().trim()); // 葆雖虞 塭漣 還 蹺陛
+
+        // 臢蝶お 還夥翎 塽 塭漣婁 л眷 轎溘
+        int labelIndex = 0;
+        for (String word : textWords) {
+            if (textLine.length() + word.length() + 1 > textWidth) { // 奢寥 んл
+                String currentLabel = labelIndex < formattedLabel.size() ? formattedLabel.get(labelIndex) : "";
+                System.out.printf("弛 %-" + labelWidth + "s 弛 %-" + textWidth + "s 弛%n", currentLabel, textLine.toString().trim());
+                textLine.setLength(0);
+                labelIndex++;
+            }
+            textLine.append(word).append(" ");
+        }
+        // 臢蝶お曖 葆雖虞 還婁 陴擎 塭漣 還 轎溘
+        while (labelIndex < formattedLabel.size() || textLine.length() > 0) {
+            String currentLabel = labelIndex < formattedLabel.size() ? formattedLabel.get(labelIndex) : "";
+            String currentText = textLine.toString().trim();
+            System.out.printf("弛 %-" + labelWidth + "s 弛 %-" + textWidth + "s 弛%n", currentLabel, currentText);
+            textLine.setLength(0);
+            labelIndex++;
+        }
+    }
+
+    private static void printFormattedForAccommodationRequests(String houseName, String houseAddress, String hostName, String hostID,
+                                                               int firstWidth, int secondWidth, int thirdWidth, int fourthWidth) {
+        ArrayList<String> houseNameLines = splitAndFormat(houseName, firstWidth);
+        ArrayList<String> houseAddressLines = splitAndFormat(houseAddress, secondWidth);
+        ArrayList<String> hostNameLines = splitAndFormat(hostName, thirdWidth);
+        ArrayList<String> hostIDLines = splitAndFormat(hostID, fourthWidth);
+
+        int maxLines = Math.max(Math.max(houseNameLines.size(), houseAddressLines.size()),
+                Math.max(hostNameLines.size(), hostIDLines.size()));
+
+        for (int i = 0; i < maxLines; i++) {
+            String houseNameLine = i < houseNameLines.size() ? houseNameLines.get(i) : "";
+            String houseAddressLine = i < houseAddressLines.size() ? houseAddressLines.get(i) : "";
+            String hostNameLine = i < hostNameLines.size() ? hostNameLines.get(i) : "";
+            String hostIDLine = i < hostIDLines.size() ? hostIDLines.get(i) : "";
+
+            System.out.format("弛 %-" + firstWidth + "s 弛 %-" + secondWidth + "s 弛 %-" + thirdWidth + "s 弛 %-" + fourthWidth + "s 弛%n",
+                    houseNameLine, houseAddressLine, hostNameLine, hostIDLine);
+        }
+    }
+
+    private static ArrayList<String> splitAndFormat(String text, int width) {
         String[] words = text.split(" ");
-        StringBuilder line = new StringBuilder();
-        System.out.printf("弛 %-" + labelWidth + "s 弛 ", label);
+        ArrayList<String> lines = new ArrayList<>();
+        StringBuilder currentLine = new StringBuilder();
 
         for (String word : words) {
-            if (line.length() + word.length() > textWidth) {
-                System.out.printf("%-" + textWidth + "s 弛%n弛 %" + labelWidth + "s 弛 ", line.toString(), "");
-                line.setLength(0);
+            if (currentLine.length() + word.length() + 1 > width) {
+                lines.add(currentLine.toString().trim());
+                currentLine = new StringBuilder();
             }
-            line.append(word).append(" ");
+            currentLine.append(word).append(" ");
         }
 
-        System.out.printf("%-" + textWidth + "s 弛%n", line.toString());
+        if (currentLine.length() > 0) {
+            lines.add(currentLine.toString().trim());
+        }
+
+        return lines;
     }
-    // 熨模 跡煙擊 碳楝螃朝 詭憮萄 蛔 蹺陛瞳戲煎 в蹂й 匙戲煎 蕨鼻
 }

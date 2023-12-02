@@ -483,10 +483,10 @@ public class HostView {
 
             int i = 0;
             for (HouseAndDiscountDTO houseAndDiscountDTO : list) {
-                printFormattedForAccommodationRequests(" "+ (++i) + ". " + houseAndDiscountDTO.getHouseDTO().getHouseName(),
-                        " " + String.valueOf(houseAndDiscountDTO.getDiscountPolicyDTO().getDiscountDay()),
-                        " " + String.valueOf(houseAndDiscountDTO.getDiscountPolicyDTO().getDiscount_amount()),
-                        " " + String.valueOf(houseAndDiscountDTO.getDiscountPolicyDTO().getDiscount_rate()), 70, 15, 28, 69);
+                printFormattedForAccommodationRequests((++i) + ". " + houseAndDiscountDTO.getHouseDTO().getHouseName(),
+                        String.valueOf(houseAndDiscountDTO.getDiscountPolicyDTO().getDiscountDay()),
+                        String.valueOf(houseAndDiscountDTO.getDiscountPolicyDTO().getDiscount_amount()),
+                        String.valueOf(houseAndDiscountDTO.getDiscountPolicyDTO().getDiscount_rate()), 68, 13, 26, 67);
             }
 
             System.out.format("戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扛式式式式式式式式式式式式式式式扛式式式式式式式式式式式式式式式式式式式式式式式式式式式式扛式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
@@ -658,7 +658,7 @@ public class HostView {
             String hostNameLine = i < hostNameLines.size() ? hostNameLines.get(i) : "";
             String hostIDLine = i < hostIDLines.size() ? hostIDLines.get(i) : "";
 
-            System.out.format("弛%-" + firstWidth + "s弛%-" + secondWidth + "s弛%-" + thirdWidth + "s弛%-" + fourthWidth + "s弛%n",
+            System.out.format("弛 %-" + firstWidth + "s 弛 %-" + secondWidth + "s 弛 %-" + thirdWidth + "s 弛 %-" + fourthWidth + "s 弛 %n",
                     houseNameLine, houseAddressLine, hostNameLine, hostIDLine);
         }
     }

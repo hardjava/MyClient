@@ -130,10 +130,10 @@ public class CalendarViewerForAdmin_test {
                         System.out.printf("%-12s", " ");
                     }else{
                         if(arr[Integer.parseInt(arrayList_1.get(j))] == houseDTO.getBedroom()){
-                            System.out.printf("%-12s", "o");
+                            System.out.printf("%-12s", "X");
                         }
                         else if(arr[Integer.parseInt(arrayList_1.get(j))] ==0){
-                            System.out.printf("%-12s", "X");
+                            System.out.printf("%-12s", "O");
                         }else{
                             System.out.printf("%-12s", "^");
 
