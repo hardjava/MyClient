@@ -188,13 +188,13 @@ public class HostView {
                 protocol = reservationAllowOrRefuseController.statusChangeRequest(list.get(approvalNumber - 1).getReservationId(), Status.BEFORE_STAY);
 
                 if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
-                    System.out.println("                                                                     忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖");
-                    System.out.println("                                                                     弛           Success!           弛");
-                    System.out.println("                                                                     戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎");
+                    System.out.println("                                                                           忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖");
+                    System.out.println("                                                                           弛           Success!           弛");
+                    System.out.println("                                                                           戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎");
                 } else {
-                    System.out.println("                                                                     忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖");
-                    System.out.println("                                                                     弛            Error!            弛");
-                    System.out.println("                                                                     戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎");
+                    System.out.println("                                                                           忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖");
+                    System.out.println("                                                                           弛            Error!            弛");
+                    System.out.println("                                                                           戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎");
 
                 }
 
@@ -216,13 +216,13 @@ public class HostView {
                 protocol = reservationAllowOrRefuseController.statusChangeRequest(list.get(rejectNumber - 1).getReservationId(), Status.REFUSE);
 
                 if (protocol.getProtocolCode() == Protocol.CODE_SUCCESS) {
-                    System.out.println("                                                                     忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖");
-                    System.out.println("                                                                     弛           Success!           弛");
-                    System.out.println("                                                                     戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎");
+                    System.out.println("                                                                           忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖");
+                    System.out.println("                                                                           弛           Success!           弛");
+                    System.out.println("                                                                           戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎");
                 } else {
-                    System.out.println("                                                                     忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖");
-                    System.out.println("                                                                     弛            Error!            弛");
-                    System.out.println("                                                                     戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎");
+                    System.out.println("                                                                           忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖");
+                    System.out.println("                                                                           弛            Error!            弛");
+                    System.out.println("                                                                           戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎");
                 }
 
             } else {

@@ -6,6 +6,7 @@ import airbnb.network.MyIOStream;
 import airbnb.network.Protocol;
 import airbnb.persistence.dto.*;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -48,6 +49,8 @@ public class GuestView {
             } catch (InputMismatchException e) {
                 System.out.println("Wrong Input..");
                 MyIOStream.sc.nextLine();
+            } catch (ParseException e) {
+                System.out.println("Wrong Input..");
             }
         }
     }
