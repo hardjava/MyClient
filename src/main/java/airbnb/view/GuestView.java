@@ -1,16 +1,13 @@
 package airbnb.view;
 
-import airbnb.controller.ReservationRequestController;
-import airbnb.controller.AmenitiesRequestController;
-import airbnb.controller.SearchAllHouseController;
-import airbnb.controller.SearchHouseController;
-import airbnb.controller.SearchMoreHouseInfoController;
+import airbnb.controller.*;
 import airbnb.network.HouseType;
 import airbnb.network.MyIOStream;
 import airbnb.network.Protocol;
 import airbnb.persistence.dto.*;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 
 public class GuestView {
@@ -48,10 +45,9 @@ public class GuestView {
                         System.out.println("└──────────────────────────────┘");
                         break;
                 }
-            } catch (Exception e) {
-                throw e;
-                //   System.out.println(e.getMessage());
-                // MyIOStream.sc.nextLine();
+            } catch (InputMismatchException e) {
+                System.out.println("Wrong Input..");
+                MyIOStream.sc.nextLine();
             }
         }
     }
@@ -181,13 +177,15 @@ public class GuestView {
                 List<HouseAndFeeDTO> houseAndFeeDTOS = (List<HouseAndFeeDTO>) protocol.getObject();
                 printHouseList(houseAndFeeDTOS);
                 System.out.format("                                             ┌───────────────────────────────────────────────────────────────────────────────────────────────┐%n");
-                System.out.format("                                             │                       Which accommodation would you like to see more INFO?                    │%n");
+                System.out.format("                                             │                       Which accommodation would you like to see more INFO? (back : -1)        │%n");
                 System.out.format("                                             └───────────────────────────────────────────────────────────────────────────────────────────────┘%n");
                 System.out.print("                                                                                      Enter : ");
 
                 int index = MyIOStream.sc.nextInt();
 
-                if (index > 0 && index <= houseAndFeeDTOS.size()) {
+                if (index == -1) {
+                    System.out.println("back..");
+                } else if (index > 0 && index <= houseAndFeeDTOS.size()) {
                     seeMoreInfo(houseAndFeeDTOS.get(index - 1));
                 } else {
                     System.out.println("Wrong Input..");
@@ -296,7 +294,8 @@ public class GuestView {
                         // 내림차순
                         printDescendingList(searchAllHouseController);
                         break;
-                    case 3:System.out.format("                                             ┌───────────────────────────────────────────────────────────────────────────────────────────────┐%n");
+                    case 3:
+                        System.out.format("                                             ┌───────────────────────────────────────────────────────────────────────────────────────────────┐%n");
                         System.out.format("                                             │                                          ALL LIST                                             │%n");
                         System.out.format("                                             └───────────────────────────────────────────────────────────────────────────────────────────────┘%n");
 
@@ -306,7 +305,6 @@ public class GuestView {
                         System.out.print("                                                                                      Enter : ");
 
                         int enter = MyIOStream.sc.nextInt();
-
                         if (enter == -1) {
                             System.out.println("Back..");
                         } else if (enter > 0 && enter <= allList.size()) {

@@ -8,6 +8,7 @@ import airbnb.persistence.dto.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 
 public class HostView {
@@ -21,34 +22,41 @@ public class HostView {
 
     public void showView() throws IOException, ClassNotFoundException {
         for (; ; ) {
-            int command = getCommand();
+            try {
+                int command = getCommand();
 
-            if (command == 0) {
-                System.out.println("Log out..");
-                break;
-            }
+                if (command == 0) {
+                    System.out.println("Log out..");
+                    break;
+                }
 
-            switch (command) {
-                case 1:
-                    registerAccommodation();
-                    break;
-                case 2:
-                    setCost();
-                    break;
-                case 3:
-                    setDiscountPolicy();
-                    break;
-                case 4:
-                    showReservationStatus();
-                    break;
-                case 5:
-                    manageReservations();
-                    break;
-                case 6:
-                    manageReviews();
-                    break;
-                default:
-                    System.out.println("Wrong Input..");
+                switch (command) {
+                    case 1:
+                        registerAccommodation();
+                        break;
+                    case 2:
+                        setCost();
+                        break;
+                    case 3:
+                        setDiscountPolicy();
+                        break;
+                    case 4:
+                        showReservationStatus();
+                        break;
+                    case 5:
+                        manageReservations();
+                        break;
+                    case 6:
+                        manageReviews();
+                        break;
+                    default:
+                        System.out.println("Wrong Input..");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Wrong Input..");
+                MyIOStream.sc.nextLine();
+            } catch (IllegalArgumentException e) {
+                System.out.println("Wrong Input..");
             }
         }
     }
@@ -246,7 +254,7 @@ public class HostView {
             System.out.format("戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扛式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
 
             System.out.format("                                             忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖%n");
-            System.out.format("                                             弛                 Please enter the number of the accommodation you want to search               弛%n");
+            System.out.format("                                             弛                 Please enter the number of the accommodation you want to search (back -1)     弛%n");
             System.out.format("                                             戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
             System.out.print("                                                Enter : ");
 
@@ -261,8 +269,10 @@ public class HostView {
                 System.out.println("                                                                       戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎");
 
                 if (reservationDTOList != null) {
-                    CalendarViewerForAdmin_host.run(reservationDTOList, list.get(enter -1).getBedroom(), list.get(enter - 1).getHouseType());
+                    CalendarViewerForAdmin_host.run(reservationDTOList, list.get(enter - 1).getBedroom(), list.get(enter - 1).getHouseType());
                 }
+            } else if (enter == -1) {
+                System.out.println("Back..");
             } else {
                 System.out.println("Wrong Input..");
             }
@@ -383,7 +393,7 @@ public class HostView {
         }
         System.out.println("                                                                     忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖");
         System.out.println("                                                                     弛        Would you like to register?        弛");
-        System.out.println("                                                                     弛           (Enter 1 to register)           弛");
+        System.out.println("                                                                     弛    (Enter 1 to register, 2 to cancel)     弛");
         System.out.println("                                                                     戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎");
         System.out.print("                                                                                     Selection : ");
         String enter = MyIOStream.sc.next();
@@ -491,7 +501,7 @@ public class HostView {
 
             System.out.format("戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扛式式式式式式式式式式式式式式式扛式式式式式式式式式式式式式式式式式式式式式式式式式式式式扛式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
 
-            System.out.print("Select Number : ");
+            System.out.print("Select Number (back -1) : ");
 
             int number = MyIOStream.sc.nextInt();
 
@@ -578,6 +588,8 @@ public class HostView {
                 } else {
                     System.out.println("Wrong Input..");
                 }
+            } else if (number == -1) {
+                System.out.println("Back..");
             } else {
                 System.out.println("Wrong Input..");
             }

@@ -28,11 +28,11 @@ public class SignView {
             roleType = "GUEST";
 
         System.out.print("                                                                                    Enter New ID : ");
-        String newID = MyIOStream.sc.next();
-        System.out.print("                                                                                    Enter New Passwd : ");
-        String newPwd = MyIOStream.sc.next();
-        System.out.print("                                                                                    Enter Name : ");
         MyIOStream.sc.nextLine();
+        String newID = MyIOStream.sc.nextLine();
+        System.out.print("                                                                                    Enter New Passwd : ");
+        String newPwd = MyIOStream.sc.nextLine();
+        System.out.print("                                                                                    Enter Name : ");
         String newName = MyIOStream.sc.nextLine();
         System.out.print("                                                                                    Enter Birthday (YYYYMMDD) : ");
         String newBirthDay = MyIOStream.sc.nextLine();

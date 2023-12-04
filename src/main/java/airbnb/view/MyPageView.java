@@ -11,6 +11,7 @@ import airbnb.persistence.dto.UserDTO;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 
 public class MyPageView {
@@ -25,27 +26,31 @@ public class MyPageView {
 
     public void showView() throws IOException, ClassNotFoundException {
         for (; ; ) {
-            int command = getCommand();
-            if (command == 4) {
-                break;
-            }
+            try {
+                int command = getCommand();
+                if (command == 4) {
+                    break;
+                }
 
-            switch (command) {
-                case 1:
-                    // 예: 숙박 완료 목록 조회
-                    showCompletedStays();
-                    break;
-                case 2:
-                    // 예: 예약 조회
-                    showReservations();
-                    break;
-                case 3:
-                    // 예: 사용자 정보 수정
-                    modifyUserInfo();
-                    break;
-                default:
-                    System.out.println("Invalid Command");
-                    break;
+                switch (command) {
+                    case 1:
+                        // 예: 숙박 완료 목록 조회
+                        showCompletedStays();
+                        break;
+                    case 2:
+                        // 예: 예약 조회
+                        showReservations();
+                        break;
+                    case 3:
+                        // 예: 사용자 정보 수정
+                        modifyUserInfo();
+                        break;
+                    default:
+                        System.out.println("Invalid Command");
+                        break;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Wrong Input..");
             }
         }
     }

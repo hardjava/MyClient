@@ -8,6 +8,7 @@ import airbnb.persistence.dto.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 
 public class AdminView {
@@ -22,34 +23,38 @@ public class AdminView {
 
     public void showView() throws Exception {
         for (; ; ) {
-            System.out.format("忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式成式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖%n");
-            System.out.format("弛                            <ADMIN PAGE>                                弛                                                                                                           弛%n");
-            System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
-            System.out.format("弛 1. Approval/Reject Host's Accommodation registration                   弛                                                                                                           弛%n");
-            System.out.format("弛 2. Check current accommodation situation                               弛                                                                                                           弛%n");
-            System.out.format("弛 0. Logout                                                              弛                                                                                                           弛%n");
-            System.out.format("戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扛式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
+            try {
+                System.out.format("忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式成式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖%n");
+                System.out.format("弛                            <ADMIN PAGE>                                弛                                                                                                           弛%n");
+                System.out.format("戍式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式托式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扣%n");
+                System.out.format("弛 1. Approval/Reject Host's Accommodation registration                   弛                                                                                                           弛%n");
+                System.out.format("弛 2. Check current accommodation situation                               弛                                                                                                           弛%n");
+                System.out.format("弛 0. Logout                                                              弛                                                                                                           弛%n");
+                System.out.format("戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扛式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
 
-            System.out.print("Enter command: ");
+                System.out.print("Enter command: ");
 
-            int choice = MyIOStream.sc.nextInt();
+                int choice = MyIOStream.sc.nextInt();
 
-            if (choice == 0) {
-                System.out.println("Log out..");
-                break;
-            }
-
-            switch (choice) {
-                case 1:
-                    manageAccommodationRequests();
+                if (choice == 0) {
+                    System.out.println("Log out..");
                     break;
-                case 2:
-                    checkAccommodationSituation();
-                    break;
-                default:
-                    System.out.format("                                             忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖%n");
-                    System.out.format("                                             弛                                 Invalid input. Please try again.                              弛%n");
-                    System.out.format("                                             戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
+                }
+
+                switch (choice) {
+                    case 1:
+                        manageAccommodationRequests();
+                        break;
+                    case 2:
+                        checkAccommodationSituation();
+                        break;
+                    default:
+                        System.out.format("                                             忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖%n");
+                        System.out.format("                                             弛                                 Invalid input. Please try again.                              弛%n");
+                        System.out.format("                                             戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Wrong Input..");
             }
         }
     }
@@ -67,14 +72,14 @@ public class AdminView {
         int i = 0;
         if (houseDTOList != null) {
             for (HouseDTO houseDTO : houseDTOList) {
-                printFormatted(++i +". " + houseDTO.getHouseName(), houseDTO.getHouseAddress(), firstColWidth, secondColWidth);
+                printFormatted(++i + ". " + houseDTO.getHouseName(), houseDTO.getHouseAddress(), firstColWidth, secondColWidth);
             }
         }
         System.out.format("戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扛式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎%n");
 
 
         System.out.println("                                                           忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖");
-        System.out.println("                                                           弛                   Select Accommodation number                   弛");
+        System.out.println("                                                           弛                   Select Accommodation number (back : -1)       弛");
         System.out.println("                                                           戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎");
         System.out.print("                                                                                     Selection : ");
         int accommodationNum = MyIOStream.sc.nextInt();
@@ -123,9 +128,11 @@ public class AdminView {
             } else {
                 System.out.println("Wrong Input..");
             }
+        } else if (accommodationNum == -1) {
+            System.out.println("back..");
+        } else {
+            System.out.println("Wrong Input..");
         }
-
-
     }
 
     private void manageAccommodationRequests() throws IOException, ClassNotFoundException {
@@ -142,7 +149,7 @@ public class AdminView {
         int i = 0;
         if (list != null) {
             for (HouseAndHostDTO houseAndHostDTO : list) {
-                printFormattedForAccommodationRequests(++i + ". " +houseAndHostDTO.getHostName(), houseAndHostDTO.getHouseAddress(), houseAndHostDTO.getHostName(), String.valueOf(houseAndHostDTO.getHostId()), 58, 78, 18, 20);
+                printFormattedForAccommodationRequests(++i + ". " + houseAndHostDTO.getHouseName(), houseAndHostDTO.getHouseAddress(), houseAndHostDTO.getHostName(), String.valueOf(houseAndHostDTO.getHostId()), 58, 78, 18, 20);
             }
         }
         System.out.format("戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扛式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式扛式式式式式式式式式式式式式式式式式式式式扛式式式式式式式式式式式式式式式式式式式式式式戎%n");

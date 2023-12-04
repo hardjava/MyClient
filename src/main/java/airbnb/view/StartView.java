@@ -2,32 +2,39 @@ package airbnb.view;
 
 import airbnb.network.MyIOStream;
 
+import java.util.InputMismatchException;
+
 public class StartView {
 
     public void showView() throws Exception {
         for (; ; ) {
-            int enter = getCommand();
+            try {
+                int enter = getCommand();
 
-            if (enter == 3) {
-                break;
-            }
+                if (enter == 3) {
+                    break;
+                }
 
-            switch (enter) {
-                case 1:
-                    LoginView loginView = new LoginView(); // 응답 받으면 로그인 뷰 실행
-                    loginView.showView();
-                    break;
-                case 2:
-                    SignView signView = new SignView();
-                    signView.showView();
-                    break;
-                case 3:
-                    break;
-                default:
-                    System.out.println("┌──────────────────────────────┐");
-                    System.out.println("│   Please Select (1) ~ (3)    │");
-                    System.out.println("└──────────────────────────────┘");
-                    break;
+                switch (enter) {
+                    case 1:
+                        LoginView loginView = new LoginView(); // 응답 받으면 로그인 뷰 실행
+                        loginView.showView();
+                        break;
+                    case 2:
+                        SignView signView = new SignView();
+                        signView.showView();
+                        break;
+                    case 3:
+                        break;
+                    default:
+                        System.out.println("┌──────────────────────────────┐");
+                        System.out.println("│   Please Select (1) ~ (3)    │");
+                        System.out.println("└──────────────────────────────┘");
+                        break;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Wrong Input..");
+                MyIOStream.sc.nextLine();
             }
         }
     }
